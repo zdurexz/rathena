@@ -7458,6 +7458,14 @@ ACMD_FUNC(mobinfo)
 			if (mob->dropitem[i].nameid == 0 || mob->dropitem[i].rate < 1 || (item_data = itemdb_exists(mob->dropitem[i].nameid)) == NULL)
 				continue;
 			droprate = mob->dropitem[i].rate;
+			
+			// Item Link
+			struct s_item_link itemldata;
+			memset(&itemldata, 0, sizeof(s_item_link));
+			itemldata.item.nameid = item_data->nameid;
+			std::string itemlstr = createItemLink(&itemldata);
+			char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
+			safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
 
 #ifdef RENEWAL_DROP
 			if( battle_config.atcommand_mobinfo_type ) {
@@ -7468,10 +7476,9 @@ ACMD_FUNC(mobinfo)
 #endif
 			if (pc_isvip(sd)) // Display drop rate increase for VIP
 				droprate += (droprate * battle_config.vip_drop_increase) / 100;
-			if (item_data->slots)
-				sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, (float)droprate / 100);
-			else
-				sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->ename.c_str(), (float)droprate / 100);
+
+			sprintf(atcmd_output2, " - %s  %02.02f%%", str, (float)droprate / 100);
+
 			strcat(atcmd_output, atcmd_output2);
 			if (++j % 3 == 0) {
 				clif_displaymessage(fd, atcmd_output);
@@ -7493,6 +7500,15 @@ ACMD_FUNC(mobinfo)
 			for (i = 0; i < MAX_MVP_DROP_TOTAL; i++) {
 				if (mob->mvpitem[i].nameid == 0 || (item_data = itemdb_exists(mob->mvpitem[i].nameid)) == NULL)
 					continue;
+
+				// Item Link
+				struct s_item_link itemldata;
+				memset(&itemldata, 0, sizeof(s_item_link));
+				itemldata.item.nameid = item_data->nameid;
+				std::string itemlstr = createItemLink(&itemldata);
+				char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
+				safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
+
 				//Because if there are 3 MVP drops at 50%, the first has a chance of 50%, the second 25% and the third 12.5%
 				mvppercent = (float)mob->mvpitem[i].rate * mvpremain / 10000.0f;
 				if(battle_config.item_drop_mvp_mode == 0) {
@@ -7501,15 +7517,9 @@ ACMD_FUNC(mobinfo)
 				if (mvppercent > 0) {
 					j++;
 					if (j == 1) {
-						if (item_data->slots)
-							sprintf(atcmd_output2, " %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, mvppercent);
-						else
-							sprintf(atcmd_output2, " %s  %02.02f%%", item_data->ename.c_str(), mvppercent);
+						sprintf(atcmd_output2, " %s  %02.02f%%", str, mvppercent);
 					} else {
-						if (item_data->slots)
-							sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, mvppercent);
-						else
-							sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->ename.c_str(), mvppercent);
+						sprintf(atcmd_output2, " - %s  %02.02f%%", str, mvppercent);
 					}
 					strcat(atcmd_output, atcmd_output2);
 				}
