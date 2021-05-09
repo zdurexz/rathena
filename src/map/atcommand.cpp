@@ -8985,11 +8985,19 @@ ACMD_FUNC(itemlist)
 			clif_displaymessage(fd, StringBuf_Value(&buf));
 			StringBuf_Clear(&buf);
 		}
+		
+		// Item Link
+		struct s_item_link itemldata;
+		memset(&itemldata, 0, sizeof(s_item_link));
+		itemldata.item.nameid = it->nameid;
+		std::string itemlstr = createItemLink(&itemldata);
+		char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
+		safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
 
 		if( it->refine )
-			StringBuf_Printf(&buf, "%d %s %+d (%s, id: %u)", it->amount, itd->ename.c_str(), it->refine, itd->name.c_str(), it->nameid);
+			StringBuf_Printf(&buf, "%d %s %+d (%s, id: %u)", it->amount, str, it->refine, itd->name.c_str(), it->nameid);
 		else
-			StringBuf_Printf(&buf, "%d %s (%s, id: %u)", it->amount, itd->ename.c_str(), itd->name.c_str(), it->nameid);
+			StringBuf_Printf(&buf, "%d %s (%s, id: %u)", it->amount, str, itd->name.c_str(), it->nameid);
 
 		if( it->equip ) {
 			char equipstr[CHAT_SIZE_MAX];
@@ -9088,8 +9096,16 @@ ACMD_FUNC(itemlist)
 
 				if( counter2 != 1 )
 					StringBuf_AppendStr(&buf, ", ");
+				
+				// Item Link
+				struct s_item_link itemldata;
+				memset(&itemldata, 0, sizeof(s_item_link));
+				itemldata.item.nameid = card->nameid;
+				std::string itemlstr = createItemLink(&itemldata);
+				char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
+				safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
 
-				StringBuf_Printf(&buf, "#%d %s (id: %u)", counter2, card->ename.c_str(), card->nameid);
+				StringBuf_Printf(&buf, "#%d %s (id: %u)", counter2, str, card->nameid);
 			}
 
 			if( counter2 > 0 )
