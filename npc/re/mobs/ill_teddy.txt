@@ -1,0 +1,15 @@
+// Mapflags
+ein_d02_i	mapflag	nomemo
+
+
+// Mob Spawn
+ein_d02_i,0,0,0,0	monster	Red Teddy Bear	20255,30,5000
+ein_d02_i,0,0,0,0	monster	Yellow Teddy Bear	20256,30,5000
+ein_d02_i,0,0,0,0	monster	Green Teddy Bear	20257,30,5000
+ein_d02_i,0,0,0,0	monster	White Teddy Bear	20258,30,5000
+ein_d02_i,0,0,0,0	monster	Blue Teddy Bear [B]	20259,30,5000
+ein_d02_i,0,0,0,0	boss_monster	Shiny Teddy Bear	20260,1,7200000,600000,0
+ein_d02_i,0,0,0,0	monster	Hardworking Pitman	20261,15,5000
+ein_d02_i,0,0,0,0	monster	Soul Fragment	20262,15,5000
+ein_d02_i,0,0,0,0	monster	Vicious Mind Obsidian	20263,15,5000
+

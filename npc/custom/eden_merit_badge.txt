@@ -1,0 +1,300 @@
+// Merry Badger
+//============================================================
+moc_para01,13,22,4	script	Merry Badger#xch	882,{
+	disable_items;
+	mes "[Merry Badger]";
+	mes "Hello there!  I'm Merry Badger and I was hired to exchange the ^00CC00Eden Merit Badges^000000!";
+	next;
+	mes "[Merry Badger]";
+	mes "I can take your Merit Badges and give you some useful stuff, or I can take some of your stuff and give you some Eden Merit Badges.";
+	mes "As I get more authorization I can offer more things to trade with you, so definitely keep me in mind when visiting the Eden Group.";
+	next;
+	// switch( select( "Redeem Badges", "Trade in FOR badges", "Exchange Rates", "15 Job Manuals - 1 JM Box", "Sky Fortress Tickets", "Weekly Special" ) ) {// Sky Fortress Tickets meaningless without the instance
+	switch( select( "Redeem Badges", "Trade in FOR badges", "Exchange Rates", "Sky Fortress Tickets" ) ) {
+	case 1:
+		setarray .@menu_list$[0],
+			"4 EMB for 10 KVM Badge",
+			"4 EMB for 10 Bravery Medals",
+			"4 EMB for 10 Valor Medals", 
+			"8 EMB for 1 Reset Stone",
+			"5 EMB for Battle Manual Buff",
+			"5 EMB for Job Battle Manual Buff",
+			"10 EMB for HE Battle Manual Buff",
+			"20 EMB for 3X Battle Manual Buff",
+			"5 EMB for Bubblegum Buff", 
+			"10 EMB for HE Bubblegum Buff",
+			"",	// "5 EMB for Miracle Buff" (item doesn't exist in db)
+			"1 EMB for Yggdrasil Leaf",
+			"",	// "5 EMB for Rental Wing of Beelzebub" (item doesn't exist in db)
+			"5 EMB for Rental Halter Lead",
+			"5 EMB for 20 Blue Herbs",
+			"Token of Siegfried",
+			"Nothing Now";
+		.@menu$ = implode( .@menu_list$, ":" );
+		while(1) {
+			mes "[Merry Badger]";
+			mes "Sure thing, I have several options currently for your Badges!";
+			next;
+			switch( select(.@menu$) ) {
+			case 1:// "4 EMB for 10 KVM Badge"
+				callsub L_Exchange,4,6376,10;// KVM_Badge
+				break;
+			case 2:// "4 EMB for 10 Bravery Medals"
+				callsub L_Exchange,4,7828,10;// BF_Badge1
+				break;
+			case 3:// "4 EMB for 10 Valor Medals"
+				callsub L_Exchange,4,7829,10;// BF_Badge2
+				break;
+			case 4:// "8 EMB for 1 Reset Stone"
+				callsub L_Exchange,8,6320,1;// Premium_Reset_Stone
+				break;
+			case 5:// "5 EMB for Battle Manual Buff"
+				callsub L_Exchange,5,12208,1;// Battle_Manual
+				break;
+			case 6:// "5 EMB for Job Battle Manual Buff"
+				callsub L_Exchange,5,14592,1;// Job_Manual50
+				break;
+			case 7:// "10 EMB for HE Battle Manual Buff"
+				callsub L_Exchange,10,12411,1;// HE_Battle_Manual
+				break;
+			case 8:// "20 EMB for 3X Battle Manual Buff"
+				callsub L_Exchange,20,14545,1;// Battle_Manual_X3
+				break;
+			case 9:// "5 EMB for Bubblegum Buff"
+				callsub L_Exchange,5,12210,1;// Bubble_Gum
+				break;
+			case 10:// "10 EMB for HE Bubblegum Buff"
+				callsub L_Exchange,10,12412,1;// HE_Bubble_Gum
+				break;
+			case 11:// "5 EMB for Miracle Buff"
+				.@item_id = 22819;
+				if (countitem(6495) < 5) {
+					mes "[Merry Badger]";
+					mes "You don't have enough ^00CC00Eden Merit Badges^000000. Let's start over!";
+					break;
+				}
+				mes "[Merry Badger]";
+				mes "Ok, I can give you ^ff0000" + getitemname(.@item_id) + "^000000 for ^0066CC5 of your Eden Merit Badge(s)^000000.";
+				mes "Do you want to?";
+				next;
+				if (select("Yes", "No") == 2) {
+					mes "[Merry Badger]";
+					mes "I understand, let's see if you'd like something different!";
+					break;
+				}
+				mes "[Merry Badger]";
+				mes "There you go! What else would you like?";
+				delitem 6495, 5;// Para_Logro_Badge
+				consumeitem .@item_id;
+				break;
+			case 12:// "1 EMB for Yggdrasil Leaf"
+				callsub L_Exchange,1,610,1;// Leaf_Of_Yggdrasil
+				break;
+			case 13:// "5 EMB for Rental Wing of Beelzebub"
+				.@item_id = 14645;
+				if (countitem(6495) < 5) {
+					mes "[Merry Badger]";
+					mes "You don't have enough ^00CC00Eden Merit Badges^000000. Let's start over!";
+					break;
+				}
+				mes "[Merry Badger]";
+				mes "Ok, I can give you ^ff0000" + getitemname(.@item_id) + "^000000 for ^0066CC5 of your Eden Merit Badge(s)^000000.";
+				mes "Do you want to?";
+				next;
+				if (select("Yes", "No") == 2) {
+					mes "[Merry Badger]";
+					mes "I understand, let's see if you'd like something different!";
+					break;
+				}
+				mes "[Merry Badger]";
+				mes "There you go! What else would you like?";
+				delitem 6495, 5;// Para_Logro_Badge
+				rentitem .@item_id, 604800;	// 7 days
+				break;
+			case 14:// "5 EMB for Rental Halter Lead"
+				callsub L_Exchange,5,17162,1;// Boarding_Halter_Box7
+				break;
+			case 15:// "5 EMB for 20 Blue Herbs"
+				callsub L_Exchange,5,510,20;// Blue_Herb
+				break;
+			case 16:// Token of Siegfried
+				if (vip_status(VIP_STATUS_ACTIVE) == false) {
+					mes "[Merry Badger]";
+					mes "VIP Services offers those to any user with VIP!!";
+					close;
+				}
+				// custom from here
+				.@date = gettime(DT_YYYYMMDD);
+				if (.@date <= eden_iro_token_date) {
+					mes "[Merry Badger]";
+					mes "You already got your Token today!";
+					close;
+				}
+				mes "[Merry Badger]";
+				mes "There you go! What else would you like?";
+				eden_iro_token_date = .@date;
+				getitem 7621,1;// Token_Of_Siegfried
+				close;
+			case 17:// Nothing Now
+				mes "[Merry Badger]";
+				mes "Wonderful!";
+				mes "I'll be here if you ever want to exchange for Eden Merit Badges!";
+				close;
+			}
+			next;
+		}
+	case 2:
+		mes "[Merry Badger]";
+		mes "I have a limited selection as of right now, but here is what I can offer to get 1 Eden Merit Badge!";
+		next;
+		switch( select( "Etc Items", "Equipments", "Cancel" ) ) {
+		case 1:
+			while(1) {
+				if (select( "5x Old Purple Box", "Nothing" ) == 2) {
+					mes "[Merry Badger]";
+					mes "Wonderful!";
+					mes "I'll be here if you ever want to exchange for Eden Merit Badges!";
+					close;
+				}
+				while(1) {
+					if (countitem(617) < 5) {
+						mes "[Merry Badger]";
+						mes "You don't have enough of that to get 1 Eden Merit Badge. Lets start over!";
+						break;
+					}
+					mes "[Merry Badger]";
+					mes "Ok, I can give you ^CC00001 Eden Merit Badge^000000 for ^0000CC5 of your Old Purple Boxes^000000. Do you want to?";
+					next;
+					if (select( "Yes", "No" ) == 2) {
+						mes "[Merry Badger]";
+						mes "I understand, lets see if you'd like something different!";
+						break;
+					}
+					else {
+						mes "[Merry Badger]";
+						mes "There you go!  What else would you like?";
+						delitem 617,5;// Old_Violet_Box
+						getitem 6495,1;// Para_Logro_Badge
+						next;
+					}
+				}
+				next;
+			}
+		case 2:
+			while(1) {
+				mes "[Merry Badger]";
+				mes "I will take the top item in your inventory! MAKE SURE YOU DONT HAVE ANY OF THESE ITEMS THAT YOU DONT WANT TO EXCHANGE.";
+				next;
+				switch( select( "Giant Faceworm Snake Skin", "Giant Faceworm Snake Skin [1]", "Nothing" ) ) {
+				case 1:
+					.@item_req = 20717;// FaceWorm_Skin
+					.@item_name$ = "Giant Faceworm Snake Skin";
+					.@amount_reward = 5;
+					break;
+				case 2:
+					.@item_req = 20718;// FaceWorm_Skin_
+					.@item_name$ = "Giant Faceworm Snake Skin [1]";
+					.@amount_reward = 7;
+					break;
+				case 3:
+					mes "[Merry Badger]";
+					mes "Wonderful!";
+					mes "I'll be here if you ever want to exchange for Eden Merit Badges!";
+					next;
+					mes "[Merry Badger]";
+					mes "Well that is OK, if you want to see what I offer just ask!";
+					close;
+				}
+				while(1) {
+					if (countitem(.@item_req) < 1) {
+						mes "[Merry Badger]";
+						mes "You don't have enough of that to get 1 Eden Merit Badge. Lets start over!";
+						break;
+					}
+					mes "[Merry Badger]";
+					mes "Ok, I can give you ^ff0000" + .@amount_reward + " Eden Merit Badge^000000 for ^00ff00" + .@item_name$ + "^000000. Do you want to?";
+					next;
+					if (select( "Yes", "No" ) == 2) {
+						mes "[Merry Badger]";
+						mes "I understand, lets see if you'd like something different!";
+						break;
+					}
+					delitem .@item_req, 1;
+					getitem 6495, .@amount_reward;// Para_Logro_Badge
+					mes "[Merry Badger]";
+					mes "There you go! What else do you like?";
+					next;
+				}
+				next;
+			}
+		case 3:
+			mes "[Merry Badger]";
+			mes "Well that is OK, if you want to see what I offer just ask!";
+			close;
+		}
+	case 3:
+		mes "[Merry Badger]";
+		mes "This is what I'll give you for your ^00CC00Eden Merit Badges^000000!";
+		mes "Ok, I have a special for 3 Merit Badge. This week I'll give you ^00CC0040 Light Granule^000000, ^00CC0040 Gun Powder^000000, ^0000CC3 Izidor^000000, ^00CC0010 Prickly Fruit^000000, ^0000CC1 Mandragora Flowerpot^000000, and ^00CC003 Elder Branch^000000.";
+		mes "^00CC002 Eden Merit Badges^000000 = ^0000CC10x KVM Badge^000000";
+		mes "^00CC002 Eden Merit Badges^000000 = ^0000CC10x Bravery Medals^000000";
+		mes "^00CC002 Eden Merit Badges^000000 = ^0000CC10x Valor Medals^000000";
+		mes "^00CC005 Eden Merit Badges^000000 = ^0000CC5x Medium Life Potion^000000";
+		mes "^00CC005 Eden Merit Badges^000000 = ^0000CC5x Life Insurance^000000";
+		mes "^00CC005 Eden Merit Badges^000000 = ^0000CC5x Token Of Siegfried^000000";
+		mes "^00CC007 Eden Merit Badges^000000 = ^0000CC1x Job Battle Manual^000000";
+		mes "^00CC008 Eden Merit Badges^000000 = ^0000CC1x Reset Stone^000000";
+		next;
+		mes "[Merry Badger]";
+		mes "This is what you can give me to get ^00CC001 Eden Merit Badge^000000!";
+		mes "^0000CC5x Old Purple Box^000000";
+		close;
+	case 4:
+		mes "[Merry Badger]";
+		mes "I don't really understand why but I have this stack of coupons to sell.";
+		mes "Do you want to exchange 30 Eden Merit Badges for 1 dungeon ticket? If you are VIP your ticket will last much longer!";
+		next;
+		if (select( "Yes", "No" ) == 2) {
+			mes "[Merry Badger]";
+			mes "I understand, lets see if you'd like something different!";
+			close;
+		}
+		if (countitem(6495) < 30) {
+			mes "[Merry Badger]";
+			mes "You don't have enough badges!";
+			close;
+		}
+		delitem 6495,30;
+		if (vip_status(VIP_STATUS_ACTIVE))
+			getitem 17569,1;// Sky Fortress Ticket 1 Hour Box
+		else
+			getitem 17569,1;// Sky Fortress Ticket 1 Hour Box
+		mes "[Merry Badger]";
+		mes "There you go! What else would you like?";
+		close;
+	}
+	end;
+
+//callsub L_Exchange,<badge cost>,<item id>,<amount>;
+L_Exchange:
+	if (countitem(6495) < getarg(0)) {
+		mes "[Merry Badger]";
+		mes "You don't have enough ^00CC00Eden Merit Badges^000000. Let's start over!";
+		return;
+	}
+	mes "[Merry Badger]";
+	mes sprintf("Ok, I can give you ^ff0000%s^000000 for ^0066CC%d of your Eden Merit Badge(s)^000000.",
+				callfunc("F_InsertPlural",getarg(2),getitemname(getarg(1))), getarg(0));
+	mes "Do you want to?";
+	next;
+	if (select("Yes", "No") == 2) {
+		mes "[Merry Badger]";
+		mes "I understand, let's see if you'd like something different!";
+		return;
+	}
+	mes "[Merry Badger]";
+	mes "There you go! What else would you like?";
+	delitem 6495, getarg(0); //Para_Logro_Badge
+	getitem getarg(1),getarg(2);
+	return;
+}

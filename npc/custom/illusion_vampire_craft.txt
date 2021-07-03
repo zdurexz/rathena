@@ -1,0 +1,289 @@
+//===== rAthena Script =======================================
+//= Euphy's Quest Shop
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.6c
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A dynamic quest shop based on Lunar's, with easier config.
+//= Includes support for multiple shops & cashpoints.
+//= Item Preview script by ToastOfDoom.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.2 Added category support.
+//= 1.3 More options and fixes.
+//= 1.4 Added debug settings.
+//= 1.5 Replaced categories with shop IDs.
+//= 1.6 Added support for purchasing stackables.
+//= 1.6a Added support for previewing costumes and robes.
+//= 1.6b Added 'disable_items' command.
+//= 1.6c Replaced function 'A_An' with "F_InsertArticle".
+//============================================================
+
+// Shop NPCs -- supplying no argument displays entire menu.
+//	callfunc "rrshop"{,<shop ID>{,<shop ID>{,...}}};
+//  ADD YOUR NPC HERE
+//============================================================
+gef_d01_i,98,40,4	script	Vampire's Disciple	705,{
+	mes "[Vampire's Servant]","Have you ever heard this ?","The moon is my sun, the night is my day, blood is my life, and you are my prey.";
+	next;
+	mes "[Vampire's Servant]","Greeting adventurer!, I'm a disciple of Vampire Lord.","What can I do for you?";
+	next;
+	menu "Ask about Illusion's equipment",pick1, "Just chilling around",pick2;
+		pick2: {
+			next;
+			mes "[Vampire's Servant]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		pick1: {
+		next;
+		mes "[Vampire's Servant]","Illusion equipments are the new choice to upgrade your weapon","it can endow +9 or higher equipments by absorb an energy from the special place.","just like Geffen Tower that have too powerful energy.";
+		next;
+		mes "[Vampire's Servant]","Would you like to try ?","I can endow your weapon with your special ingredients";
+		next;
+		menu "Yes,of course",ask1, "See you next time",ask2;
+		ask2: {
+			next;
+			mes "[Vampire's Servant]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		ask1:	menu "Illusion Infiltrator [2]",firm1, "Illusion Sharpen Leg bone of Ghoul[2]",firm2, "Illusion Wizardry Staff [2]",firm3, "Illusion Ballista [2]",firm4, 
+					"Illusion Apocalypse [2]",firm5, "Illusion Ancient Cape [1]",firm6, "Illusion Skull Ring [1]",firm7, "Illusion Ring [1]",firm8;
+				firm1: {
+				mes "<ITEM>Illusion Infiltrator[2]<INFO>28022</INFO></ITEM>","  - +9 Infiltrator [1] ","  - 80 Illusion Stone","  - 20 Piece of Ripped Paper"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28022,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 80) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25261 && @inventorylist_amount[.@i] >= 20) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1266 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,80;
+							delitem 25261,20;
+							getitem 28022,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm2: {
+				mes "<ITEM>Illusion Sharpened Leg bone of Ghoul [2]<INFO>28023</INFO></ITEM>","  - +9 Illusion Sharpened Legbone of Ghoul ","  - 10 Illusion Stone","  - 100 Nightmare Clump"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28023,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 10) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25264 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1260 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,10;
+							delitem 25264,100;
+							getitem 28023,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm3: {
+				mes "<ITEM>Illusion Wizardry Staff[2]<INFO>2039</INFO></ITEM>","  - +9 Illusion Wizardry Staff ","  - 40 Illusion Stone","  - 100 Suspicious Magic Circle"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(2039,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 40) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25267 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1473 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,40;
+							delitem 25267,100;
+							getitem 2039,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm4: {
+				mes "<ITEM>Ill﻿usion Ballista﻿[2]<INFO>18149</INFO></ITEM>","  - +9 Ballista [1] ","  - 50 Illusion Stone","  - 100 Glowing Spore"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(18149,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25265 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1727 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,50;
+							delitem 25265,100;
+							getitem 18149,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm5: {
+				mes "<ITEM>Illusion Apocalypse﻿[2]<INFO>28612</INFO></ITEM>","  - +9 Book of Apocalypse ","  - 50 Illusion Stone","  - 10 Well-dried Clover"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28612,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25262 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1557 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,50;
+							delitem 25262,100;
+							getitem 28612,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm6: {
+				mes "<ITEM>Illusion Anc﻿ient Cape﻿[1]<INFO>20840</INFO></ITEM>","  - +9 Ancient Cape [1] ","  - 50 Illusion Stone","  - 200 Short Bat Fur"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(20840,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25263 && @inventorylist_amount[.@i] >= 200) .@true[2] = 1;
+					}
+					if(getequipid(EQI_GARMENT) == 2525 && getequiprefinerycnt(EQI_GARMENT) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_GARMENT;
+							delitem 25271,50;
+							delitem 25263,200;
+							getitem 20840,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm7: {
+				mes "<ITEM>Illusion Skull Ring[1]<INFO>28508</INFO></ITEM>","  - Skull Ring [1﻿﻿] ","  - 50 Illusion Stone","  - 400 Dried Yggdra﻿sil Leaf "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28508,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25266 && @inventorylist_amount[.@i] >= 400) .@true[2] = 1;
+					}
+					if(getequipid(EQI_ACC_R) == 2715) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ACC_R;
+							delitem 25271,50;
+							delitem 25266,400;
+							getitem 28508,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm8: {
+				mes "<ITEM>Illusion Ring[1]<INFO>28509</INFO></ITEM>","  - Ring [1﻿﻿] ","  - 50 Illusion Stone","  - 100 Suspicious Magic Circle "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28509,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25267 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+						}
+					if(getequipid(EQI_ACC_R) == 2621) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ACC_R;
+							delitem 25271,50;
+							delitem 25267,100;
+							getitem 28509,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+		}
+}
+
+gef_d01_i,93,40,4	script	Gemstone cutter#2	900,{
+mes "[Vampire's Servant]","Do you want to cut 5 piece of ^0000ffIllusion Gemstone^000000? to 1 ^ff0000Illusion Stone^000000 ?";
+	if (select("Yes:No" ) == 1) {
+		.@count = countitem(25272);
+		.@gem = .@count/5;
+		if (.@gem >= 1) {
+			next;
+			mes "[Vampire's Servant]","Wow, It's a brilliant light","That's so Beautiful ore";
+			specialeffect2 567;
+			delitem 25272,.@gem*5;
+			getitem 25271,.@gem;
+			close;
+		}
+		else {
+			next;
+			mes "[Vampire's Servant]","Too bad. You have insufficient gemstone";
+			close;
+		}
+	}
+	else {
+		next;
+		mes "[Vampire's Servant]","Good luck. If you have some ^0000ffIllusion Gemstone^000000. please bring back to me";
+		close;
+	}
+}

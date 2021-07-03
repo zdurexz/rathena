@@ -1,0 +1,70 @@
+prontera,96,227,6	script	ร้านค้า Poring Coin#1	4_tower_17,{
+	mes "[Poring Coin]";
+	mes "หวัดดี, "+strcharinfo(0)+"!";
+	mes "มีอะไรให้ข้ารับใช้ไหม ?";
+	next;
+	switch(select(" > ร้านค้าใช้  PoringCoin ซื้อ (^0055FF"+getd(.Points$)+"^000000): > ออก")) {
+	case 1:
+		mes "[Box Trader]";
+		mes "เจ้ามี ^0055FF"+getd(.Points$)+"^000000 แต้ม"+((getd(.Points$) == 1)?".":".");
+		callshop "PoringCoin",1;
+		npcshopattach "PoringCoin";
+		end;
+	case 2:
+		mes "[Poring Coin]";
+		mes "*ง่าส์*";
+		mes "แล้วมาใหม่น้า!";
+		close;		
+	}
+
+OnBuyItem:
+	for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+		for(set .@j,0; .@j<getarraysize(.Shop); set .@j,.@j+2)
+			if (@bought_nameid[.@i] == .Shop[.@j]) {
+				set .@cost, .@cost+(.Shop[.@j+1]*@bought_quantity[.@i]);
+				break;
+			}
+	if (.@cost > getd(.Points$)) {
+		mes "[Card Trader]";
+		mes "เจ้ามีแต้มพอยท์ไม่พอ.";
+	}
+	else {
+		mes "รายการสินค้า:";
+		mes "-----------------------------------";
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+			getitem @bought_nameid[.@i], @bought_quantity[.@i];
+			mes "  ^777777"+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+"^000000";
+		}
+		mes " ";
+		mes "---------- รวมทั้งหมด: ^0055FF"+.@cost+" แต้ม.^000000 -------";
+		setd .Points$, getd(.Points$)-.@cost;
+	}
+	deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+	deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+	close;
+
+OnInit:
+	set .Level,0;   		// เลเวลมอนสเตอร์ขั้นต่ำในการแลกการ์ด.
+	set .Points$,"#PoringCoin";	// ตัวแปรพอยท์.
+	setarray .Shop[0],		// ร้านขายของ: <รหัสไอเท็ม>,<ราคาพอยท์>
+	7539,1,19189,4500,19190,4500,19191,4500,19192,4500,19193,4500,19194,4500,19195,4500,19196,4500,19197,4500,19198,4500,19199,4500,19200,4500,19201,4500,19202,4500,19203,4500,19204,4500,19205,4500,19396,4500,19397,4500,6238,8500,6239,8500;
+	setarray .Points[0],5,50;	// แต้มพอยท์ต่อ <การ์ดทั่วไป>,<การ์ดบอส>
+	npcshopdelitem "PoringCoin",909;
+	for(set .@i,0; .@i<getarraysize(.Shop); set .@i,.@i+2)
+		npcshopadditem "PoringCoin",.Shop[.@i],.Shop[.@i+1];
+	setarray .messages$," ","ร้","า","น","ค้","า","P","o","r","i","n","g";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+}
+-	shop	PoringCoin	-1,909:-1

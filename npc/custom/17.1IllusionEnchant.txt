@@ -1,0 +1,105 @@
+sp_cor,106,127,5	script	Rebellion1#os_merchant	4_F_REBELLION3,{
+	function weapon_mod; function armor_mod; function do_rand;
+			mes "[ Rebellion ]";
+			mes "Did you bring a broken weapon?";
+			mes "Looking for a scientist criminal?";
+			mes "I deal everything. What do you need?";
+			mes "Perhaps you need me? I'm replacing the weapon with modules.";
+			npctalk "Hey criminal, someone's looking for you!","",bc_self;
+			classchange(4_EP17_ELYUMINA,"Elyumina#os_merchant",bc_self);
+			npctalk "Oh look at you! Give me a gun and I'll show you how to fight, not one of those bean bags!","Elyumina#os_merchant",bc_self;
+			next;
+			switch(select("Request a weapon modification.:Request an armor modification.")){
+				case 1: weapon_mod();
+				case 2: armor_mod();
+			}
+			end;
+function	do_rand	{
+	.@rand = rand(1,100);
+	switch(.@rand){
+		case 1: case 11: case 21: case 31: case 41: case 51: case 61: case 71: case 81: case 91:
+			return 3;
+		
+		case 2: case 3: case 12: case 13: case 22: case 23: case 32: case 33: case 42: case 43: case 52: case 53: case 62: case 63: case 72: case 73: case 82: case 83: case 92: case 93:
+			return 2;
+			
+		case 4: case 5: case 6: case 14: case 15: case 16: case 24: case 25: case 26: case 34: case 35: case 36: case 44: case 45: case 46: case 54: case 55: case 56: case 64: case 65: case 66: case 74: case 75: case 76: case 84: case 85: case 86: case 94: case 95: case 96:
+			return 1;
+			
+		default:
+			return 0;
+	}
+	return 0;
+}
+	
+function	armor_mod	{
+	mes "[ Rebellion ]";
+	mes "Do you need an armor modification module? I'll need 30 <ITEM>[Unknown Parts]<INFO>25669</INFO></ITEM> and 5 <ITEM>[Cor Cores]<INFO>25723</INFO></ITEM>.";
+	mes "The modules are given at random.";
+	next;
+	if(select("Request Armor Modification Modules.:Cancel.") == 2) end;
+	if(countitem(25669) < 30 || countitem(25723) < 5){
+		mes "[ Rebellion ]";
+		mes "You are missing parts, come back to me when you have complete parts.";
+		end;
+	}
+	.@index = do_rand();
+	explode(.@T$,.armor_mod$[.@index],",");
+	.@module = rand(atoi(.@T$[0]),atoi(.@T$[1]));
+	delitem 25669,30;
+	delitem 25723,5;
+	mes "[ Rebellion ]";
+	mes "You paid for the Armor Modification module.";
+	mes "The machine <NAVI>[next to me]<INFO>sp_cor,106,136,0,000,0</INFO></NAVI> will do well with these scrap metal pieces.";
+	getitem .@module,1;
+	end;
+}
+
+function	weapon_mod	{
+	mes "[ Rebellion ]";
+	mes "Do you need a weapon modication module? I'll need 5 <ITEM>[Cor Cores]<INFO>25723</INFO></ITEM> or 1M Zeny.";
+	mes "If you need a weapon, Elyumina is going to make them for you. So talk to her.";
+	next;
+	if(select("Request a Weapon Modifier (Physical):Request a Weapon Modifier (Magical)") == 1){
+		.@index = 0;
+	} else {
+		.@index = 1;
+	}
+	mes "[ Rebellion ]";
+	mes "The normal outcome is random:";
+	explode(.@T$,.weapon_mod$[.@index],",");
+	for(.@i = 0; .@i < 3; .@i++){
+		.@item_id[.@i] = atoi(.@T$[.@i]);
+		.@item_name$[.@i] = getitemname(.@item_id);
+		mes "<ITEM>["+.@item_name$[.@i]+"]<INFO>"+.@item_id[.@i]+"</INFO></ITEM>";
+	}
+	mes "You will need 5 Cor Cores or ^0000FF1,000,000^000000 Zeny, which will it be?";
+	next;
+	if(select("Use 5 Cor Cores.:Spend 1,000,000 Zeny.") == 1){
+		if(countitem(25723) < 5){
+			mes "[ Rebellion ]";
+			mes "You don't have enough Cor Cores to continue.";
+			end;
+		}
+		delitem 25723,5;
+	} else {
+		if(Zeny < 1000000){
+			mes "[ Rebellion ]";
+			mes "You don't have enough zeny to continue.";
+			end;
+		}
+		Zeny -= 1000000;
+	}
+	.@module = rand(.@item_id[0],.@item_id[2]);
+	mes "[ Rebellion ]";
+	mes "I've got the best out of this deal!";
+	mes "The machine <NAVI>[next to me]<INFO>sp_cor,106,136,0,000,0</INFO></NAVI> will do well with these scrap metal pieces.";
+	getitem .@module,1;
+	end;
+}
+
+OnInit:
+	setarray .armor_mod$,"25670,25677","25678,25692","25693,25699","25700,25705";
+	setarray .weapon_mod$,"23776,23777,23778","23779,23780,23781";
+	end;
+}

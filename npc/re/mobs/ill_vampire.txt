@@ -1,0 +1,14 @@
+// Mapflags
+gef_d01_i	mapflag	nomemo
+
+
+// Mob Spanw
+gef_d01_i,0,0,0,0	monster	Illusion Black Mushroom	3755,10,5000
+gef_d01_i,0,0,0,0	monster	Illusion Drainliar	3750,30,5000
+gef_d01_i,0,0,0,0	monster	Illusion Zombie	3751,30,5000
+gef_d01_i,0,0,0,0	monster	Illusion Zombie	3752,15,9000
+gef_d01_i,0,0,0,0	monster	Illusion Ghoul	3753,30,5000
+gef_d01_i,0,0,0,0	monster	Illusion Nightmare	3754,30,5000
+gef_d01_i,0,0,0,0	monster	Bream	3756,2,600000
+gef_d01_i,0,0,0,0	boss_monster	Illusion Dracula	3757,1,7200000,600000,0
+

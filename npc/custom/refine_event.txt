@@ -1,0 +1,129 @@
+
+prt_in,62,71,3	script	Event#01	826,{
+
+	disable_items;
+	mes "[^0000FF กิจกรรมสุ่มดวงตีบวก ^000000]";
+	mes "กิจกรรมสุ่มตีบวก Item!";
+	mes "^FF0000อุปกรณ์ต้องเริ่มจาก +0 เท่านั้น.^000000";
+	mes "หากหยุด หรือนำ Item ที่ไม่ใช่ +0 มาตี.";
+	mes "^FF0000จะไม่สามารถอัพเกรดได้ เมื่อคุณสุ่มได้ +7 คุณจะได้รับรางวัล 1 bsb 1 He  ^000000 ";
+	next;
+	mes "[^0000FF กิจกรรมตีบวก ^000000]";
+	mes "การแข่งขันอัพเกรดคือ";
+	mes "- 2220 : Hat";
+	mes "- 2304 : Jacket[1]";
+	mes "- 2404 : Shoes[1]";
+	mes "- 2504 : Muffler[1]";
+	next;
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES;
+	for(.@i = 1; .@i<=10; ++.@i) {
+		if (getequipisequiped(.@indices[.@i])) {
+			.@menu$ = .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+			.@equipped = 1;
+		}
+		.@menu$ = .@menu$ + ":";
+	}
+	if (.@equipped == 0) {
+		mes "[^0000FF กิจกรรมตีบวก ^000000]";
+		mes "คุณไม่ได้ใส่อุปกรณ์ไว้...";
+		close;
+	}
+	.@part = .@indices[ select(.@menu$) ];
+	if (!getequipisequiped(.@part)) {
+		mes "[^0000FF กิจกรรมตีบวก ^000000]";
+		mes "กรุณาสวมใส่อุปกรณ์.";
+		emotion ET_FRET;
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		mes "[^0000FF กิจกรรมตีบวก ^000000]";
+		mes "อุปกรณ์นี้ไม่สามารถอัพเกรดได้...";
+		close;
+	}
+	.@refinerycnt = getequiprefinerycnt(.@part);
+	if (.@refinerycnt > 0) {
+		mes "[^0000FF กิจกรรมตีบวก ^000000]";
+		mes "บอกแล้วว่า ^FF0000อุปกรณ์ต้อง +0 เท่านั้น.^000000";
+		close;
+	}
+	.@refineitemid = getequipid(.@part);
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@price = 20000;
+	.@material = getequiprefinecost(.@part, REFINE_COST_NORMAL, REFINE_MATERIAL_ID);
+	.@safe = 10;
+
+	if (.@refineitemid == 2220 || 
+		.@refineitemid == 2304 || 
+		.@refineitemid == 2404 || 
+		.@refineitemid == 2504) {
+
+	if (getequipweaponlv(.@part) >= 1 && getequipweaponlv(.@part) <= 4) {
+		.@article$ = "a";
+		.@type$ = "weapon";
+	} else {
+		.@article$ = "an";
+		.@type$ = "armor";
+	}
+	
+	mes "[^0000FF กิจกรรมตีบวก ^000000]";
+	mes "เอาล่ะ " + .@type$ + ", สินะ?";
+	mes "สิ่งที่ต้องใช้คือ ^003366" + getitemname(.@material) + "^000000 และ " + callfunc("F_InsertComma",.@price) + " Zeny.";
+	mes "เริ่มเลยมั้ยล่ะ?";
+	next;
+	menu "เอาเลย",L_AGAIN;
+
+
+L_AGAIN:
+	.@refinerycnt = getequiprefinerycnt(.@part);
+	if (.@refinerycnt == 7) {
+		announce "<ตีบวกมหาสนุก> '"+strcharinfo(0)+"' ได้ตี +7  "+getitemname(.@refineitemid)+" สำเร็จแล้ว",bc_all;
+		next;
+		mes "[^0000FF กิจกรรมตีบวก ^000000]";
+		mes "สำเร็จแล้ว !!^000000";
+		mes "และนี่คือรางวัลของท่าน";
+		next;
+		getitem 6635,1;
+		getitem 12412,1;
+		close;
+	}
+
+		if (countitem(.@material) < 1 || Zeny < .@price) {
+			mes "[^0000FF กิจกรรมตีบวก ^000000]";
+			mes "วัตถุดิบ หรือ เงินไม่เพียงพอ";
+			mes "การแข่งขันถูกยกเลิก.";
+			close;
+		}
+		Zeny = Zeny - .@price;
+		delitem .@material,1;
+		if (getequippercentrefinery(.@part, REFINE_COST_NORMAL) > rand(100)) {
+			successrefitem .@part;
+			emotion ET_BEST;
+			goto L_AGAIN;
+		} else {
+
+			if (rand(100) < 80) {
+				mes "[^0000FF กิจกรรมตีบวก ^000000]";
+				mes "แกร้ง แกร้ง แกร้ง แกร้ง!";
+				failedrefitem .@part;
+				next;
+				emotion (!rand(5))?ET_MONEY:ET_HUK;
+				mes "[^0000FF กิจกรรมตีบวก ^000000]";
+				mes "ท่านแพ้แล้ว!";
+				close;
+			}
+		end;
+		}
+	
+}
+	mes "[^0000FF กิจกรรมตีบวก ^000000]";
+	mes "อุปกรณ์ไม่ถูกต้อง";
+	mes "การแข่งขันอัพเกรดคือ";
+	mes "- 2221 : Hat[1]";
+	mes "- 2304 : Jacket[1]";
+	mes "- 2404 : Shoes[1]";
+	mes "- 2504 : Muffler[1]";
+	close;
+OnInit:
+    waitingroom "กิจกรรมสุ่มดวงตีบวก",0;
+    end;
+}

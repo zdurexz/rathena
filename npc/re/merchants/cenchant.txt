@@ -1,0 +1,261 @@
+
+prt_in,53,56,4	script	Costume Enchanter#1	505,{
+disable_items;
+	set Rup, callfunc("F_Rand",29460,310258,29428,310000,29521,310191,29513,310008,29468,310181,29481,310004,29517,310187,29477,29621,29485,310266,29423,29613,29432,29617,29464,310262); 
+	set Rmid, callfunc("F_Rand",29461,310259,29429,310001,29522,310190,29514,310009,29469,310182,29482,310005,29518,310186,29478,29620,29486,310267,29424,29612,29433,29616,29465,310263); 
+	set Rlow, callfunc("F_Rand",29462,310260,29430,310002,29523,310189,29515,310010,29470,310183,29483,310006,29518,310185,29479,29619,29487,310268,29425,29611,29434,29615,29466,310264); 
+	set Rwing, callfunc("F_Rand",29463,310257,29431,310003,29524,310188,29516,310011,29471,310180,29484,310007,29520,310184,29480,29618,29488,310265,29426,29427,29435,29614,29467,310261,25067); 	
+	
+				if (checkweight(1201,1) == 0) {
+					mes "[Costume Enchanter]";
+					mes "ช่องเก็บของเต็ม";
+					close;
+				}
+				if (MaxWeight - Weight < 10000) {
+					mes "[Costume Enchanter]";
+					mes "น้ำหนักเกิน";
+					close;
+				}
+				
+					mes "[Costume Enchanter]";
+					mes "เจ้าอยากออฟคอสตูมไหม ?";
+	next;
+	
+	switch(select("^000099ข้าอยากออฟคอสตูม^000000","ข้าขอฟังรายละเอียดก่อน","ยกเลิก")) {
+	
+case 1:					
+					mes "[Costume Enchanter]";
+					mes "ต้องสวมคอสตูมทุกครั้งที่จะออฟ.";
+					mes "เลือกคอสตูมที่เจ้าต้องการจะออฟ ?";
+	setarray .@indices[1], EQI_COSTUME_HEAD_TOP,EQI_COSTUME_HEAD_MID,EQI_COSTUME_HEAD_LOW,EQI_COSTUME_GARMENT;
+		for( set .@i,1; .@i <= 4; set .@i,.@i+1 ) {
+				if( getequipisequiped(.@indices[.@i]) )
+	set .@menu$, .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+	set .@menu$, .@menu$ + ":";
+			}
+	set .@id, .@indices[ select(.@menu$) ];
+	set .@part, getequipid(.@id);
+	
+// anti-hack
+				if (callfunc("F_IsEquipIDHack", .@id, .@part))
+					end;
+					
+				if (countitem(.@part) > 1 ) {
+	next;
+					mes "[Costume Enchanter]";
+					mes "เจ้ามีคอสที่เหมือนกัน.";
+					mes "ข้าออฟได้ทีละอันเท่านั้น.";
+					mes "เอาไปเก็บในคลังก่อนแล้วค่อยมาใหม่.";
+					end;
+				}
+	next;
+					mes "[Costume Enchanter]";
+					mes "เจ้าได้เลือกที่จะออฟ ^000099" + getequipname(.@id) + "^000000";
+
+			if (.@id == EQI_COSTUME_HEAD_TOP) goto encup;
+			if (.@id == EQI_COSTUME_HEAD_MID) goto encmid;
+			if (.@id == EQI_COSTUME_HEAD_LOW) goto enclow;
+			if (.@id == EQI_COSTUME_GARMENT) goto encwing;
+					
+encup:
+	@card1 = getequipcardid(.@id,0);
+	@card2 = getequipcardid(.@id,1);
+	@card3 = getequipcardid(.@id,2);
+	@card4 = getequipcardid(.@id,3);
+	.@ref = getequiprefinerycnt(.@id);
+			if (Zeny < .cost){ //money check
+					mes "[Costume Enchanter]";
+					mes "เจ้ามีเงินไม่พอ.";
+					end;
+				}
+					mes "[Costume Enchanter]";
+					mes "ออฟเลยไหม ?";
+				if (select( "^000099เอาเลย^000000.", "ยังก่อน." ) == 2) {
+					next;
+					mes "[Costume Enchanter]";
+					mes "ข้าเชื่อในการตัดสินใจของเจ้า.";
+					mes "อยากออฟให้มาหาข้าน่ะ.";
+					end;
+				}
+					specialeffect2 EF_REPAIRWEAPON;
+					progressbar "0x00ff00",1;
+					set Zeny,Zeny-.cost;
+				if (rand(100) < .rate) {
+					specialeffect2 154;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, Rup, @card3, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^000099ออฟสำเร็จ^000000.";
+					end;
+				}
+				else {
+					specialeffect2 155;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, 0, @card3, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^009900ออฟไม่สำเร็จ^000000.";
+					end;
+				}
+					
+encmid:
+	@card1 = getequipcardid(.@id,0);
+	@card2 = getequipcardid(.@id,1);
+	@card3 = getequipcardid(.@id,2);
+	@card4 = getequipcardid(.@id,3);					
+	.@ref = getequiprefinerycnt(.@id);
+			if (Zeny < .cost){ //money check
+					mes "[Costume Enchanter]";
+					mes "เจ้ามีเงินไม่พอ.";
+					end;
+				}
+					mes "[Costume Enchanter]";
+					mes "ออฟเลยไหม ?";
+				if (select( "^000099เอาเลย^000000.", "ยังก่อน." ) == 2) {
+					next;
+					mes "[Costume Enchanter]";
+					mes "ข้าเชื่อในการตัดสินใจของเจ้า.";
+					mes "อยากออฟให้มาหาข้าน่ะ.";
+					end;
+				}
+					specialeffect2 EF_REPAIRWEAPON;
+					progressbar "0x00ff00",1;
+					set Zeny,Zeny-.cost;
+				if (rand(100) < .rate) {
+					specialeffect2 154;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, Rmid, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^000099ออฟสำเร็จ^000000.";
+					end;
+				}
+				else {
+					specialeffect2 155;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, 0, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^009900ออฟไม่สำเร็จ^000000.";
+					end;
+				}
+			
+enclow:
+	@card1 = getequipcardid(.@id,0);
+	@card2 = getequipcardid(.@id,1);
+	@card3 = getequipcardid(.@id,2);
+	@card4 = getequipcardid(.@id,3);				
+	.@ref = getequiprefinerycnt(.@id);
+			if (Zeny < .cost){ //money check
+					mes "[Costume Enchanter]";
+					mes "เจ้ามีเงินไม่พอ.";
+					end;
+				}
+					mes "[Costume Enchanter]";
+					mes "ออฟเลยไหม ?";
+				if (select( "^000099เอาเลย^000000.", "ยังก่อน." ) == 2) {
+					next;
+					mes "[Costume Enchanter]";
+					mes "ข้าเชื่อในการตัดสินใจของเจ้า.";
+					mes "อยากออฟให้มาหาข้าน่ะ.";
+					end;
+				}
+					specialeffect2 EF_REPAIRWEAPON;
+					progressbar "0x00ff00",1;
+					set Zeny,Zeny-.cost;
+				if (rand(100) < .rate) {
+					specialeffect2 154;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, Rlow;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^000099ออฟสำเร็จ^000000.";
+					end;
+				}
+				else {
+					specialeffect2 155;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, 0;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^009900ออฟไม่สำเร็จ^000000.";
+					end;
+				}
+			
+encwing:
+	@card1 = getequipcardid(.@id,0);
+	@card2 = getequipcardid(.@id,1);
+	@card3 = getequipcardid(.@id,2);
+	@card4 = getequipcardid(.@id,3);					
+	.@ref = getequiprefinerycnt(.@id);
+			if (Zeny < .cost){ //money check
+					mes "[Costume Enchanter]";
+					mes "เจ้ามีเงินไม่พอ.";
+					end;
+				}
+					mes "[Costume Enchanter]";
+					mes "ออฟเลยไหม ?";
+				if (select( "^000099เอาเลย^000000.", "ยังก่อน." ) == 2) {
+					next;
+					mes "[Costume Enchanter]";
+					mes "ข้าเชื่อในการตัดสินใจของเจ้า.";
+					mes "อยากออฟให้มาหาข้าน่ะ.";
+					end;
+				}
+					specialeffect2 EF_REPAIRWEAPON;
+					progressbar "0x00ff00",1;
+					set Zeny,Zeny-.cost;
+				if (rand(100) < .rate) {
+					specialeffect2 154;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, Rwing, @card2, @card3, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^000099ออฟสำเร็จ^000000.";
+					end;
+				}
+				else {
+					specialeffect2 155;
+					delitem2 .@part, 1, 1, .@ref, 0, @card1, @card2, @card3, @card4;
+					getitem2 .@part, 1, 1, .@ref, 0, 0, @card2, @card3, @card4;
+					equip .@part;
+					next;
+					mes "[Costume Enchanter]";
+					mes "^009900ออฟไม่สำเร็จ^000000.";
+					end;
+				}
+
+case 2:
+					mes "[Costume Enchanter]";
+					mes "ข้าจะสุ่มออฟให้คอสตูมของเจ้า";
+					mes "ในการสุ่มแต่ละครั้งข้าคิดแค่ ^000099" + .cost + " zeny^000000.";
+					mes "โดยมีโอกาสติด ^000099" + .rate + " %^000000";
+					mes "ถ้าออฟล้มเหลวไอเท็มจะไม่หายไป.";
+					mes "^009900แต่ออฟจะหายแทน^000000.";
+					end;
+
+case 3:	
+					mes "[Costume Enchanter]";
+					mes "แล้วเจอกันใหม่";
+					end;
+			}
+	
+OnInit:	
+	
+	.cost = 2000000; // ค่าออฟ zeny
+	.rate = 40; // โอกาสออฟติด
+}
+
+-	script	#costume_effect	-1,{
+OnInit:
+	initnpctimer;
+	end;
+}

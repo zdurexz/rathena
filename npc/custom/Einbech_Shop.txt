@@ -1,0 +1,87 @@
+einbech,149,257,4	script	Field Manager Elmen	953,{
+	mes .NPCname$;
+	mes "ท่านต้องการให้ข้าช่วยอะไร";
+	next;
+	mes .NPCname$;
+	mes "ท่านต้องการแลกหิน ^FF0000"+getitemname(.item_exchange)+"^000000 ใช่ไหม?";
+	mes "ในการแลกต้องใช้ไอเทมดังนี้";
+	mes getitemname(.item1)+" จำนวน "+.item_amt+" Ea";
+	mes getitemname(.item2)+" จำนวน "+.item_amt+" Ea";
+	mes getitemname(.item3)+" จำนวน "+.item_amt+" Ea";
+	mes getitemname(.item4)+" จำนวน "+.item_amt+" Ea";
+	mes getitemname(.item5)+" จำนวน "+.item_amt+" Ea";
+	next;
+	switch(select("ข้าต้องการแลกหิน:ไม่มีอะไรหรอก")){
+		case 1:
+			goto Exchange;
+		case 2:
+			mes "ไว้พบกันใหม่โอกาสหน้า";
+			end;
+	}
+Exchange:
+	mes "ใส่จำนวนที่ต้องการแลก "+getitemname(.item_exchange)+" 1-100";
+	input .amount;
+	if(.amount < 0 || .amount > 100) goto Exchange;
+	.@k = 0;
+	next;
+	for( .@i = 0; .@i < .amount; .@i = .@i+1){
+		if(countitem(.item1) < .item_amt*(.@i+1) || countitem(.item2) < .item_amt*(.@i+1) || countitem(.item3) < .item_amt*(.@i+1) || countitem(.item4) < .item_amt*(.@i+1) || countitem(.item5) < .item_amt*(.@i+1) ){
+			mes "^FF0000ไอเท็มบางชิ้นของท่านไม่ครบตามเงื่อนไข^000000";
+			end;
+		}
+		.@k++;
+	}
+	mes "ยินดีด้วยท่านสามารถแลก "+getitemname(.item_exchange);
+	mes "ได้เป็นจำนวน "+(.@k)+" ชิ้น";
+		delitem .item1,.item_amt*.@k;
+		delitem .item2,.item_amt*.@k;
+		delitem .item3,.item_amt*.@k;
+		delitem .item4,.item_amt*.@k;
+		delitem .item5,.item_amt*.@k;
+		getitem .item_exchange,.@k;
+	end;
+	
+
+OnInit:
+	.NPCname$ = "[ Field Manager Elmen ]";
+	.item_exchange = 25814;
+	.item1 = 25809;
+	.item2 = 25810;
+	.item3 = 25811;
+	.item4 = 25812;
+	.item5 = 25813;
+	.item_amt = 5;
+	end;
+}
+
+einbech,153,257,4	script	Random Weapon	953,{
+	mes .NPCname$;
+	mes "ท่านต้องการให้ข้าช่วยอะไร";
+	next;
+	mes .NPCname$;
+	mes "ท่านต้องการสุ่มอาวุธใช่ไหม?";
+	mes "ไอเทมในการใช้สุ่มคือ ^FF0000"+getitemname(.item_exchange);
+	mes "จำนวนที่ใช้ ^0000CC"+.item_amt+"^000000 Ea";
+	next;
+	switch(select("สุ่มเลย:เอาไว้ก่อนดีกว่า..")){
+		case 1:
+			setarray .item,1867,2058,13346,16099,18190,21054,26162,26215,28045,28140,28635,28771,28772,550006,32026,32110,32303,32352;
+			if(countitem(.item_exchange) < .item_amt){
+				mes "^FF0000ไอเเท็มไม่พอสำหรับการสุ่ม^000000";
+				end;
+			}
+			getitem .item[rand(0,17)],1;
+			delitem .item_exchange,.item_amt;
+			end;
+		case 2:
+			mes "ไว้พบกันใหม่โอกาสหน้า";
+			end;
+	}
+	end;
+
+OnInit:
+	.NPCname$ = "[ Random Weapons ]";
+	.item_exchange = 25814;
+	.item_amt = 50;
+	end;
+}

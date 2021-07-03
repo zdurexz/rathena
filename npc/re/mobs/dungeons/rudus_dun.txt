@@ -1,0 +1,19 @@
+//Laboratory Waste Disposal Plant Rudus Floor 1
+sp_rudus,0,0	monster	Dolor	20361,40,5000
+sp_rudus,0,0	monster	Venenum	20363,60,5000
+sp_rudus,0,0	monster	Twin Caputs	20365,45,5000
+sp_rudus,0,0	monster	CP8 MIGUEL	20346,1,3600000,600000,0
+
+//Laboratory Waste Disposal Plant Rudus Floor 2
+sp_rudus2,0,0	monster	Plaga	20359,45,5000
+sp_rudus2,0,0	monster	High Hunter Bellare	20356,5,5000
+sp_rudus2,0,0	monster	High Hunter Sanare	20358,5,5000
+sp_rudus2,0,0	monster	Mutant Dolor	20362,45,5000
+sp_rudus2,0,0	boss_monster	R48-85-Bestia	20381,1,3600000,600000,0
+
+//Laboratory Waste Disposal Plant Rudus Floor 3
+sp_rudus3,0,0	monster	Plaga	20360,53,5000
+sp_rudus3,0,0	monster	Venenum	20364,65,5000
+sp_rudus3,0,0	monster	Twin Caput	20366,65,5000
+sp_rudus3,0,0	monster	Mutant Dolor	20362,60,5000
+sp_rudus3,0,0	monster	EL1_A17T	20340,1,3600000,600000,0

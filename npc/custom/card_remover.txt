@@ -1,0 +1,149 @@
+//===== rAthena Script =======================================
+//= Card Removal NPC
+//===== By: ==================================================
+//= TyrNemesis^
+//===== Current Version: =====================================
+//= 1.2a
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Removes cards from equipped items.
+//===== Additional Comments: =================================
+//= 1.0 First version. [TyrNemesis^]
+//= 1.2 Optimized and fixed getequipname menu. [Kisuka]
+//= 1.2a Added 'disable_items' command. [Euphy]
+//============================================================
+
+prt_in,28,73,4	script	ถอดการ์ด 100%#eAcustom	78,{
+
+	set .zenycost,200000;    // ค่าบริการถอดการ์ด (in Zeny)
+	set .percardcost,25000;  // ค่าบริการถอดการ์ดต่อใบ (in Zeny)
+	set .faildestroy,1;      // เลือกได้ว่าจะให้ไอเท็มแตกไหมเวลาล้มเหลว ? (1=yes, 0=no)
+
+	disable_items;
+	mes "[ถอดการ์ด 100%]";
+	mes "หวัดดี, เด็กน้อย. ข้าสามารถถอดการ์ดออกจากของสวมใส่ได้. เจ้าสนใจไหมล่ะ ?";
+	next;
+	switch(select("น่าสนดี, ขอลองหน่อย.:ขอทราบรายละเอียดค่าบริการ ?:ไม่อ่ะ.")) {
+	case 1:
+		mes "[ถอดการ์ด 100%]";
+		mes "ไอเท็มชิ้นไหนที่เจ้าต้องการถอดการ์ด ?";
+		next;
+
+		setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+		for( set .@i,1; .@i <= 10; set .@i,.@i+1 ) {
+			if( getequipisequiped(.@indices[.@i]) )
+				set .@menu$, .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+			set .@menu$, .@menu$ + ":";
+		}
+		set .@part, .@indices[ select(.@menu$) ];
+		if(!getequipisequiped(.@part)) {
+			mes "[ถอดการ์ด 100%]";
+			mes "เด็กน้อย... เจ้าไม่ได้ใส่มันมาด้วยข้าถอดการ์ดออกจากอากาศไม่ได้หรอกน่ะ.";
+			close;
+		}
+		if(getequipcardcnt(.@part) == 0) {
+			mes "[ถอดการ์ด 100%]";
+			mes "เด็กน้อย... มันไม่มีการ์ดอยู่ในไอเท็มที่เจ้าเลือก. อย่าหลอกข้าเลยข้ายังไม่แก่.";
+			close;
+		}
+		set .@cardcount,getequipcardcnt(.@part);
+		
+		if (!checkweight(1202,(.@cardcount+1))) { 
+			mes "^3355FFเดี๋ยวก่อน!";
+			mes "ข้าให้บริการเจ้าไม่ได้";
+			mes "ก็เพราะว่า";
+			mes "กระเป๋าเจ้ามีของมากเกินไป";
+			mes "ลองไปลดของก่อน";
+			mes "แล้วค่อยมาใหม่~";
+			close;
+		}
+		mes "[ถอดการ์ด 100%]";
+		mes "ไอเท็มนี้มีการ์ด " + .@cardcount + " ใบ. เพื่อที่จะถอดการ์ด, ข้าต้องการเงิน " + (.zenycost+(.@cardcount * .percardcost)) + " zeny, ^0000FFStar Crumb^000000, และ ^0000FFYellow Gemstone^000000.";
+		next;
+		if(select("ถอดการ์ดเลย.:ยกเลิก.") == 2) {
+			mes "[ถอดการ์ด 100%]";
+			mes "ถ้าอยากใช้บริการอย่าลืมมาหาข้าล่ะ.";
+			close;
+		}
+		if((zeny < (.zenycost+(.@cardcount * .percardcost))) || (countitem(1000) < 1) || (countitem(715) < 1)) {
+			mes "[ถอดการ์ด 100%]";
+			mes "เจ้ามีของไม่ครบ. ค่อยมาใหม่น่ะ.";
+			close;
+		}
+		mes "[ถอดการ์ด 100%]";
+		mes "ก่อนที่จะเริ่ม, ข้าต้องเตือนเจ้าก่อนว่า. เมื่อถอดการ์ดล้มเหลว ข้าอาจทำลายการ์ด, ไอเท็ม, หรือทั้งคู่. ส่วนค่าบริการข้าไม่คืนให้หรอกน่ะ. เพราะงั้น, เจ้าจะเลือกเก็บอะไรไว้: การ์ด, หรือไอเท็ม ?";
+		next;
+		switch(select("ข้าเปลี่ยนใจไม่ทำแล้ว.:เก็บไอเท็มไว้.:เก็บการ์ดไว้.")) {
+		case 1:
+			mes "[ถอดการ์ด 100%]";
+			mes "ถ้าอยากใช้บริการอย่าลืมมาหาข้าล่ะ.";
+			close;
+		case 2:
+			set .@failtype,1;
+			break;
+		case 3:
+			set .@failtype,2;
+		}
+		mes "[ถอดการ์ด 100%]";
+		mes "ข้าจะเริ่มถอดการ์ดละนะ.";
+		set Zeny, Zeny - (.zenycost+(.@cardcount * .percardcost));
+		delitem 1000,1; //Star_Crumb
+		delitem 715,1; //Yellow_Gemstone
+		
+		// Replace the constants in the next 3 lines with failure chance values defined in refine_db.txt
+		// First value = Total failure chance (item and cards destroyed)
+		// Second value = Partial failure chance (one or the other is destroyed, player decides which one is safe)
+		// Third value = Harmless failure chance (all that's lost is your investment)
+
+		set .@failchance,rand(100);
+		if (.faildestroy==1) {
+			if(.@failchance == 200) {
+				next;
+				failedremovecards .@part,0;
+				mes "[ถอดการ์ด 100%]";
+				mes "เจ๊งบ๊ง. ไอเท็มและการ์ดถูกทำลายทั้งคู่.";
+				close;
+			}
+
+			if(.@failchance == 200) {
+				if (.@failtype == 1) {
+					next;
+					failedremovecards .@part,1;
+					mes "[ถอดการ์ด 100%]";
+					mes "มีข้อผิดพลาดในการถอดการ์ด. แต่, ไอเท็มยังอยู่.";
+					close;
+				}
+
+				if (.@failtype == 200) {
+					next;
+					failedremovecards .@part,2;
+					mes "[ถอดการ์ด 100%]";
+					mes "การถอดการ์ดประสบความสำเร็จ. แต่, ไอเท็มถูกทำลาย.";
+					close;
+				}
+			}
+		}
+
+		if(.@failchance == 200) {
+			next;
+			failedremovecards .@part,3;
+			mes "[ถอดการ์ด 100%]";
+			mes "มีข้อผิดพลาดในการถอดการ์ด. แต่โชคดีที่, ไอเท็มและการ์ดปลอดภัยทั้งคู่.";
+			close;
+		}
+		next;
+		successremovecards .@part;
+		mes "[ถอดการ์ด 100%]";
+		mes "ประสบความสำเร็จ. ข้าสามารถถอดการ์ดออกจากไอเท็มได้. โดยไม่มีปัญหาใดๆเกิดขึ้น.";
+		close;
+	case 2:
+		mes "[ถอดการ์ด 100%]";
+		mes "ข้าคิดค่าบริการถอดการ์ด "+callfunc("F_InsertComma",.zenycost)+" zeny, บวกกับ "+callfunc("F_InsertComma",.percardcost)+" zeny ต่อใบ และข้ายังต้องการ, star crumb และ yellow gemstone มาอีกอย่างละหนึ่งชิ้น.";
+		close;
+	case 3:
+		mes "[ถอดการ์ด 100%]";
+		mes "ถ้าอยากใช้บริการอย่าลืมมาหาข้าล่ะ.";
+		close;
+	}
+}

@@ -1,0 +1,977 @@
+//==============================================
+//GVG
+-	script	Auto_AntiWarpIP_01	-1,{
+OnInit:
+setmapflag	"aldeg_cas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"aldeg_cas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"aldeg_cas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_02	-1,{
+OnInit:
+setmapflag	"aldeg_cas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"aldeg_cas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"aldeg_cas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_03	-1,{
+OnInit:
+setmapflag	"aldeg_cas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"aldeg_cas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"aldeg_cas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_04	-1,{
+OnInit:
+setmapflag	"aldeg_cas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"aldeg_cas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"aldeg_cas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_05	-1,{
+OnInit:
+setmapflag	"aldeg_cas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"aldeg_cas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"aldeg_cas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_06	-1,{
+OnInit:
+setmapflag	"gefg_cas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"gefg_cas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"gefg_cas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_07	-1,{
+OnInit:
+setmapflag	"gefg_cas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"gefg_cas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"gefg_cas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_08	-1,{
+OnInit:
+setmapflag	"gefg_cas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"gefg_cas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"gefg_cas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_09	-1,{
+OnInit:
+setmapflag	"gefg_cas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"gefg_cas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"gefg_cas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_10	-1,{
+OnInit:
+setmapflag	"gefg_cas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"gefg_cas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"gefg_cas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_11	-1,{
+OnInit:
+setmapflag	"payg_cas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"payg_cas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"payg_cas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_12	-1,{
+OnInit:
+setmapflag	"payg_cas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"payg_cas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"payg_cas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_13	-1,{
+OnInit:
+setmapflag	"payg_cas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"payg_cas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"payg_cas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_14	-1,{
+OnInit:
+setmapflag	"payg_cas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"payg_cas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"payg_cas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_15	-1,{
+OnInit:
+setmapflag	"payg_cas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"payg_cas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"payg_cas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_16	-1,{
+OnInit:
+setmapflag	"prtg_cas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"prtg_cas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"prtg_cas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_17	-1,{
+OnInit:
+setmapflag	"prtg_cas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"prtg_cas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"prtg_cas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_18	-1,{
+OnInit:
+setmapflag	"prtg_cas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"prtg_cas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"prtg_cas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_19	-1,{
+OnInit:
+setmapflag	"prtg_cas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"prtg_cas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"prtg_cas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_20	-1,{
+OnInit:
+setmapflag	"prtg_cas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"prtg_cas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"prtg_cas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_21	-1,{
+OnInit:
+setmapflag	"nguild_alde",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"nguild_alde")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"nguild_alde"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_22	-1,{
+OnInit:
+setmapflag	"nguild_gef",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"nguild_gef")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"nguild_gef"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_23	-1,{
+OnInit:
+setmapflag	"nguild_pay",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"nguild_pay")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"nguild_pay"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_24	-1,{
+OnInit:
+setmapflag	"nguild_prt",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"nguild_prt")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"nguild_prt"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_25	-1,{
+OnInit:
+setmapflag	"schg_cas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"schg_cas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"schg_cas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_26	-1,{
+OnInit:
+setmapflag	"schg_cas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"schg_cas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"schg_cas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_27	-1,{
+OnInit:
+setmapflag	"schg_cas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"schg_cas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"schg_cas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_28	-1,{
+OnInit:
+setmapflag	"schg_cas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"schg_cas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"schg_cas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_29	-1,{
+OnInit:
+setmapflag	"schg_cas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"schg_cas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"schg_cas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_30	-1,{
+OnInit:
+setmapflag	"te_aldecas1",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_aldecas1")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_aldecas1"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_31	-1,{
+OnInit:
+setmapflag	"te_aldecas2",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_aldecas2")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_aldecas2"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_32	-1,{
+OnInit:
+setmapflag	"te_aldecas3",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_aldecas3")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_aldecas3"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_33	-1,{
+OnInit:
+setmapflag	"te_aldecas4",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_aldecas4")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_aldecas4"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_34	-1,{
+OnInit:
+setmapflag	"te_aldecas5",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_aldecas5")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_aldecas5"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_35	-1,{
+OnInit:
+setmapflag	"te_prtcas01",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_prtcas01")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_prtcas01"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_36	-1,{
+OnInit:
+setmapflag	"te_prtcas02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_prtcas02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_prtcas02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_37	-1,{
+OnInit:
+setmapflag	"te_prtcas03",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_prtcas03")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_prtcas03"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_38	-1,{
+OnInit:
+setmapflag	"te_prtcas04",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_prtcas04")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_prtcas04"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}
+-	script	Auto_AntiWarpIP_39	-1,{
+OnInit:
+setmapflag	"te_prtcas05",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"te_prtcas05")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"te_prtcas05"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}

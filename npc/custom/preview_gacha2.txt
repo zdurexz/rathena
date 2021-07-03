@@ -1,0 +1,181 @@
+-	script	preview_gacha_cs	-1,{
+
+OnInit:
+	waitingroom "~ ตัวอย่างของรางวัล", 0;
+    end;
+}
+
+-	script	preview_gacha2	-1,{ 
+// =============================================================
+function PreviewAddItems;
+// =============================================================
+OnInit:
+	freeloop(1);
+	setarray .Shops$[1],"- ตัวอย่างของรางวัล";
+// =============================================================
+
+	PreviewAddItems(1,12412,1,0,0);
+	PreviewAddItems(1,14541,1,0,0);
+	PreviewAddItems(1,14542,1,0,0);
+	PreviewAddItems(1,14543,1,0,0);
+	PreviewAddItems(1,14544,1,0,0);
+	PreviewAddItems(1,14535,1,0,0);
+	PreviewAddItems(1,14534,1,0,0);
+	PreviewAddItems(1,12216,1,0,0);
+	PreviewAddItems(1,12215,1,0,0);
+	PreviewAddItems(1,12218,1,0,0);
+	PreviewAddItems(1,12710,1,0,0);
+	PreviewAddItems(1,7620,1,0,0);
+	PreviewAddItems(1,7621,1,0,0);
+	PreviewAddItems(1,7619,1,0,0);
+	PreviewAddItems(1,12221,1,0,0);
+	PreviewAddItems(1,28564,1,0,0);
+	PreviewAddItems(1,20813,1,0,0);
+	PreviewAddItems(1,22170,1,0,0);
+	PreviewAddItems(1,5585,1,0,0);
+	PreviewAddItems(1,19329,1,0,0);
+	PreviewAddItems(1,28717,1,0,0);
+	PreviewAddItems(1,28507,1,0,0);
+	PreviewAddItems(1,18666,1,0,0);
+	PreviewAddItems(1,19919,1,0,0);
+	PreviewAddItems(1,6635,1,0,0);
+	PreviewAddItems(1,19112,1,0,0);
+	PreviewAddItems(1,5933,1,0,0);
+	PreviewAddItems(1,28484,1,0,0);
+	PreviewAddItems(1,19139,1,0,0);
+	PreviewAddItems(1,28438,1,0,0);
+	PreviewAddItems(1,18849,1,0,0);
+	PreviewAddItems(1,19116,1,0,0);
+	PreviewAddItems(1,19407,1,0,0);
+	PreviewAddItems(1,18823,1,0,0);
+	PreviewAddItems(1,15204,1,0,0);
+	PreviewAddItems(1,15145,1,0,0);
+	PreviewAddItems(1,19246,1,0,0);
+	PreviewAddItems(1,16051,1,0,0);
+	PreviewAddItems(1,28573,1,0,0);
+	PreviewAddItems(1,22103,1,0,0);
+	PreviewAddItems(1,12103,1,0,0);
+	
+	
+	
+	
+	
+	PreviewAddItems(1,20963,1,0,0);
+	PreviewAddItems(1,20966,1,0,0);
+	PreviewAddItems(1,20964,1,0,0);
+	PreviewAddItems(1,20965,1,0,0);
+	PreviewAddItems(1,20967,1,0,0);
+	PreviewAddItems(1,20968,1,0,0);
+	PreviewAddItems(1,2576,1,0,0);
+	PreviewAddItems(1,18791,1,0,0);
+	PreviewAddItems(1,19163,1,0,0);
+	PreviewAddItems(1,5585,1,0,0);
+	PreviewAddItems(1,32204,1,0,0);
+	PreviewAddItems(1,28903,1,0,0);
+	PreviewAddItems(1,28902,1,0,0);
+	PreviewAddItems(1,19439,1,0,0);
+	PreviewAddItems(1,2168,1,0,0);
+	PreviewAddItems(1,28717,1,0,0);
+	PreviewAddItems(1,19138,1,0,0);
+	PreviewAddItems(1,19327,1,0,0);
+	PreviewAddItems(1,32206,1,0,0);
+	PreviewAddItems(1,32258,1,0,0);
+	PreviewAddItems(1,15420,1,0,0);
+	PreviewAddItems(1,15146,1,0,0);
+	PreviewAddItems(1,19306,1,0,0);
+	PreviewAddItems(1,5918,1,0,0);
+	PreviewAddItems(1,18813,1,0,0);
+	PreviewAddItems(1,19112,1,0,0);
+	PreviewAddItems(1,5933,1,0,0);
+	PreviewAddItems(1,19139,1,0,0);
+	PreviewAddItems(1,28921,1,0,0);
+	PreviewAddItems(1,19426,1,0,0);
+	PreviewAddItems(1,28598,1,0,0);
+	PreviewAddItems(1,20931,1,0,0);
+	PreviewAddItems(1,28533,1,0,0);
+	PreviewAddItems(1,15283,1,0,0);
+	PreviewAddItems(1,15405,1,0,0);
+	PreviewAddItems(1,32263,1,0,0);
+	PreviewAddItems(1,28941,1,0,0);
+	PreviewAddItems(1,2589,1,0,0);
+	PreviewAddItems(1,19116,1,0,0);
+	PreviewAddItems(1,15419,1,0,0);
+	PreviewAddItems(1,28594,1,0,0);
+	PreviewAddItems(1,28502,1,0,0);
+	PreviewAddItems(1,28565,1,0,0);
+	PreviewAddItems(1,2202,1,0,0);
+	PreviewAddItems(1,22134,1,0,0);
+	PreviewAddItems(1,20952,1,0,0);
+	PreviewAddItems(1,28910,1,0,0);
+	PreviewAddItems(1,28942,1,0,0);
+	PreviewAddItems(1,470061,1,0,0);
+	PreviewAddItems(1,5900,1,0,0);
+	PreviewAddItems(1,19101,1,0,0);
+	PreviewAddItems(1,15189,1,0,0);
+	PreviewAddItems(1,40325,1,0,0);
+	PreviewAddItems(1,400078,1,0,0);
+	PreviewAddItems(1,400079,1,0,0);
+	PreviewAddItems(1,400094,1,0,0);
+	PreviewAddItems(1,400095,1,0,0);
+	PreviewAddItems(1,400098,1,0,0);
+	PreviewAddItems(1,400099,1,0,0);
+	PreviewAddItems(1,400116,1,0,0);
+	PreviewAddItems(1,400117,1,0,0);
+	PreviewAddItems(1,400118,1,0,0);
+	PreviewAddItems(1,400119,1,0,0);
+	PreviewAddItems(1,400120,1,0,0);
+	PreviewAddItems(1,400121,1,0,0);
+	
+	
+	
+	
+// =============================================================
+
+	freeloop(0);
+	set .menu$,"";
+	for(set .@i,1; .@i<=getarraysize(.Shops$); set .@i,.@i+1) {
+		set .menu$, .menu$+.Shops$[.@i]+":";
+		npcshopdelitem "preview_gacha_shop2"+.@i,909;
+	}
+	end;
+
+OnMainMenu:
+
+	set .@size, getarraysize(@i);
+	if (!.@size) set .@i, select(.menu$);
+	else if (.@size == 1) set .@i, @i[0];
+	else {
+		for(set .@j,0; .@j<.@size; set .@j,.@j+1)
+			set .@menu$, .@menu$+.Shops$[@i[.@j]]+":";
+		set .@i, @i[select(.@menu$)-1];
+	}
+	deletearray @i[0],getarraysize(@i);
+	if (.Shops$[.@i] == "") {
+		message strcharinfo(0),"เกิดข้อผิดพลาด.";
+		end;
+	}
+	callshop "preview_gacha_shop2"+.@i,1;
+	npcshopattach "preview_gacha_shop2"+.@i;
+	end;
+
+OnBuyItem:
+	end;
+
+function PreviewAddItems {
+	
+	npcshopadditem "preview_gacha_shop2"+getarg(0),getarg(1),((.ShowZeny)?getarg(3):0);
+	return;
+}
+
+}
+
+function	script	preview_gacha_shop2	{
+
+	deletearray @i[0],getarraysize(@i);
+	for(set .@i,0; .@i<getargcount(); set .@i,.@i+1)
+		set @i[.@i],getarg(.@i);
+	doevent "preview_gacha2::OnMainMenu";
+	end;
+}
+
+-	shop	preview_gacha_shop21	-1,909:-1

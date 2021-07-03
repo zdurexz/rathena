@@ -1,0 +1,91 @@
+//==============================================
+//==============================================
+-	script	Auto_CleanLogDay1	-1,{
+	end;
+	
+OnClock0600:
+	//query_logsql "TRUNCATE `atcommandlog`";
+	query_logsql "TRUNCATE `branchlog`";
+	//query_logsql "TRUNCATE `cashlog`";
+	query_logsql "TRUNCATE `chatlog`";
+	query_logsql "TRUNCATE `feedinglog`";
+	//query_logsql "TRUNCATE `loginlog`";
+	query_logsql "TRUNCATE `mvplog`";
+	query_logsql "TRUNCATE `npclog`";
+	//query_logsql "TRUNCATE `picklog`";
+	//query_logsql "TRUNCATE `zenylog`";
+
+	//query_sql "TRUNCATE `charlog`";
+	query_sql "TRUNCATE `interlog`";
+	//query_sql "TRUNCATE `sc_data`";
+	query_sql "TRUNCATE `mail`";
+	query_sql "TRUNCATE `mail_attachments`";
+
+	end;
+}
+-	script	Auto_CleanLogDay2	-1,{
+	end;
+	
+OnClock1200:
+	//query_logsql "TRUNCATE `atcommandlog`";
+	query_logsql "TRUNCATE `branchlog`";
+	//query_logsql "TRUNCATE `cashlog`";
+	query_logsql "TRUNCATE `chatlog`";
+	query_logsql "TRUNCATE `feedinglog`";
+	//query_logsql "TRUNCATE `loginlog`";
+	query_logsql "TRUNCATE `mvplog`";
+	query_logsql "TRUNCATE `npclog`";
+	//query_logsql "TRUNCATE `picklog`";
+	//query_logsql "TRUNCATE `zenylog`";
+
+	//query_sql "TRUNCATE `charlog`";
+	query_sql "TRUNCATE `interlog`";
+	//query_sql "TRUNCATE `sc_data`";
+	query_sql "TRUNCATE `mail`";
+	query_sql "TRUNCATE `mail_attachments`";
+	end;
+}
+-	script	Auto_CleanLogNight1	-1,{
+	end;
+	
+OnClock1800:
+	//query_logsql "TRUNCATE `atcommandlog`";
+	query_logsql "TRUNCATE `branchlog`";
+	//query_logsql "TRUNCATE `cashlog`";
+	query_logsql "TRUNCATE `chatlog`";
+	query_logsql "TRUNCATE `feedinglog`";
+	//query_logsql "TRUNCATE `loginlog`";
+	query_logsql "TRUNCATE `mvplog`";
+	query_logsql "TRUNCATE `npclog`";
+	//query_logsql "TRUNCATE `picklog`";
+	//query_logsql "TRUNCATE `zenylog`";
+
+	//query_sql "TRUNCATE `charlog`";
+	query_sql "TRUNCATE `interlog`";
+	//query_sql "TRUNCATE `sc_data`";
+	query_sql "TRUNCATE `mail`";
+	query_sql "TRUNCATE `mail_attachments`";
+	end;
+}
+-	script	Auto_CleanLogNight2	-1,{
+	end;
+	
+OnClock0000:
+	//query_logsql "TRUNCATE `atcommandlog`";
+	query_logsql "TRUNCATE `branchlog`";
+	//query_logsql "TRUNCATE `cashlog`";
+	query_logsql "TRUNCATE `chatlog`";
+	query_logsql "TRUNCATE `feedinglog`";
+	//query_logsql "TRUNCATE `loginlog`";
+	query_logsql "TRUNCATE `mvplog`";
+	query_logsql "TRUNCATE `npclog`";
+	//query_logsql "TRUNCATE `picklog`";
+	//query_logsql "TRUNCATE `zenylog`";
+
+	//query_sql "TRUNCATE `charlog`";
+	query_sql "TRUNCATE `interlog`";
+	//query_sql "TRUNCATE `sc_data`";
+	query_sql "TRUNCATE `mail`";
+	query_sql "TRUNCATE `mail_attachments`";
+	end;
+}

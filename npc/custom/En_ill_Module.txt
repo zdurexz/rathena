@@ -1,0 +1,259 @@
+//===== Script =======================================
+//= Enchant Illusion Equipment 17.1
+//= By JumBo
+//====================================================
+sp_cor,114,130,6	script	Enchant illusion	4_SYS_MSG,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[RS26]";
+	mes "มีอะไรให้ข้าช่วยไหม.";
+	next;
+	switch( select( "รายละเอียด", "ออฟ Armor", "ออฟ Engine Wing", "ออฟ Leg", "ออฟ Acc L", "ออฟ Acc R" ) ) {
+	case 1:
+		mes "[RS26]";
+		mes "ถ้าเจ้านำ Modification Modules.";
+		mes "ที่เจ้ามี มาให้ข้า.";
+		mes "ข้าจะใส่ออฟลงไปในของสวมใส่ให้.";
+		next;
+		mes "[RS26]";
+		mes "Illusion Equipment แต่ละชิ้น.";
+		mes "สามารถออฟได้สูงสุด 3 ออฟ.";
+		mes "ติด 100% ไม่สามารถลบออฟ.";
+		mes "หรือออฟทับออฟเดิมได้.";
+		next;
+		mes "[RS26]";
+		mes "Modification Modules แต่ละอัน.";
+		mes "มีขีดความสามารถในการออฟของชิ้นเดียวกัน.";
+		mes "ที่แตกต่างกัน สูงสุดอยู่ที่ 3 ครั้ง.";
+		mes "ต่ำสุดคือมีได้แค่ออฟเดียวในของชิ้นนั้น.";
+		next;
+		mes "[RS26]";
+		mes "Modification Modules.";
+		mes "ในระดับ Legendary.";
+		mes "ออฟได้แค่อันเดียวเท่านั้น.";
+		close;
+	case 2:
+		.@part = EQI_ARMOR;
+		break;
+	case 3:
+		.@part = EQI_GARMENT;
+		break;	
+	case 4:
+		.@part = EQI_SHOES;
+		break;
+	case 5:
+		.@part = EQI_ACC_L;
+		break;	
+	case 6:
+		.@part = EQI_ACC_R;
+		break;
+	}
+	// <item ID required>, <item enchant ID>, <Armor>, <Garment>, <Legs>, <L>, <R>, <one only>
+	setarray .@list[0],
+		25670, 25670, 3,3,3,0,0,0,	// Modification_Module_DEF				Modification_Orb_DEF
+		25671, 25671, 3,3,3,0,0,0,	// Modification_Module_MDEF				Modification_Orb_MDEF
+		25672, 25672, 0,0,0,3,3,0,	// Modification_Module_Vit				Vit3
+		25673, 25673, 0,0,0,3,3,0,	// Modification_Module_Luk				Luk3
+		25674, 25674, 0,0,0,0,3,0,	// Modification_Module_Str				Str3
+		25675, 25675, 0,0,0,0,3,0,	// Modification_Module_Agi				Agi3
+		25676, 25676, 0,0,0,3,0,0,	// Modification_Module_Int				Int3
+		25677, 25677, 0,0,0,3,0,0,	// Modification_Module_Dex				Dex3
+		25678, 25678, 0,0,0,0,2,0,	// Modification_Module_HP_recovery		Modification_Orb_HP_recovery
+		25679, 25679, 0,0,0,2,0,0,	// Modification_Module_SP_recovery		Modification_Orb_SP_recovery
+		25680, 25680, 0,0,0,1,1,0,	// Modification_Module_Spell			Spell5
+		25681, 25681, 0,0,0,1,1,0,	// Modification_Module_Attack_Speed		ASPD4
+		25682, 25682, 0,0,0,1,1,0,	// Modification_Module_Fatal			Fatal4
+		25683, 25683, 0,0,0,1,1,0,	// Modification_Module_Expert_Archer	Expert_Archer5
+		25684, 25684, 0,0,2,0,0,0,	// Modification_Module_Vital			Modification_Orb_Health
+		25685, 25685, 0,0,2,0,0,0,	// Modification_Module_Mental			Modification_Orb_Spirit
+		25686, 25686, 0,0,2,0,0,0,	// Modification_Module_Heal				Modification_Orb_Heal
+		25687, 25687, 2,0,0,0,0,0,	// Modification_Module_Power			Modification_Orb_ATK
+		25688, 25688, 2,0,0,0,0,0,	// Modification_Module_Magic			Modification_Orb_MATK
+		25689, 25689, 2,0,0,0,0,0,	// Modification_Module_Shooter			Modification_Orb_Sharpshooter
+		25690, 25690, 0,2,0,0,0,0,	// Modification_Module_Fast				Modification_Orb_Speed
+		25691, 25691, 0,2,0,0,0,0,	// Modification_Module_Caster			Modification_Orb_Caster
+		25692, 25692, 0,2,0,0,0,0,	// Modification_Module_Critical			Modification_Orb_Critical
+		25693, 25693, 1,0,0,0,0,0,	// Modification_Module_Delay_After_Skill	Modification_Orb_Global_Delay
+		25694, 25694, 0,0,1,0,0,0,	// Modification_Module_Fixed_Casting	Modification_Orb_Fixed_Casting
+		25695, 25695, 0,1,0,0,0,0,	// Modification_Module_Above_All		Modification_Orb_Above_All
+		25696, 25696, 0,0,0,0,1,0,	// Modification_Module_Drain_Life		Modification_Orb_Drain_Life
+		25697, 25697, 0,0,0,1,0,0,	// Modification_Module_Drain_Soul		Modification_Orb_Drain_Soul
+		25698, 25698, 0,0,0,0,1,0,	// Modification_Module_Magic_Healing	Modification_Orb_Magic_Healing
+		25699, 25699, 0,0,0,1,0,0,	// Modification_Module_Magic_Soul		Modification_Orb_Magic_Soul
+		25700, 25700, 0,0,1,0,0,1,	// Modification_Module_Unlimited_Vital	Modification_Orb_Unlimited_Vitality
+		25701, 25701, 0,0,1,0,0,1,	// Modification_Module_Spell_Buster		Modification_Orb_Spell_Buster
+		25702, 25702, 0,0,1,0,0,1,	// Modification_Module_Firing_Shot		Modification_Orb_Fierce_Shooter
+		25703, 25703, 0,0,1,0,0,1,	// Modification_Module_Overpower		Modification_Orb_Overpower
+		25704, 25704, 0,0,1,0,0,1,	// Modification_Module_Fatal_Flash		Modification_Orb_Fatal_Flash
+		25705, 25705, 0,0,1,0,0,1;	// Modification_Module_Lucky_Strike		Modification_Orb_Lucky_Strike
+	.@size = getarraysize(.@list);
+		
+	for ( .@i = 0; .@i < .@size; .@i += 8 ) {
+		if (countitem(.@list[.@i]) < 1)
+			.@menu$ += sprintf( "^aaaaaa%s (ไม่มี)^000000:", getitemname(.@list[.@i]) );
+		else
+			.@menu$ += sprintf( "%s:", getitemname(.@list[.@i]) );
+	}	
+	mes "[RS26]";
+	mes "เลือกออฟที่เจ้าต้องการออฟ.";
+	next;
+	.@s = select("ออก.:" + .@menu$) - 2;
+	if (.@s < 0) {
+		mes "[RS26]";
+		mes "เวลามีค่า.";
+		close;
+	}
+	.@s *= 8;
+	.@item_req = .@list[.@s];
+	.@item_enchant_id = .@list[.@s+1];
+	.@one_slot_only = .@list[.@s+7];
+
+	.@equip_id = getequipid(.@part);
+	.@equip_refine = getequiprefinerycnt(.@part);
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+
+	if (countitem(.@item_req) < 1) {
+		mes "[RS26]";
+		mes "เวลามีค่า.";
+		close;
+	}	
+	if (.@part == EQI_ARMOR)
+		.@max_num_enchant = .@list[.@s+2];
+	else if (.@part == EQI_GARMENT)
+		.@max_num_enchant = .@list[.@s+3];
+	else if (.@part == EQI_SHOES)
+		.@max_num_enchant = .@list[.@s+4];
+	else if (.@part == EQI_ACC_L)
+		.@max_num_enchant = .@list[.@s+5];
+	else if (.@part == EQI_ACC_R)
+		.@max_num_enchant = .@list[.@s+6];
+	else {
+		mes "[RS26]";
+		mes "มีบางอย่างผิดพลาด.";
+		close;
+	}
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine)) {
+		mes "[RS26]";
+		mes "อย่าถอดหรือสลับของ.";
+		close;
+	}	
+	
+	if (.@card[0] > 0 && .@item_enchant_id == .@card[0]) { .@slot_sum++; }
+	if (.@card[1] > 0 && .@item_enchant_id == .@card[1]) { .@slot_sum++; }
+	if (.@card[2] > 0 && .@item_enchant_id == .@card[2]) { .@slot_sum++; }
+	if (.@card[3] > 0 && .@item_enchant_id == .@card[3]) { .@slot_sum++; }
+
+	if (.@max_num_enchant < 1) {
+		mes "[RS26]";
+		mes "ออฟที่เจ้าเลือก ใช้กับของสวมใส่นี้ไม่ได้.";
+		close;
+	}
+	if ((.@one_slot_only > 0) && ((.@card[0] == 29547) || (.@card[0] == 29548) || (.@card[0] == 29549) || (.@card[0] == 29550) || (.@card[0] == 29551) || (.@card[0] == 29552))) {
+		mes "[RS26]";
+		mes "ออฟระดับ Legendary ได้แค่อันเดียว!";
+		close;
+	}
+	if ((.@one_slot_only > 0) && ((.@card[1] == 29547) || (.@card[1] == 29548) || (.@card[1] == 29549) || (.@card[1] == 29550) || (.@card[1] == 29551) || (.@card[1] == 29552))) {
+		mes "[RS26]";
+		mes "ออฟระดับ Legendary ได้แค่อันเดียว!";
+		close;
+	}
+	if ((.@one_slot_only > 0) && ((.@card[2] == 29547) || (.@card[2] == 29548) || (.@card[2] == 29549) || (.@card[2] == 29550) || (.@card[2] == 29551) || (.@card[2] == 29552))) {
+		mes "[RS26]";
+		mes "ออฟระดับ Legendary ได้แค่อันเดียว!";
+		close;
+	}
+	if ((.@one_slot_only > 0) && ((.@card[3] == 29547) || (.@card[3] == 29548) || (.@card[3] == 29549) || (.@card[3] == 29550) || (.@card[3] == 29551) || (.@card[3] == 29552))) {
+		mes "[RS26]";
+		mes "ออฟระดับ Legendary ได้แค่อันเดียว!";
+		close;
+	}
+	if (.@slot_sum >= .@max_num_enchant) {
+		mes "[RS26]";
+		mes "จำนวนสูงสุดของออฟนี้คือ " + .@max_num_enchant + ". ของสวมใส่นี้ไม่สามารถรับเพิ่มได้อีก.";
+		close;
+	}
+	if (.@card[1] != 0) {
+		mes "[RS26]";
+		mes "ของสวมใส่ชิ้นนี้ออฟครบแล้ว.";
+		close;
+	}
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine)) {
+		mes "[RS26]";
+		mes "อย่าถอดหรือสลับของ.";
+		close;
+	}	
+		
+	
+	switch( .@equip_id ) {
+	case 15376:	// Illusion_Armor_A
+	case 15377:	// Illusion_Armor_B
+	case 20933:	// Illusion_Engine_A
+	case 20934:	// Illusion_Engine_B
+	case 22196:	// Illusion_Leg_A
+	case 22197:	// Illusion_Leg_B
+	case 32207:	// Illusion_B_R
+	case 32208:	// Illusion_B_L
+	case 32209:	// Illusion_BC_R
+	case 32210:	// Illusion_BC_L
+		break;
+	default:
+		mes "[RS26]";
+		mes "เจ้าไม่ได้ใส่ Illusion Equipment มา.";
+		close;
+	}
+	mes "[RS26]^0000ff";
+	mes "เลือก " + getequipname(.@part) + " กับ " + getitemname(.@item_req) + ",";
+	mes "^000000------------------";
+	mes "ออฟที่เจ้าเลือกสามารถออฟได้สูงสุด ^0000ff" + .@max_num_enchant + " ครั้งในของชิ้นเดียวกัน, ^000000ออฟไปแล้ว ^0000ff" + .@slot_sum + " ครั้ง^000000, เจ้าต้องการทำต่อเลยไหม ?";
+	next;
+	if (select( "ไว้โอกาสหน้า.", "จัดเลย." ) == 1) {
+		mes "[RS26]";
+		mes "เวลามีค่า.";
+		close;
+	}
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@equip_refine))
+		close;
+
+	if (.@card[3] == 0) {
+		.@enchant_count = 1;
+		.@card[3] = .@item_enchant_id;
+	}
+	else if (.@card[2] == 0) {
+		.@enchant_count = 2;
+		.@card[2] = .@item_enchant_id;
+	}
+	else if (.@card[1] == 0) {
+		.@enchant_count = 3;
+		.@card[1] = .@item_enchant_id;
+	}
+	else {
+		mes "[RS26]";
+		mes "The equipment has reached the upper limit of strengthening Hello!";
+		close;
+	}
+	specialeffect2 EF_REPAIRWEAPON;
+	mes "[RS26]";
+	if (.@enchant_count < 5)
+		mes "ของสวมใส่นี้ออฟไปแล้ว ^990000" + .@enchant_count + " ครั้ง^000000.";
+	else
+		mes "สำหรับของสวมใส่ที่ยังไม่^990000 ^000000 ออฟ.";
+
+	delitem .@item_req, 1;
+	delequip .@part;
+	getitem2 .@equip_id,1,1,.@equip_refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+	close;
+}

@@ -1,0 +1,76 @@
+//===== Hercules Script ======================================
+//= Stylist
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Description: =========================================
+//= Changes your hair style, hair color, and cloth color.
+//===== Additional Comments: =================================
+//= 1.1 Switched to 'getbattleflag', credits to Saithis. [Euphy]
+//= limit doram class hstyle and hcolor line(18,19). [HaureN]
+//============================================================
+
+prontera,171,185,4	script	เปลี่ยนชุดญี่ปุ่น	894,{
+	mes "[ช่างแต่งตัว]","บริการเปลี่ยนการแต่งตัว","เปลี่ยนชุดเป็นแบบญี่ปุ่น";
+	next;
+	if (BaseClass == Job_Gunslinger || BaseJob == Job_Novice || BaseJob == Job_SuperNovice || BaseClass == Job_Ninja || BaseClass == Job_Taekwon || BaseClass == JOB_SUMMONER) {
+		mes "[ช่างแต่งตัว]","ขอโทษด้วยนะ","เราสามารถเปลี่ยนรูปแบบได้ เฉพาะสายอาชีพปกติ";
+		close;
+	}
+	menu "เปลี่ยนชุดญี่ปุ่น",JP_1;
+	//menu "เปลี่ยนชุดญี่ปุ่น",JP_1;
+	JP_1:
+		menu "ชุดปกติ",L_1,"ชุดญี่ปุ่น",L_2;
+		L_1:
+		atcommand "@bodystyle 0";
+		set jpdress,0;
+		end;
+		L_2:
+		setlook LOOK_CLOTHES_COLOR,1;
+		atcommand "@bodystyle 1";
+		atcommand "@ccolor 0";
+		set jpdress,1;
+		end;
+	//JP_2:
+	setarray .@Styles[1],
+		3,
+		getbattleflag("max_hair_style"),
+		getbattleflag("max_hair_color");
+	
+	setarray .@Look[1],
+		LOOK_CLOTHES_COLOR,
+		LOOK_HAIR,
+		LOOK_HAIR_COLOR;
+	set .@s, select(" ~ สีเสื้อ: ~ ทรงผม: ~ สีผม");
+	set .@Revert, getlook(.@Look[.@s]); 
+	set .@Style,1;
+	while(1) {
+		setlook .@Look[.@s], .@Style;
+		message strcharinfo(0),"สไตล์ที่ #"+.@Style+".";
+		set .@menu$, " ~ ต่อไป (^0055FF"+((.@Style!=.@Styles[.@s])?.@Style+1:1)+"^000000): ~ ก่อนหน้า (^0055FF"+((.@Style!=1)?.@Style-1:.@Styles[.@s])+"^000000): ~ ข้ามไปที่...: ~ กลับสู่แบบเดิม (^0055FF"+.@Revert+"^000000)";
+		
+		switch(select(.@menu$)) {
+		case 1:
+			set .@Style, ((.@Style != .@Styles[.@s]) ? .@Style+1 : 1);
+			break;
+		case 2:
+			set .@Style, ((.@Style != 1) ? .@Style-1 : .@Styles[.@s]);
+			break;
+		case 3:
+			message strcharinfo(0),"เลือกสไตล์ระหว่าง 1 - "+.@Styles[.@s]+".";
+			input .@Style,0,.@Styles[.@s];
+			if (!.@Style)
+				set .@Style, rand(1,.@Styles[.@s]);
+			break;
+		case 4:
+			set .@Style, .@Revert;
+			setlook .@Look[.@s], .@Revert;
+			break;
+		}
+	}
+OnPCLoginEvent:
+	if(jpdress == 1) {
+	atcommand "@bodystyle 1";
+	end; }
+}

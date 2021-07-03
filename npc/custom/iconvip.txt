@@ -1,0 +1,12 @@
+-	script	vipicon	-1,{
+
+OnPCLoginEvent:
+    bonus_script_clear EFST_CASH_VIP;
+    
+    if(vip_status(VIP_STATUS_ACTIVE) || getgmlevel() >= 99){
+    bonus_script "{}",99999999,0,0,EFST_CASH_VIP;
+    message strcharinfo(0),"VIP จะหมดอายุใน : "+ gettimestr("%d-%m-%Y %H:%M:%S",21,vip_status(VIP_STATUS_EXPIRE));
+    }
+    
+    end;
+}

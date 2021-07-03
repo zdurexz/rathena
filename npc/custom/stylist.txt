@@ -1,0 +1,131 @@
+//===== Hercules Script ======================================
+//= Stylist
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Description: =========================================
+//= Changes your hair style, hair color, and cloth color.
+//===== Additional Comments: =================================
+//= 1.1 Switched to 'getbattleflag', credits to Saithis. [Euphy]
+//= limit doram class hstyle and hcolor line(18,19). [HaureN]
+//============================================================
+
+prontera,167,181,3	script	ช่างแต่งตัว	878,{
+	@doram_hc = 8;
+	if( Baseclass == 4046 ){
+		mes "[ช่างแต่งตัว]","ขอโทษด้วยนะ","สำหรับสายอาชีพ ^ff0000Taekwando^000000 เราสามารถเปลี่ยนรูปลักษณ์ได้ไม่กี่รูปแบบเท่านั้น";
+		next;
+		setarray .@Styles[1],
+			3,
+			getbattleflag("max_hair_style"),
+			getbattleflag("max_hair_color");
+	setarray .@Look[1],
+		LOOK_CLOTHES_COLOR,
+		LOOK_HAIR,
+		LOOK_HAIR_COLOR;
+	set .@s, select(" ~ สีเสื้อ: ~ ทรงผม: ~ สีผม");
+	set .@Revert, getlook(.@Look[.@s]); 
+	set .@Style,1;
+	while(1) {
+		setlook .@Look[.@s], .@Style;
+		message strcharinfo(0),"สไตล์ที่ #"+.@Style+".";
+		set .@menu$, " ~ ต่อไป (^0055FF"+((.@Style!=.@Styles[.@s])?.@Style+1:1)+"^000000): ~ ก่อนหน้า (^0055FF"+((.@Style!=1)?.@Style-1:.@Styles[.@s])+"^000000): ~ ข้ามไปที่...: ~ กลับสู่แบบเดิม (^0055FF"+.@Revert+"^000000)";
+		
+		switch(select(.@menu$)) {
+		case 1:
+			set .@Style, ((.@Style != .@Styles[.@s]) ? .@Style+1 : 1);
+			break;
+		case 2:
+			set .@Style, ((.@Style != 1) ? .@Style-1 : .@Styles[.@s]);
+			break;
+		case 3:
+			message strcharinfo(0),"เลือกสไตล์ระหว่าง 1 - "+.@Styles[.@s]+".";
+			input .@Style,0,.@Styles[.@s];
+			if (!.@Style)
+				set .@Style, rand(1,.@Styles[.@s]);
+			break;
+		case 4:
+			set .@Style, .@Revert;
+			setlook .@Look[.@s], .@Revert;
+			break;
+		}
+	}
+	}
+	if( Baseclass == 4218 ){
+		mes "[ช่างแต่งตัว]","ขอโทษด้วยนะ","สำหรับสายอาชีพ ^ff0000Doram^000000 เราสามารถเปลี่ยนรูปลักษณ์ได้ไม่กี่รูปแบบเท่านั้น";
+		next;
+		setarray .@Styles[1],6,8;
+	setarray .@Look[1],
+		LOOK_HAIR,
+		LOOK_HAIR_COLOR;
+	set .@s, select(" ~ ทรงผม: ~ สีผม");
+	set .@Revert, getlook(.@Look[.@s]); 
+	set .@Style,1;
+	while(1) {
+		setlook .@Look[.@s], .@Style;
+		message strcharinfo(0),"สไตล์ที่ #"+.@Style+".";
+		set .@menu$, " ~ ต่อไป (^0055FF"+((.@Style!=.@Styles[.@s])?.@Style+1:1)+"^000000): ~ ก่อนหน้า (^0055FF"+((.@Style!=1)?.@Style-1:.@Styles[.@s])+"^000000): ~ ข้ามไปที่...: ~ กลับสู่แบบเดิม (^0055FF"+.@Revert+"^000000)";
+		
+		switch(select(.@menu$)) {
+		case 1:
+			set .@Style, ((.@Style != .@Styles[.@s]) ? .@Style+1 : 1);
+			break;
+		case 2:
+			set .@Style, ((.@Style != 1) ? .@Style-1 : .@Styles[.@s]);
+			break;
+		case 3:
+			message strcharinfo(0),"เลือกสไตล์ระหว่าง 1 - "+.@Styles[.@s]+".";
+			input .@Style,0,.@Styles[.@s];
+			if (!.@Style)
+				set .@Style, rand(1,.@Styles[.@s]);
+			break;
+		case 4:
+			set .@Style, .@Revert;
+			setlook .@Look[.@s], .@Revert;
+			break;
+		}
+	}
+	}
+	else{
+		mes "[ช่างแต่งตัว]","บริการเปลี่ยนการแต่งตัว อย่างไรก็ตาม","หากคุณสวมใส่ชุดแบบใหม่อยู่ กรุณาใช้บริการ","^0000ffNPC New Stylist^000000";
+		next;
+		atcommand "@bodystyle 0";
+		set jpdress,0;
+		setarray .@Styles[1],
+			getbattleflag("max_cloth_color"),
+			getbattleflag("max_hair_style"),
+			getbattleflag("max_hair_color");
+	}
+	setarray .@Look[1],
+		LOOK_CLOTHES_COLOR,
+		LOOK_HAIR,
+		LOOK_HAIR_COLOR;
+	set .@s, select(" ~ สีเสื้อ: ~ ทรงผม: ~ สีผม");
+	set .@Revert, getlook(.@Look[.@s]); 
+	set .@Style,1;
+	while(1) {
+		setlook .@Look[.@s], .@Style;
+		message strcharinfo(0),"สไตล์ที่ #"+.@Style+".";
+		set .@menu$, " ~ ต่อไป (^0055FF"+((.@Style!=.@Styles[.@s])?.@Style+1:1)+"^000000): ~ ก่อนหน้า (^0055FF"+((.@Style!=1)?.@Style-1:.@Styles[.@s])+"^000000): ~ ข้ามไปที่...: ~ กลับสู่แบบเดิม (^0055FF"+.@Revert+"^000000)";
+		
+		switch(select(.@menu$)) {
+		case 1:
+			set .@Style, ((.@Style != .@Styles[.@s]) ? .@Style+1 : 1);
+			break;
+		case 2:
+			set .@Style, ((.@Style != 1) ? .@Style-1 : .@Styles[.@s]);
+			break;
+		case 3:
+			message strcharinfo(0),"เลือกสไตล์ระหว่าง 1 - "+.@Styles[.@s]+".";
+			input .@Style,0,.@Styles[.@s];
+			if (!.@Style)
+				set .@Style, rand(1,.@Styles[.@s]);
+			break;
+		case 4:
+			set .@Style, .@Revert;
+			setlook .@Look[.@s], .@Revert;
+			break;
+		}
+	}
+}

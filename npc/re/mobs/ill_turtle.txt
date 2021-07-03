@@ -1,0 +1,25 @@
+// Mapflags
+tur_d03_i	mapflag	nomemo
+tur_d04_i	mapflag	nomemo
+
+// Warp
+tur_d03_i,218,70,0	warp	t_ill01	1,1,tur_d04_i,99,192
+tur_d04_i,99,197,0	warp	t_ill02	1,1,tur_d03_i,218,75
+
+
+// Mob Spanw
+tur_d03_i,0,0,0,0	monster	Ominous Assulter	3799,15,5000
+tur_d03_i,0,0,0,0	monster	Ominous Permeter	3800,30,5000
+tur_d03_i,0,0,0,0	monster	Ominous Freezer	3801,30,5000
+tur_d03_i,0,0,0,0	monster	Ominous Solider	3802,30,5000
+tur_d03_i,0,0,0,0	monster	Ominous Heater	3803,30,5000
+
+
+
+tur_d04_i,0,0,0,0	monster	Ominous Assulter	3799,30,5000
+tur_d04_i,0,0,0,0	monster	Ominous Permeter	3800,30,5000
+tur_d04_i,0,0,0,0	monster	Ominous Freezer	3801,30,5000
+tur_d04_i,0,0,0,0	monster	Ominous Solider	3802,30,5000
+tur_d04_i,0,0,0,0	monster	Ominous Heater	3803,30,5000
+tur_d04_i,0,0,0,0	boss_monster	Ominous Turtle General	3804,1,7200000,600000,0
+

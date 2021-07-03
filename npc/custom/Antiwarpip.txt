@@ -1,0 +1,26 @@
+//กิจกรรม
+-	script	Auto_AntiWarpIP_49	-1,{
+OnInit:
+setmapflag	"quiz_02",	mf_loadevent;
+end;
+OnPCLoadMapEvent:
+if	(strcharinfo(3)	!=	"quiz_02")	end;
+set	.@size,	query_sql("SELECT	`account_id`	FROM	`login`	WHERE	`last_ip`	=	'"+getcharip()+"'",.@aid);	//	ถ้าไม่ต้องการเช็คให้ใส่	//	หน้า	set.
+if	(.@size	<	2)	end;
+set	.@self,	getcharid(3);
+for(set	.@i,0;	.@i<.@size;	set	.@i,.@i+1)	{
+if	(.@aid[.@i]	==	.@self)
+continue;
+if	(attachrid(.@aid[.@i]))	{
+if	(compare(strcharinfo(3),"quiz_02"))	{
+set	.@name$,	strcharinfo(0);
+attachrid(.@self);
+message	strcharinfo(0),"[ คำเตือน! ] อนุญาติให้เข้าแค่ 1 ตัวละคร ต่อ เครื่องเท่านั้น";
+sleep2	2000;
+warp	"SavePoint",0,0;
+end;
+}
+}
+}
+end;
+}

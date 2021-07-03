@@ -1,0 +1,333 @@
+prt_in,56,54,1	script	ใช้ใบตีบวก	10010,{
+	disable_items;
+	mes "[มดแดง]";
+	mes "ไม่ต้องพูดมาก";
+	mes "มีอะไรให้ข้าเสริมแกร่งแบบพิเศษ";
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	next;
+	
+	for(set .@i,1; .@i<=10; set .@i,.@i+1) {
+		if (getequipisequiped(.@indices[.@i])) {
+			set .@menu$, .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+			set .@equipped,1;
+		}
+		set .@menu$, .@menu$ + ":";
+	}
+	
+	if ( !.@equipped ) {
+		mes "[มดแดง]";
+		mes "เจ้าไม่มีอะไรต้องเสริมแกร่งอีกแล้ว";
+		close;
+	}
+	
+	set .@part, .@indices[ select(.@menu$) ];
+	
+	if ( !getequipisequiped(.@part) )
+		close;
+		
+	if ( !getequipisenableref(.@part) ) {
+		mes "[มดแดง]";
+		mes "เจ้าไม่มีอะไรต้องเสริมแกร่งอีกแล้ว";
+		close;
+	}
+	
+	if (getequiprefinerycnt(.@part) >= 20) {
+		mes "[มดแดง]";
+		mes "เจ้าไม่มีอะไรต้องเสริมแกร่งอีกแล้ว";
+		close;
+	}
+	
+	switch(getequipweaponlv(.@part)) {
+		case 1: callsub S_RefineValidate,1,501,0,.@part; break;
+		case 2: callsub S_RefineValidate,2,501,0,.@part; break;
+		case 3: callsub S_RefineValidate,3,501,0,.@part; break;
+		case 4: callsub S_RefineValidate,4,501,0,.@part; break;
+		default: callsub S_RefineValidate,0,501,0,.@part; break;
+	}
+	
+	downrefitem .@part,20;
+	successrefitem .@part,@item_tarts;
+	mes "[มดแดง]";
+	mes "ได้แล้ว";
+	close;
+	
+S_RefineValidate:
+	.@weapon_lvl = getarg(0);
+	menu " +6", L_1, " +7", L_2, " +8", L_3, " +9", L_4, " +11", L_5, " +13", L_6, " +14", L_7, " +15", L_8, " +16", L_9, " +17", L_10, " +18", L_11, " +19", L_12;
+	
+	L_1:
+		if(.@weapon_lvl == 0) {
+			if (countitem(6235) > 0) {
+				delitem 6235,1;
+				@item_tarts = 6;
+				return;
+			} else {
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		} else {
+			if (countitem(6231) > 0) {
+				delitem 6231,1;
+				@item_tarts = 6;
+				return;
+			} else {
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+		
+	L_2:
+		if(.@weapon_lvl == 0) {
+			if (countitem(6234) > 0) {
+				delitem 6234,1;
+				@item_tarts = 7;
+				return;
+			} else {
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		} else {
+			if (countitem(6230) > 0) {
+				delitem 6230,1;
+				@item_tarts = 7;
+				return;
+			} else {
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+		
+	L_3:
+		if(.@weapon_lvl == 0) {
+			if (countitem(6233) > 0) {
+				delitem 6233,1;
+				@item_tarts = 8;
+				return;
+			} else {
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		} else {
+			if (countitem(6229) > 0) {
+				delitem 6229,1;
+				@item_tarts = 8;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_4:
+		if(.@weapon_lvl == 0){
+			if (countitem(6232) > 0) {
+				delitem 6232,1;
+				@item_tarts = 9;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6228) > 0) {
+				delitem 6228,1;
+				@item_tarts = 9;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_5:
+		if(.@weapon_lvl == 0){
+			if (countitem(6239) > 0) {
+				delitem 6239,1;
+				@item_tarts = 11;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6238) > 0) {
+				delitem 6238,1;
+				@item_tarts = 11;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_6:
+		if(.@weapon_lvl == 0){
+			if (countitem(6876) > 0) {
+				delitem 6876,1;
+				@item_tarts = 13;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6870) > 0) {
+				delitem 6870,1;
+				@item_tarts = 13;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_7:
+		if(.@weapon_lvl == 0){
+			if (countitem(6877) > 0) {
+				delitem 6877,1;
+				@item_tarts = 14;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6871) > 0) {
+				delitem 6871,1;
+				@item_tarts = 14;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_8:
+		if(.@weapon_lvl == 0){
+			if (countitem(6878) > 0) {
+				delitem 6878,1;
+				@item_tarts = 15;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6872) > 0) {
+				delitem 6872,1;
+				@item_tarts = 15;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_9:
+		if(.@weapon_lvl == 0){
+			if (countitem(6879) > 0) {
+				delitem 6879,1;
+				@item_tarts = 16;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6873) > 0) {
+				delitem 6873,1;
+				@item_tarts = 16;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_10:
+		if(.@weapon_lvl == 0){
+			if (countitem(6880) > 0) {
+				delitem 6880,1;
+				@item_tarts = 17;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6874) > 0) {
+				delitem 6874,1;
+				@item_tarts = 17;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_11:
+		if(.@weapon_lvl == 0){
+			if (countitem(6881) > 0) {
+				delitem 6881,1;
+				@item_tarts = 18;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6875) > 0) {
+				delitem 6875,1;
+				@item_tarts = 18;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+	
+	L_12:
+		if(.@weapon_lvl == 0){
+			if (countitem(6865) > 0) {
+				delitem 6865,1;
+				@item_tarts = 19;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}else{
+			if (countitem(6864) > 0) {
+				delitem 6864,1;
+				@item_tarts = 19;
+				return;
+			}else{
+				mes "[มดแดง]";
+				mes "เจ้าไม่มีใบตีบวกตามที่เจ้าเลือก";
+				close;
+			}
+		}
+}

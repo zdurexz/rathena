@@ -1,0 +1,538 @@
+//===== Script =======================================
+//= EDDA Somatology Laboratory enchant
+//= By JumBo
+//= Location & NPC Sprite Unknown
+//====================================================
+yuno,214,350,4	script	Lavian	4_F_SCIENCE,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	setarray .@card[0], getequipcardid(EQI_HAND_R,0), getequipcardid(EQI_HAND_R,1), getequipcardid(EQI_HAND_R,2), getequipcardid(EQI_HAND_R,3);
+	.@refine = getequiprefinerycnt(EQI_HAND_R);
+	set @ennormal, callfunc("F_Rand",4832,4833,4834,4808,4820,4821,4818,4817,4816,4815,4814,4813,4863,4864,4865);
+	set @enclass, callfunc("F_Rand",29594,29595,29596,29598,29599,29600,29601,29602,29603,29604,29605,29606,29607);
+	
+	mes "[Lavian]";
+	mes "ข้าสามารถอัพเกรดความสามารถของอาวุธ EDDA Biolab ได้.";
+	mes "จำเป็นต้องมี Somatology Experimental Fragment และ.";
+	mes "Somatology Research Document สำหรับใช้ในการออฟ.";
+	mes "^FF0000คำเตือน :อาวุธ EDDA Biolab ลบออฟไม่ได้.^000000";
+	next;
+	switch( select( "ออฟอาวุธ EDDA Biolab", "รายละเอียด", "ออก" ) ) {
+	case 1:
+		.@equip_id = getequipid(EQI_HAND_R);
+		switch(.@equip_id) {
+			case 21051:// Volar
+			case 21052:// Vernan
+			case 32023:// Argen Blanco
+			case 1333:// Golden Wrench
+			case 16092:// Engine Pilebunker
+			case 28138:// Maxi Spanner
+			case 28765:// Judgment Slasher
+			case 28044:// Agudo Filo
+			case 28042:// Ripper Cross
+			case 26158:// Crimson Rose Stick
+			case 2055:// Staff of Miracle
+			case 2056:// Gravitation Staff
+			case 26161:// Penitentia
+			case 2057:// Adorare Staff
+			case 16095:// Lucis Flail
+			case 18185:// Sharp Star
+			case 18187:// Falken Shooter
+			case 18186:// Aiming Bow
+			case 32350:// Farthezan
+			case 32024:// Harve
+			case 32025:// Fartridge
+			case 32351:// Estal
+			case 16093:// Coolant Injection
+			case 16094:// Gene Rod
+			case 28767:// Jack the Knife
+			case 28768:// Platinum Dagger
+			case 18184:// Rapid Fire
+			case 28633:// Boltijin
+			case 26159:// Psychic Spear Rod
+			case 26160:// Dust Grave
+			case 1865:// Raging Dragon Fist
+			case 1866:// Fighting God's Bandage
+			case 16096:// Bright Pendulum
+			case 18188:// Wind Gale
+			case 26212:// Heart Whip
+			case 26213:// Scarlet Ribbon
+			case 32107:// Black Circle
+			case 32108:// Antique Cello
+			case 28766:// Repent Slasher
+				break;
+			default:
+				mes "[Lavian]";
+				mes "^FF0000เจ้าไม่ได้ใส่อาวุธ EDDA Biolab มาด้วย.^000000";
+				close;
+		}
+		mes "[Lavian]";
+		if (.@card[3] == 0) {
+			mes "ออฟช่องที่ 4 จะสุ่มออฟ ^0000cdExpert Archer^0000001-3 ,^0000cdFighting Spirit^0000004-6 ,^0000cdSharp^0000001-3 ,^0000cdSpell^0000001-3 ,^0000cdFatal^0000001-3.";
+			menu "General enchant",L_General,"Advanced enchant",L_Advanced,"ยกเลิก",L_Exit;
+		}
+		else if (.@card[2] == 0) {
+			mes "ออฟช่องที่ 3 จะสุ่มออฟ ตามอาชีพ.";
+			menu "General enchant",L_General2,"Advanced enchant",L_Advanced2,"Determined enchant",L_Determined,"ยกเลิก",L_Exit;
+		}
+		else
+			mes "^FF0000ออฟสูงสุดแล้วไม่สามารถออฟได้อีก.^000000";
+			close;
+	case 2:
+		mes "ข้าจะมีตัวเลือกในการออฟให้เจ้า 3 ข้อ.";
+		mes "1. ^0000cdGeneral enchant^000000 : ต้องการวัตถุดิบน้อยแต่เสี่ยงที่อาวุธจะเสียหาย.";
+		mes "2. ^0000cdAdvanced enchant^000000 : ต้องการวัตถุดิบพอประมาณ โอกาสติดสูง ไม่เสี่ยงที่อาวุธจะเสียหาย.";
+		mes "3. ^0000cdDetermined enchant^000000 : ต้องการวัตถุดิบจำนวนมาก สามารถเลือกออฟช่องที่ 3เองได้."; 
+		mes "^FF0000คำเตือน :อาวุธ EDDA Biolab ลบออฟไม่ได้.^000000";
+		close;
+	case 3:
+		mes "[Lavian]";
+		mes "ข้ารอเจ้าเสมอ.";
+		close;
+	}
+	
+	L_Exit:
+		next;
+		mes "[Lavian]";
+		mes "ข้ารอเจ้าเสมอ.";
+		close;
+		
+	L_General:	
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HAND_R, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@refine))
+		close;
+		if ((countitem(25787) < 50) || (countitem(25786) < 50)) {
+			mes "^FF0000เจ้ามี Somatology Experimental Fragment หรือ Somatology Research Document ไม่ถึง 50 อัน.^000000";
+			close;
+		}
+		next;
+		mes "[Lavian]";
+		mes "^FF0000มีโอกาสอาวุธเสียหาย 5%.^000000";
+		mes "อาวุธยังอยู่แต่ออฟไม่ติด 35%.";
+		mes "^0000cdโอกาสออฟสำเร็จ 65%.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		set .rate,rand(100);
+		progressbar "000000",1;
+		delitem 25787, 50;// Somatology Experimental Fragment
+		delitem 25786, 50;// Somatology Research Document
+		delequip EQI_HAND_R;
+			if (.rate < 5) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Lavian]";
+			mes "^FF0000อาวุธกลายเป็นฝุ่นไปแล้ว^000000.";
+			close;
+			}
+			else if (.rate < 40) {
+			specialeffect2 155;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			mes "[Lavian]";
+			mes "โชคดีที่อาวุธยังอยู่.";
+			close;
+			}
+			else {
+			specialeffect2 154;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@ennormal;
+			mes "[Lavian]";
+			mes "^0000cdออฟสำเร็จ.^000000";
+			close;
+			}
+		
+	L_Advanced:	
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HAND_R, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@refine))
+		close;
+		if ((countitem(25787) < 500) || (countitem(25786) < 500)) {
+			mes "^FF0000เจ้ามี Somatology Experimental Fragment หรือ Somatology Research Document ไม่ถึง 500 อัน.^000000";
+			close;
+		}
+		next;
+		mes "[Lavian]";
+		mes "^FF0000ไม่มีโอกาสอาวุธเสียหาย.^000000";
+		mes "อาวุธยังอยู่แต่ออฟไม่ติด 10%.";
+		mes "^0000cdโอกาสออฟสำเร็จ 90%.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		set .rate,rand(100);
+		progressbar "000000",1;
+		delitem 25787, 500;// Somatology Experimental Fragment
+		delitem 25786, 500;// Somatology Research Document
+		delequip EQI_HAND_R;
+			if (.rate < 10) {
+			specialeffect2 155;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			mes "[Lavian]";
+			mes "โชคดีที่อาวุธยังอยู่.";
+			close;
+			}
+			else {
+			specialeffect2 154;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@ennormal;
+			mes "[Lavian]";
+			mes "^0000cdออฟสำเร็จ.^000000";
+			close;
+			}	
+		
+	L_General2:	
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HAND_R, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@refine))
+		close;
+		if ((countitem(25787) < 50) || (countitem(25786) < 50)) {
+			mes "^FF0000เจ้ามี Somatology Experimental Fragment หรือ Somatology Research Document ไม่ถึง 50 อัน.^000000";
+			close;
+		}
+		next;
+		mes "[Lavian]";
+		mes "^FF0000มีโอกาสอาวุธเสียหาย 20%.^000000";
+		mes "อาวุธยังอยู่แต่ออฟไม่ติด 50%.";
+		mes "^0000cdโอกาสออฟสำเร็จ 30%.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		set .rate,rand(100);
+		progressbar "000000",1;
+		delitem 25787, 50;// Somatology Experimental Fragment
+		delitem 25786, 50;// Somatology Research Document
+		delequip EQI_HAND_R;
+			if (.rate < 20) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Lavian]";
+			mes "^FF0000อาวุธกลายเป็นฝุ่นไปแล้ว^000000.";
+			close;
+			}
+			else if (.rate < 70) {
+			specialeffect2 155;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			mes "[Lavian]";
+			mes "โชคดีที่อาวุธยังอยู่.";
+			close;
+			}
+			else {
+			specialeffect2 154;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enclass,.@card[3];
+			mes "[Lavian]";
+			mes "^0000cdออฟสำเร็จ.^000000";
+			close;
+			}	
+		
+	L_Advanced2:	
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HAND_R, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@refine))
+		close;
+		if ((countitem(25787) < 500) || (countitem(25786) < 500)) {
+			mes "^FF0000เจ้ามี Somatology Experimental Fragment หรือ Somatology Research Document ไม่ถึง 500 อัน.^000000";
+			close;
+		}
+		next;
+		mes "[Lavian]";
+		mes "^FF0000ไม่มีโอกาสอาวุธเสียหาย.^000000";
+		mes "อาวุธยังอยู่แต่ออฟไม่ติด 30%.";
+		mes "^0000cdโอกาสออฟสำเร็จ 70%.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		set .rate,rand(100);
+		progressbar "000000",1;
+		delitem 25787, 500;// Somatology Experimental Fragment
+		delitem 25786, 500;// Somatology Research Document
+		delequip EQI_HAND_R;
+			if (.rate < 30) {
+			specialeffect2 155;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+			mes "[Lavian]";
+			mes "โชคดีที่อาวุธยังอยู่.";
+			close;
+			}
+			else {
+			specialeffect2 154;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enclass,.@card[3];
+			mes "[Lavian]";
+			mes "^0000cdออฟสำเร็จ.^000000";
+			close;
+			}	
+		
+	L_Determined:	
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HAND_R, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@refine))
+		close;
+		if (countitem(25787) < 5000) {
+			mes "^FF0000เจ้ามี Somatology Experimental Fragment ไม่ถึง 5000 อัน.^000000";
+			close;
+		}
+		next;
+		mes "[Lavian]";
+		mes "^0000cdโอกาสออฟสำเร็จ 100%.^000000";
+		mes "เจ้าสามารถเลือกออฟที่ต้องการใส่อาวุธได้เลย.";
+		next;
+		switch( select( "Seyren's Memory", "Howard's Memory", "Eremes's Memory", "Kathryne's Memory", "Margaretha's Memory", "Cecil's Memory", "Randel's Memory", "Flamel's Memory", "Gertie's Memory", "Celia's Memory", "Chen's Memory", "Trentini's Memory", "Alphoccio's Memory") ) {
+	case 1:
+		mes "^0000cdSeyren's Memory^000000";
+		mes "Increases ^FF0000Bowling Bash^000000 damage by 10% and ^FF0000Ignition Break^000000 damage by 5% per 3 refine rate of ^0000cdVolar^000000.";
+		mes "Increases ^FF0000Clashing Spiral^000000 damage by 10% and ^FF0000Sonic Wave^000000 damage by 5% per 3 refine rate of ^0000cdVernan^000000.";
+		mes "Increases ^FF0000Brandish Spear^000000 damage by 10% and ^FF0000Hundred Spear^000000 damage by 5% per 3 refine rate of ^0000cdArgen Blanco^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29594,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;
+	case 2:
+		mes "^0000cdHoward's Memory^000000";
+		mes "Increases ^FF0000Power Swing^000000 damage by 7% and ^FF0000Axe Boomerang^000000 damage by 5% per 3 refine rate of ^0000cdGolden Wrench^000000.";
+		mes "Increases ^FF0000Knuckle Boost^000000 damage by 7% and ^FF0000Arm Cannon^000000 damage by 5% per 3 refine rate of ^0000cdEngine Pilebunker^000000.";
+		mes "Increases ^FF0000Axe Tornado^000000 damage by 7% and reduces physical and magical damage taken from all size enemies by 5% per 3 refine rate of ^0000cdMaxi Spanner^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29595,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;
+	case 3:
+		mes "^0000cdEremes's Memory^000000";
+		mes "Increases ^FF0000Meteor Assault^000000 and ^FF0000Soul Destroyer^000000 damage by 10%, ^FF0000Cross Impact^000000 and ^FF0000Counter Slash^000000 damage by 5% per 5 of the sum of refine rate of ^0000cdJudgment Slasher^000000 and ^0000cdRepent Slasher^000000.";
+		mes "Reduces cooldown of ^FF0000Dark Claw^000000 by 3 seconds and increases attack speed (reduces delay after attack by 2%) per 3 refine rate of ^0000cdAgudo Filo^000000.";
+		mes "Increases ^FF0000Rolling Cutter^000000 damage by 7% and ^FF0000Cross Ripper Slasher^000000 damage by 5% per 3 refine rate of ^0000cdRipper Cross^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29596,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 4:
+		mes "^0000cdKathryne's Memory^000000";
+		mes "Increases ^FF0000Hell Inferno^000000 damage by 7% and ^FF0000Crimson Rock^000000 damage by 5% per 3 refine rate of ^0000cdCrimson Rose Stick^000000.";
+		mes "Increases ^FF0000Soul Strike^000000 and ^FF0000Napalm Vulcan damage by 10% and ^FF0000Soul Expansion^000000 damage by 5% per 3 refine rate of ^0000cdStaff of Miracle^000000.";
+		mes "Increases ^FF0000Gravitational Field^000000 damage by 10% and ^FF0000Drain Life^000000 damage by 5% per 3 refine rate of ^0000cdGravitation Staff^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29598,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 5:
+		mes "^0000cdMargaretha's Memory^000000";
+		mes "Increases ^FF0000Magnus Exorcismus^000000 damage by 10% and ^FF0000Judex^000000 damage by 5% per 3 refine rate of ^0000cdPenitentia^000000.";
+		mes "Increases holy property magical damage by 5% and ^FF0000Adoramus^000000 damage by 5% per 3 refine rate of ^0000cdAdorare Staff^000000.";
+		mes "Increases ^FF0000Judex^000000 damage by 10% and ^FF0000Duple Light^000000 damage by 5% per 3 refine rate of ^0000cdLucis Flail^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29599,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 6:
+		mes "^0000cdCecil's Memory^000000";
+		mes "Increases critical damage by 5% and ^FF0000Focused Arrow Strike^000000 damage by 7% per 3 refine rate of ^0000cdSharp Star^000000.";
+		mes "Reduces SP consumption of ^FF0000Arrow Storm^000000 by 2% and reduces cooldown of ^FF0000No Limits^000000 by 15 seconds per 3 refine rate of ^0000cdFalken Shooter^000000.";
+		mes "Increases ^FF0000Aimed Bolt^000000 damage by 7% and reduces SP consumption of ^FF0000Aimed Bolt^000000 by 2% per 3 refine rate of ^0000cdAiming Bow^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29600,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 7:
+		mes "^0000cdRandel's Memory^000000";
+		mes "Increases ^FF0000Gloria Domini^000000 damage by 10% and ^FF0000Genesis Ray^000000 damage by 5% per 3 refine rate of ^0000cdFarthezan^000000.";
+		mes "Increases ^FF0000Rapid Smiting^000000 damage by 10% and ^FF0000Shield Press^000000 damage by 5?% per 3 refine rate of ^0000cdHarve^000000.";
+		mes "Increases ^FF0000Overbrand^000000 damage by 7% and ^FF0000Cannon Spear^000000 damage by 5% per 3 refine rate of ^0000cdFortridge^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29601,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 8:
+		mes "^0000cdFlamel's Memory^000000";
+		mes "Increases ^FF0000Spore Explosion^000000 damage by 7% and reduces cooldown of ^FF0000Spore Explosion^000000 by 0.2 second per 3 refine rate of ^0000cdEstal^000000.";
+		mes "Increases ^FF0000Cart Cannon^000000 damage by 7% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdCoolant Injection^000000.";
+		mes "Increases ^FF0000Crazy Weed^000000 damage by 7% and reduces cooldown of ^FF0000Crazy Weed^000000 by 0.2 second per 3 refine rate of ^0000cdGene Rod^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29602,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 9:
+		mes "^0000cdGertie's Memory^000000";
+		mes "Increases ^FF0000Back Stab^000000 damage by 10% and ^FF0000Fatal Menace^000000 damage by 5% per 3 refine rate of ^0000cdJack the Knife^000000.";
+		mes "Increases fire, water, wind and earth property magical damage by 5% and increases attack speed (reduces delay after attack by 2%) per 3 refine rate of ^0000cdPlatinum Dagger^000000.";
+		mes "Increases ^FF0000Triangle Shot^000000 damage by 7% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdRapid Fire^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29603,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 10:
+		mes "^0000cdCelia's Memory^000000";
+		mes "Increases ^FF0000Earth Spike^000000 damage by 10% and ^FF0000Heaven's Drive^000000 damage by 7% per 3 refine rate of ^0000cdBoltijin^000000.";
+		mes "Increases ^FF0000Psychic Wave^000000 damage by 7% and reduces cooldown of ^FF0000Varetyr Spear^000000 by 0.2 second per 3 refine rate of ^0000cdPsychic Spear Rod^000000.";
+		mes "Increases ^FF0000Earth Grave^000000 damage by 7% and ^FF0000Diamond Dust^000000 damage by 5% per 3 refine rate of ^0000cdDust Grave^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29604,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 11:
+		mes "^0000cdChen's Memory^000000";
+		mes "Increases ^FF0000Raging Quadruple Blow^000000 and ^FF0000Raging Thrust^000000 damage by 10%, ^FF0000Chain Crush Combo^000000 damage by 7% per 3 refine rate of ^0000cdRaging Dragon Fist^000000.";
+		mes "Increases ^FF0000Knuckle Arrow^000000 damage by 7% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdFighting God's Bandage^000000.";
+		mes "Increases ^FF0000Throw Spirit Sphere^000000 and ^FF0000Occult Impaction^000000 damage by 10%, ^FF0000Lightning Ride^000000 and ^FF0000Sky Blow^000000 damage by 5% per 3 refine rate of ^0000cdBright Pendulum^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29605,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 12:
+		mes "^0000cdTrentini's Memory^000000";
+		mes "Reduces SP consumption of ^FF0000Severe Rainstorm^000000 by 3% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdWind Gale^000000.";
+		mes "Increases neutral property magical damage by 5% and increases ^FF0000Metallic Sound^000000 damage by 5% per 3 refine rate of ^0000cdHeart Whip^000000.";
+		mes "Increases ^FF0000Severe Rainstorm^000000 damage by 5% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdScarlet Ribbon^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29606,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	case 13:
+		mes "^0000cdAlphoccio's Memory^000000";
+		mes "Reduces SP consumption of ^FF0000Severe Rainstorm^000000 by 3% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdWind Gale^000000.";
+		mes "Increases neutral property magical damage by 5% and increases ^FF0000Metallic Sound^000000 damage by 5% per 3 refine rate of ^0000cdBlack Circle^000000.";
+		mes "Increases ^FF0000Severe Rainstorm^000000 damage by 5% and increases long ranged physical damage by 2% per 3 refine rate of ^0000cdAntique Cello^000000.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Lavian]";
+			mes "ข้ารอเจ้าเสมอ.";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25787, 5000;// Somatology Experimental Fragment
+		delequip EQI_HAND_R;
+		specialeffect2 154;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],29607,.@card[3];
+		mes "[Lavian]";
+		mes "^0000cdออฟสำเร็จ.^000000";
+		close;	
+	}	
+	}	
+	

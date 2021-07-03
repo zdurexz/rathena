@@ -1,0 +1,583 @@
+//===== Script =======================================
+//= Illusion Dungeon Enchants
+//= By JumBo
+//====================================================
+prontera,90,115,5	script	Illusion Enchanter	4_GEFFEN_09,{
+	disable_items;
+	set @enarmor, callfunc("F_Rand",4700,4701,4702,4703,4730,4731,4732,4733,4740,4741,4742,4743,4710,4711,4712,4713,4720,4721,4722,4723,4750,4751,4752,4753,4861,4862,4867,4868,4993,29208,4992,29210,4994,4995,4997,4998,29009,29010,29000,29001,29003,29004,29006,29007);
+	set @enaccessory, callfunc("F_Rand",4700,4701,4702,4703,4730,4731,4732,4733,4740,4741,4742,4743,4710,4711,4712,4713,4720,4721,4722,4723,4750,4751,4752,4753,4795,4796,4797,4798,4928,4870,4800,4871);
+	set @enmelee, callfunc("F_Rand",4700,4701,4702,4703,4720,4721,4722,4723,4750,4751,4752,4753,4811,4810,4809,4808,4820,29081,29082,29083,29084,29085,29061,29062,29063,29064,29065,4807,4842);
+	set @enrange, callfunc("F_Rand",4730,4731,4732,4733,4720,4721,4722,4723,4750,4751,4752,4753,4832,4833,4834,4835,4836,29091,29092,29093,29094,29095,29071,29072,29073,29074,29075,4807,4842);
+	set @enmagic, callfunc("F_Rand",4710,4711,4712,4713,4720,4721,4722,4723,4750,4751,4752,4753,4815,4814,4813,4812,4826,4885,4886,4887,4888,4889,4805,4850);
+	
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Illusion Enchanter]";
+	mes "ถ้าเจ้ามีไอเท็มสวมใส่จาก Illusion Dungeon.";
+	mes "และ Illusion Stones 5 อัน.";
+	mes "ข้าสามารถออฟของให้เจ้าได้.";
+	next;
+	switch(select("Headgear.", "Armor.", "Garment.", "Shoes.", "Accessory L.", "Accessory R.", "Shield.", "Weapon.", "รายละเอียด.", "ยกเลิก.")) {
+	case 1:
+		.@part = EQI_HEAD_TOP;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 19210:// Illusion Apple of Archer
+			case 19247:// Illusion Fancy Flower
+			case 19366:// Illusion Goibne's Helm
+			case 19344:// Illusion Hot-blooded Headband
+			case 19209:// Illusion Nurse Cap
+			case 400053:// Illusion Morrigane's Helm
+			case 19223:// Illusion Cap
+			case 19428:// Illusion Morpheus's Hood
+		break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่หมวก Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchant,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;
+	case 2:
+		.@part = EQI_ARMOR;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 450146:// Illusion Chain Mail
+			case 15348:// Illusion Goibne's Armor
+			case 15195:// Illusion Puente Robe
+			case 450144:// Illusion Saint Robe
+			case 450145:// Illusion Saphien's Armor of Ocean			
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่ชุดเกราะ Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchant,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;
+	case 3:
+		.@part = EQI_GARMENT;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 20840:// Illusion Ancient Cape
+			case 20923:// Illusion Goibne's Spaulders
+			case 20948:// Illusion Morpheus's Shawl
+			case 480054:// Illusion Morrigane's Manteau
+			case 20838:// Illusion Muffler
+			case 20847:// Illusion Survivor Manteau
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่ผ้าคลุม Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchant,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;
+	case 4:
+		.@part = EQI_SHOES;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 22190:// Illusion Boots
+			case 22192:// Illusion Goibne's Greaves
+			case 22133:// Illusion Shoes
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่รองเท้า Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchant,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;	
+	case 5:
+		.@part = EQI_ACC_L;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 32239:// Illusion Morpheus's Bracelet L
+			case 490070:// Illusion Morrigane's Pendant L
+			case 28509:// Illusion Ring
+			case 28508:// Illusion Skull Ring
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่ประดับข้างซ้าย Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchantacc,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;
+	case 6:
+		.@part = EQI_ACC_R;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 32238:// Illusion Morpheus's Ring R
+			case 490069:// Illusion Morrigane's Belt R
+			case 28508:// Illusion Skull Ring
+			case 28509:// Illusion Ring
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่ประดับข้างขวา Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchantacc,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;	
+	case 7:
+		.@part = EQI_HAND_L;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 28922:// Illusion Sacred Mission
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่โล่ Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchant,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;	
+	case 8:
+		.@part = EQI_HAND_R;
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		.@equip_id = getequipid(.@part);
+		switch(.@equip_id) {
+			case 16063:// Illusion Long Mace
+			case 26007:// Illusion Spectral Spear
+			case 26109:// Illusion Staff of Bordeaux
+			case 13337:// Illusion Huuma Fluttering Snow
+			case 1846:// Illusion Combo Battle Glove
+			case 28022:// Illusion Infiltrator
+			case 28023:// Illusion Sharpened Legbone of Ghoul
+			case 2039:// Illusion Wizardry Staff
+			case 18149:// Illusion Ballista
+			case 13469:// Illusion Immaterial Sword
+			case 1326:// Illusion War Axe
+			case 13338:// Illusion Wing Shuriken
+			case 16065:// Illusion Iron Driver
+			case 28745:// Illusion Counter Dagger
+			case 28244:// Illusion Gate Keeper DD
+			case 2051:// Illusion Survivor's Staff
+			case 18174:// Illusion Hunter Bow
+			case 28254:// Illusion Butcher
+			case 21050:// Illusion Tae Goo Lyeon
+			case 28762:// Illusion Bazerald
+			case 28922:// Illusion Sacred Mission
+			case 32005:// Illusion Pole Axe
+			case 32301:// Illusion Gold Lux
+			case 580008:// Illusion Electric Eel
+			case 570008:// Illusion Electric Guitar
+			case 630006:// Illusion Brionac
+			case 610012:// Illusion Katar of Frozen Icicle
+			case 600011:// Illusion Death Guidance
+			case 630007:// IIllusion Zephyrus
+			
+				break;
+			default:
+				mes "[Illusion Enchanter]";
+				mes "^FF0000เจ้าไม่ได้ใส่อาวุธ Illusion มาด้วย.^000000";
+				close;
+			}
+		menu "ออฟไอเท็ม",L_Enchantweapon,"ลบออฟไอเท็ม",L_Reset,"ยกเลิก",L_Exit;
+		close;	
+	case 9:
+		mes "[Illusion Enchanter]";
+		mes "ถ้าเจ้ามีไอเท็มสวมใส่จาก Illusion Dungeon.";
+		mes "และ Illusion Stones 5 อัน.";
+		mes "ข้าสามารถออฟของให้เจ้าได้.";
+		mes "โอกาสออฟสำเร็จอยู่ที่ 100%.";
+		mes "ออฟได้มากสุด 2 ช่อง.";
+		next;
+		mes "[Illusion Enchanter]";
+		mes "ส่วนอาวุธจาก Illusion Dungeon.";
+		mes "ออฟได้แค่อาวุธเลเวลระดับ 3 เท่านั้น.";
+		next;
+		mes "[Illusion Enchanter]";
+		mes "สำหรับการลบออฟ.";
+		mes "ยิ่งราคาสูงโอกาสสำเร็จยิ่งสูง.";
+		mes "^FF0000คำเตือน :ถ้าลบออฟล้มเหลว ไอเท็มจะสูญหาย.^000000";
+		close;
+	case 10:
+		mes "[Illusion Enchanter]";
+		mes "กลับมาหาข้าได้ตลอด.";
+		close;
+	}	
+	
+	// anti-hack
+		if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@refine))
+		close;
+	
+	L_Enchant:	
+		mes "[Illusion Enchanter]";
+		if (countitem(25271) < 5) {
+			mes "^FF0000เจ้ามี Illusion Stone ไม่ถึง 5 อัน.^000000";
+			close;
+			}
+		if (.@card[3] == 0) {
+			mes "ออฟช่องที่ 4.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+			}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@enarmor;
+		close;
+		}
+		else if (.@card[2] == 0) {
+			mes "ออฟช่องที่ 3.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+			}	
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enarmor,.@card[3];
+		close;		
+		}
+		else
+			mes "^FF0000ออฟสูงสุดแล้วไม่สามารถออฟได้อีก.^000000";
+			close;
+		
+	L_Enchantacc:
+		mes "[Illusion Enchanter]";
+		if (countitem(25271) < 5) {
+			mes "^FF0000เจ้ามี Illusion Stone ไม่ถึง 5 อัน.^000000";
+			close;
+			}
+		if (.@card[3] == 0) {
+			mes "ออฟช่องที่ 4.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+			}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@enaccessory;
+		close;
+		}
+		else if (.@card[2] == 0) {	
+			mes "ออฟช่องที่ 3.";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+			}	
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enaccessory,.@card[3];	
+		close;	
+		}
+		else
+			mes "^FF0000ออฟสูงสุดแล้วไม่สามารถออฟได้อีก.^000000";
+			close;
+		
+	L_Enchantweapon:
+		mes "[Illusion Enchanter]";
+		if (countitem(25271) < 5) {
+			mes "^FF0000เจ้ามี Illusion Stone ไม่ถึง 5 อัน.^000000";
+			close;
+			}
+		if (.@card[3] == 0) {
+			mes "ออฟช่องที่ 4.";
+			mes "เลือกประเภทที่ต้องการออฟ.";
+		next;
+		switch(select("Melee.", "Range.", "Magic.", "ยกเลิก.")) {
+		case 1:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@enmelee;
+		close;
+		case 2:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@enrange;
+		close;
+		case 3:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],@enmagic;
+		close;
+		case 4:
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+		}
+	}
+		else if (.@card[2] == 0) {	
+			mes "ออฟช่องที่ 3.";
+			mes "เลือกประเภทที่ต้องการออฟ.";
+		next;
+		switch(select("Melee.", "Range.", "Magic.", "ยกเลิก.")) {
+		case 1:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enmelee,.@card[3];
+		close;
+		case 2:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enrange,.@card[3];
+		close;
+		case 3:
+			if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+		progressbar "000000",1;
+		specialeffect2 EF_REPAIRWEAPON;
+		delitem 25271, 5;// Illusion Stone
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],@enmagic,.@card[3];
+		close;
+		case 4:
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+		}
+	}
+		else
+			mes "^FF0000ออฟสูงสุดแล้วไม่สามารถออฟได้อีก.^000000";
+			close;	
+		
+	L_Reset:	
+		if (.@card[3] == 0) {
+			mes "[Illusion Enchanter]";
+			mes "ของยังไม่เคยออฟ ไม่สามารถลบออฟได้.";
+			close;
+		}
+		mes "[Illusion Enchanter]";
+		mes "เลือกราคาที่จะใช้ลบออฟ.";
+		mes "ยิ่งราคาสูงโอกาสสำเร็จยิ่งสูง.";
+		mes "^FF0000คำเตือน :ถ้าลบออฟล้มเหลว ไอเท็มจะสูญหาย.^000000";
+		next;
+		switch(select("100,000z - โอกาสสำเร็จ 50%.", "200,000z - โอกาสสำเร็จ 60%.", "300,000z - โอกาสสำเร็จ 70%.", "400,000z - โอกาสสำเร็จ 80%.", "1,000,000z - โอกาสสำเร็จ 95%.", "ยกเลิก.")) {
+		case 1:
+			if (Zeny < 100000){
+				mes "[Illusion Enchanter]";
+				mes "เจ้ามีเงินไม่พอ.";
+				close;
+			}
+			mes "[Illusion Enchanter]";
+			mes "โอกาสลบออฟสำเร็จ 50%.";
+			mes "เจ้าแน่ใจไหม ?";
+			next;
+			if (select( "ข้าแน่ใจ.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+			set .resuccess,rand(100);
+			Zeny -= 100000;
+			delequip .@part;
+			if (.resuccess < 50) {
+			specialeffect2 EF_REPAIRWEAPON;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+				mes "[Illusion Enchanter]";
+				mes "^0000cdลบออฟสำเร็จ.^000000";
+				close;
+				}
+			else
+			specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Illusion Enchanter]";
+				mes "^FF0000ของแตกจ้า.^000000";
+				close;
+		case 2:
+			if (Zeny < 200000){
+				mes "[Illusion Enchanter]";
+				mes "เจ้ามีเงินไม่พอ.";
+				close;
+			}
+			mes "[Illusion Enchanter]";
+			mes "โอกาสลบออฟสำเร็จ 60%.";
+			mes "เจ้าแน่ใจไหม ?";
+			next;
+			if (select( "ข้าแน่ใจ.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+			set .resuccess,rand(100);
+			Zeny -= 200000;
+			delequip .@part;
+			if (.resuccess < 60) {
+			specialeffect2 EF_REPAIRWEAPON;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+				mes "[Illusion Enchanter]";
+				mes "^0000cdลบออฟสำเร็จ.^000000";
+				close;
+				}
+			else
+			specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Illusion Enchanter]";
+				mes "^FF0000ของแตกจ้า.^000000";
+				close;
+		case 3:
+			if (Zeny < 300000){
+				mes "[Illusion Enchanter]";
+				mes "เจ้ามีเงินไม่พอ.";
+				close;
+			}
+			mes "[Illusion Enchanter]";
+			mes "โอกาสลบออฟสำเร็จ 70%.";
+			mes "เจ้าแน่ใจไหม ?";
+			next;
+			if (select( "ข้าแน่ใจ.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+			set .resuccess,rand(100);
+			Zeny -= 300000;
+			delequip .@part;
+			if (.resuccess < 70) {
+			specialeffect2 EF_REPAIRWEAPON;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+				mes "[Illusion Enchanter]";
+				mes "^0000cdลบออฟสำเร็จ.^000000";
+				close;
+				}
+			else
+			specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Illusion Enchanter]";
+				mes "^FF0000ของแตกจ้า.^000000";
+				close;
+		case 4:
+			if (Zeny < 400000){
+				mes "[Illusion Enchanter]";
+				mes "เจ้ามีเงินไม่พอ.";
+				close;
+			}
+			mes "[Illusion Enchanter]";
+			mes "โอกาสลบออฟสำเร็จ 80%.";
+			mes "เจ้าแน่ใจไหม ?";
+			next;
+			if (select( "ข้าแน่ใจ.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+			set .resuccess,rand(100);
+			Zeny -= 400000;
+			delequip .@part;
+			if (.resuccess < 80) {
+			specialeffect2 EF_REPAIRWEAPON;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+				mes "[Illusion Enchanter]";
+				mes "^0000cdลบออฟสำเร็จ.^000000";
+				close;
+				}
+			else
+			specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Illusion Enchanter]";
+				mes "^FF0000ของแตกจ้า.^000000";
+				close;
+		case 5:
+			if (Zeny < 1000000){
+				mes "[Illusion Enchanter]";
+				mes "เจ้ามีเงินไม่พอ.";
+				close;
+			}
+			mes "[Illusion Enchanter]";
+			mes "โอกาสลบออฟสำเร็จ 95%.";
+			mes "เจ้าแน่ใจไหม ?";
+			next;
+			if (select( "ข้าแน่ใจ.", "ข้ายังไม่พร้อม." ) == 2) {
+				mes "[Illusion Enchanter]";
+				mes "กลับมาหาข้าได้ตลอด.";
+				close;
+				}
+			set .resuccess,rand(100);
+			Zeny -= 1000000;
+			delequip .@part;
+			if (.resuccess < 95) {
+			specialeffect2 EF_REPAIRWEAPON;
+			getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],0,0;
+				mes "[Illusion Enchanter]";
+				mes "^0000cdลบออฟสำเร็จ.^000000";
+				close;
+				}
+			else
+			specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Illusion Enchanter]";
+				mes "^FF0000ของแตกจ้า.^000000";
+				close;
+		case 6:
+			mes "[Illusion Enchanter]";
+			mes "กลับมาหาข้าได้ตลอด.";
+			close;
+		}
+		
+	L_Exit:
+		mes "[Illusion Enchanter]";
+		mes "กลับมาหาข้าได้ตลอด.";
+		close;
+	}

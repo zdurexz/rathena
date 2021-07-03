@@ -1,0 +1,439 @@
+//===== rAthena Script =======================================
+//= Euphy's Quest Shop
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.6c
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A dynamic quest shop based on Lunar's, with easier config.
+//= Includes support for multiple shops & cashpoints.
+//= Item Preview script by ToastOfDoom.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.2 Added category support.
+//= 1.3 More options and fixes.
+//= 1.4 Added debug settings.
+//= 1.5 Replaced categories with shop IDs.
+//= 1.6 Added support for purchasing stackables.
+//= 1.6a Added support for previewing costumes and robes.
+//= 1.6b Added 'disable_items' command.
+//= 1.6c Replaced function 'A_An' with "F_InsertArticle".
+//============================================================
+
+// Shop NPCs -- supplying no argument displays entire menu.
+//	callfunc "rrshop"{,<shop ID>{,<shop ID>{,...}}};
+//  ADD YOUR NPC HERE
+//============================================================
+iz_d04_i,127,228,4	script	Underwater Disciple	705,{
+	mes "[Underwater Servant]","Have you ever heard this ?","The moon is my sun, the night is my day, blood is my life, and you are my prey.";
+	next;
+	mes "[Underwater Servant]","Greeting adventurer!, I'm a disciple of Vampire Lord.","What can I do for you?";
+	next;
+	menu "Ask about Illusion's equipment",pick1, "Just chilling around",pick2;
+		pick2: {
+			next;
+			mes "[Underwater Servant]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		pick1: {
+		next;
+		mes "[Underwater Servant]","Illusion equipments are the new choice to upgrade your weapon","it can endow +7 or higher equipments by absorb an energy from the special place.","just like Geffen Tower that have too powerful energy.";
+		next;
+		mes "[Underwater Servant]","Would you like to try ?","I can endow your weapon with your special ingredients";
+		next;
+		menu "Yes,of course",ask1, "See you next time",ask2;
+		ask2: {
+			next;
+			mes "[Underwater Servant]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		ask1:	menu "Illusion Electric Eel [2]",firm1, "Illusion Electric Guitar [2]",firm2, "Illusion Brionac [2]",firm3, "Illusion Katar of Frozen Icicle [2]",firm4, 
+					"Illusion Death Guidance [2]",firm5, "Illusion Zephyrus [3]",firm6, "Illusion Saint Robe [1]",firm7, "Illusion Saphien's Armor of Ocean [1]",firm8, "Illusion Chain Mail [1]",firm9, "Illusion Morrigane's Helm [1]",firm10, "Illusion Morrigane's Manteau [1]",firm11, "Illusion Morrigane's Belt [1]",firm12, "Illusion Morrigane's Pendant [1]",firm13;
+				firm1: {
+				mes "<ITEM>Illusion Electric Eel[2]<INFO>580008</INFO></ITEM>","  - +7 Electric Eel [2] ","  - 120 Illusion Stone","  - 150 Deep Sea Starfishes"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(580008,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25895 && @inventorylist_amount[.@i] >= 20) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1972 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25895,150;
+							getitem 580008,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm2: {
+				mes "<ITEM>Illusion Sharpened Leg bone of Ghoul [2]<INFO>570008</INFO></ITEM>","  - +7 Electric Guitar ","  - 120 Illusion Stone","  - 150 Deep Sea Starfishes"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(570008,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25895 && @inventorylist_amount[.@i] >= 150) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1913 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25895,150;
+							getitem 570008,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm3: {
+				mes "<ITEM>Illusion Brionac [2]<INFO>630006</INFO></ITEM>","  - +7 Brionac ","  - 120 Illusion Stone","  - 150 Deep Sea Fish Tails"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(630006,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25893 && @inventorylist_amount[.@i] >= 150) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1470 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25893,150;
+							getitem 630006,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm4: {
+				mes "<ITEM>Illusion Katar of Frozen Icicle [2]<INFO>610012</INFO></ITEM>","  - +7 Katar of Frozen Icicle [3] ","  - 120 Illusion Stone","  - 150 Deep Sea Crabs"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(610012,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25896 && @inventorylist_amount[.@i] >= 150) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1275 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25896,150;
+							getitem 610012,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm5: {
+				mes "<ITEM>Illusion Death Guidance [2]<INFO>600011</INFO></ITEM>","  - +7 Death Guidance [2] ","  - 120 Illusion Stone","  - 150 Corrupted Deep Sea Fishes"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(600011,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25894 && @inventorylist_amount[.@i] >= 150) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1186 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25894,150;
+							getitem 600011,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm6: {
+				mes "<ITEM>Illusion Zephyrus [3]<INFO>630007</INFO></ITEM>","  - +7 Zephyrus [3] ","  - 120 Illusion Stone","  - 150 Deep Sea Clam Shells"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(630007,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25892 && @inventorylist_amount[.@i] >= 150) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1481 && getequiprefinerycnt(EQI_HAND_R) >= 7) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,120;
+							delitem 25892,150;
+							getitem 630007,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm7: {
+				mes "<ITEM>Illusion Saint Robe [1]<INFO>450144</INFO></ITEM>","  -+7 Saint's Robe [1] ","  - 90 Illusion Stone","  - 20 Abyssal Essences ","  - 100 Deep Sea Fish Tails "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(450144,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 90) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 20) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25893 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+					}
+					if(getequipid(EQI_ARMOR) == 2326 && getequiprefinerycnt(EQI_ARMOR) >= 7) .@true[8] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ARMOR;
+							delitem 25271,90;
+							delitem 25899,20;
+							delitem 25893,100;
+							getitem 450144,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm8: {
+				mes "<ITEM>Illusion Saphien's Armor of Ocean [1]<INFO>450145</INFO></ITEM>","  -+7 Saphien's Armor of Ocean [1] ","  - 90 Illusion Stone","  - 20 Abyssal Essences ","  - 100 Deep Sea Crabs "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(450145,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 90) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 20) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25896 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+					}
+					if(getequipid(EQI_ARMOR) == 2347 && getequiprefinerycnt(EQI_ARMOR) >= 7) .@true[8] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ARMOR;
+							delitem 25271,90;
+							delitem 25899,20;
+							delitem 25896,100;
+							getitem 450145,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm9: {
+				mes "<ITEM>Illusion Chain Mail [1]<INFO>450146</INFO></ITEM>","  -+7 Chain Mail [1] ","  - 90 Illusion Stone","  - 20 Abyssal Essences ","  - 100 Deep Sea Starfishs "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(450146,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 90) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 20) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25895 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+					}
+					if(getequipid(EQI_ARMOR) == 2315 && getequiprefinerycnt(EQI_ARMOR) >= 7) .@true[8] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ARMOR;
+							delitem 25271,90;
+							delitem 25899,20;
+							delitem 25895,100;
+							getitem 450146,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm10: {
+				mes "<ITEM>Illusion Morrigane's Helm [1]<INFO>400053</INFO></ITEM>","  - +7 Morrigane's Helm ","  - 100 Illusion Stone","  - 50 Abyssal Essences ","  - 100 Deep Sea Crabs "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(400053,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 50) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25896 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+					}
+					if(getequipid(EQI_HEAD_TOP) == 5127 && getequiprefinerycnt(EQI_HEAD_TOP) >= 7) .@true[8] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HEAD_TOP;
+							delitem 25271,100;
+							delitem 25899,50;
+							delitem 25896,100;
+							getitem 400053,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm11: {
+				mes "<ITEM>Illusion Morrigane's Manteau [1]<INFO>480054</INFO></ITEM>","  - +7 Morrigane's Manteau ","  - 100 Illusion Stone","  - 50 Abyssal Essences ","  - 100 Deep Sea Fishes "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(480054,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 50) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25894 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+					}
+					if(getequipid(EQI_GARMENT) == 2519 && getequiprefinerycnt(EQI_GARMENT) >= 7) .@true[8] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_GARMENT;
+							delitem 25271,100;
+							delitem 25899,50;
+							delitem 25894,100;
+							getitem 480054,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm12: {
+				mes "<ITEM>Illusion Morrigane's Belt [1]<INFO>490069</INFO></ITEM>","  - Morrigane's Belt ","  - 100 Illusion Stone","  - 50 Abyssal Essences ","  - 100 Deep Sea Fish Tails "," - 15 Deep Sea Kraken's Legs "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(490069,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 50) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25893 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+						if(@inventorylist_id[.@i] == 7324 && @inventorylist_amount[.@i] >= 15) .@true[8] = 1;
+					}
+					if(getequipid(EQI_ACC_R) == 2650) .@true[9] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1 && .@true[9] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ACC_R;
+							delitem 25271,100;
+							delitem 25899,50;
+							delitem 25893,100;
+							delitem 7324,15;
+							getitem 490069,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm13: {
+				mes "<ITEM>Illusion Morrigane's Pendant [1]<INFO>490070</INFO></ITEM>","  - Morrigane's Pendant ","  - 100 Illusion Stone","  - 50 Abyssal Essences ","  - 100 Deep Sea Clam Shells "," - 15 Deep Sea Witch Crowns "," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(490070,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[5] = 1;
+						if(@inventorylist_id[.@i] == 25899 && @inventorylist_amount[.@i] >= 50) .@true[6] = 1;
+						if(@inventorylist_id[.@i] == 25892 && @inventorylist_amount[.@i] >= 100) .@true[7] = 1;
+						if(@inventorylist_id[.@i] == 25897 && @inventorylist_amount[.@i] >= 15) .@true[8] = 1;
+					}
+					if(getequipid(EQI_ACC_R) == 2651) .@true[9] = 1;
+					if (.@true[5] == 1 && .@true[6] == 1 && .@true[7] == 1 && .@true[8] == 1 && .@true[9] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ACC_R;
+							delitem 25271,100;
+							delitem 25899,50;
+							delitem 25892,100;
+							delitem 25897,15;
+							getitem 490070,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				
+				
+		}
+}
+
+iz_d04_i,132,228,4	script	Gemstone cutter#10	900,{
+mes "[Underwater Servant]","Do you want to cut 5 piece of ^0000ffAbyssal Essence^000000? to 1 ^ff0000Illusion Stone^000000 ?";
+	if (select("Yes:No" ) == 1) {
+		.@count = countitem(25899);
+		.@gem = .@count/5;
+		if (.@gem >= 1) {
+			next;
+			mes "[Underwater Servant]","Wow, It's a brilliant light","That's so Beautiful ore";
+			specialeffect2 567;
+			delitem 25899,.@gem*5;
+			getitem 25271,.@gem;
+			close;
+		}
+		else {
+			next;
+			mes "[Underwater Servant]","Too bad. You have insufficient gemstone";
+			close;
+		}
+	}
+	else {
+		next;
+		mes "[Underwater Servant]","Good luck. If you have some ^0000ffIllusion Gemstone^000000. please bring back to me";
+		close;
+	}
+}

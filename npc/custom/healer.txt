@@ -1,0 +1,351 @@
+//==============================================
+-	script	BuffsSupports	-1,{
+
+goto MAINBUFF;
+//OnPCBaseLvUpEvent:
+//	if(strnpcinfo(2) != "01")	end;
+OnTouch:
+MAINBUFF:
+	set .@delay, 3;	// ดีเลย์การใช้งาน (วินาที)
+	set .@cast, 1;	// ระยะเวลาร่าย (วินาที)
+	
+	if ( gettimetick(2)-@delay_heal < .@delay )
+		dispbottom "[ระบบ] โปรดรออีก "+(.@delay-(gettimetick(2)-@delay_heal))+" วินาทีถึงจะใช้งานได้อีกครั้งนะค่ะ";
+	else
+	{
+		progressbar "0x007000", .@cast;
+		//soundeffect "buff.wav",0;
+		
+		set @delay_heal, gettimetick(2);
+
+		//ข้อความที่ต้องการให้NPCพูด
+		//npctalk "[หลวงปู่เค็ม] ท่านได้รับพลังจากอภินิหารหลวงปู่เค็มแล้ว";
+		//เช็คไอเทมที่เสียหายถ้ามีซ่อมให้ทันที
+		if (getbrokenid(1) > 0) 
+		{ 
+			atcommand "@repairall";
+		}
+		
+		//แก้สถานะต่างๆ
+		sc_end SC_STAN;
+		sc_end SC_STUN;
+		sc_end SC_STONE;
+		sc_end SC_SLOWDOWN;
+		sc_end SC_FREEZE;
+		sc_end SC_SLEEP;
+		sc_end SC_CURSE;
+		sc_end SC_SILENCE;
+		sc_end SC_CONFUSION;
+		sc_end SC_BLIND;
+		sc_end SC_BLEEDING;
+		sc_end SC_DECREASEAGI;
+		sc_end SC_POISON;
+		sc_end SC_HALLUCINATION;
+		sc_end SC_STRIPWEAPON;
+		sc_end SC_STRIPARMOR;
+		sc_end SC_STRIPHELM;
+		sc_end SC_STRIPSHIELD;
+		sc_end SC_CHANGEUNDEAD;
+		sc_end SC_ORCISH;
+		sc_end SC_BERSERK;
+		sc_end SC_SKE;
+		sc_end SC_SWOO;
+		sc_end SC_SKA;
+		sc_end SC_BURNING;
+		sc_end SC_FREEZING;
+		sc_end SC_FEAR;
+
+		//บัพค่าอาหาร 30นาที Support rAthena
+		sc_start SC_STRFood, 1800000,10;
+		sc_start SC_AGIFood, 1800000,10;
+		sc_start SC_VITFood, 1800000,10;
+		sc_start SC_INTFood, 1800000,10;
+		sc_start SC_DEXFood, 1800000,10;
+		sc_start SC_LUKFood, 1800000,10;
+		
+		//บัพสกิลต่างๆ
+		sc_start SC_BLESSING,1800000,10;
+		sc_start SC_INCREASEAGI,1800000,10;
+		//sc_start 41,1800000,10; //กอเรีย
+		sc_start 40,1800000,5; // MAGNIFICAT เร่ง
+		if(agitcheck()){
+				sc_end SC_POEMBRAGI;
+				sc_end SC_SERVICE4U;
+				sc_end SC_ASSNCROS;
+				sc_end SC_APPLEIDUN;
+			dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ ทั่วไป  ยกเลิกสถานะ ( บากิ & เซอร์วิส ) เนื่องจากอยู่ในช่วงเวลา สงครามชิงปราสาท)";
+		//}else{
+			//sc_start4 SC_POEMBRAGI,1000*60*5,5,70,90,10;
+			//sc_start4 SC_SERVICE4U,1000*60*5,5,40,40,1;
+			//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ ทั่วไป ในขณะคุณได้อยู่ในสถานะ ( บากิ & เซอร์วิส ) เป็นเวลา 5 นาที (ไม่สามารถใช้ได้ใน สนามประลอง & สงครามชิงปราสาท ได้)";
+		}
+
+		//เพิ่มHPและSP 100%
+		percentheal 100,1; 
+		
+		//เอฟเฟกเพิ่มความสวยงาม
+		//specialeffect 509;
+		//specialeffect 410;
+		//specialeffect2 509;
+		specialeffect2 EF_HEAL2;
+		specialeffect2 EF_INCAGILITY;
+		specialeffect2 EF_BLESSING;
+		//==============================================
+		//==============================================
+		//==============================================
+		
+		//ส่องไอเทมปริศนาที่มีในตัวทั้งหมด
+			atcommand "@identifyall";
+
+		
+		
+		// VIP บัพ
+		if(vip_status(VIP_STATUS_ACTIVE) || getgmlevel() >= 99){
+			sc_start SC_BLESSING,1800000,10;
+			sc_start SC_INCREASEAGI,1800000,10;
+			//sc_start 72,900000,5; // WEAPON เคลือบอาวุธ
+			//sc_start 73,900000,5; // SHIELD เคลือบโล่
+			//sc_start 74,900000,5; // ARMOR เคลือบชุดเกราะ
+			//sc_start 75,900000,5; // HELM เคลือบส่วนหัว
+			//sc_start SC_SpeedUp1,1800000,1; //วิ่งเร็ว
+			//sc_start SC_ATKPOTION,1800000,50; //+atk
+			//sc_start SC_MATKPOTION,1800000,50; //+matk
+			//sc_start SC_ENDURE,1800000,10;
+			//sc_start 29,1800000,10; //แอง
+			//sc_start SC_IMPOSITIO,1800000,5;
+			//sc_start 41,180000,10; //กอเรีย
+			//sc_start 34,1800000,1; //พิษ
+			//sc_start 121,1800000,10; //วินวอค
+			//sc_start 39,1800000,10; //ไครี่
+			//sc_start 120,1800000,10; // Falconeye
+			//sc_start 36,1800000,10; // SUFFRAGIUM ร่ายไว
+			//sc_start 115,1800000,5; // ASSUMPTIO ถึก
+			sc_start 40,180000,5; // MAGNIFICAT เร่ง
+			//sc_start 44,1800000,5; // WEAPONPERFECTION เพิ่มโจมตี 100% อาวุธ
+			//sc_start 46,1800000,5; //MAXIMIZEPOWER โจมตีแรงที่สุด
+			//sc_start SC_HitFood,900000,10;
+			//sc_start SC_FleeFood,900000,10;
+			//sc_start SC_BATKFood,900000,10;
+			//sc_start SC_MATKFood,900000,10;
+			sc_start SC_STRFood, 1800000,5;
+			sc_start SC_AGIFood, 1800000,5;
+			sc_start SC_VITFood, 1800000,5;
+			sc_start SC_INTFood, 1800000,5;
+			sc_start SC_DEXFood, 1800000,5;
+			sc_start SC_LUKFood, 1800000,5;
+			
+			if(agitcheck()){
+				sc_end SC_POEMBRAGI;
+				sc_end SC_SERVICE4U;
+				sc_end SC_ASSNCROS;
+				sc_end SC_APPLEIDUN;
+				dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ VIP ได้รับ บัพช่วยเหลือพิเศษ & ยกเลิกสถานะ ( บากิ & เซอร์วิส ) เนื่องจากอยู่ในช่วงเวลา สงครามชิงปราสาท)";
+			}else{
+				sc_start4 SC_POEMBRAGI,1000*60*15,5,70,90,10;
+				sc_start4 SC_SERVICE4U,1000*60*15,5,40,40,1;
+				//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ VIP ได้รับ บัพช่วยเหลือพิเศษ & ในขณะคุณได้อยู่ในสถานะ ( บากิ & เซอร์วิส ) เป็นเวลา 15 นาที (ไม่สามารถใช้ได้ใน สนามประลอง & สงครามชิงปราสาท ได้)";
+			}
+			
+			//เพิ่มHPและSP 100%
+			percentheal 100,100; 
+			
+			//เอฟเฟกเพิ่มความสวยงาม
+			//specialeffect 509;
+			//specialeffect 410;
+			//specialeffect2 509;
+			specialeffect2 EF_HEAL2;
+			specialeffect2 EF_INCAGILITY;
+			specialeffect2 EF_BLESSING;
+			//==============================================
+			//==============================================
+			//==============================================
+		}
+		end;
+	}
+}
+
+//==============================================
+//ที่ตั้งNPC
+//==============================================
+alberta,25,240,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#011	834
+aldebaran,135,118,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#012	834
+amatsu,200,79,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#013	834
+ayothaya,207,169,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#014	834
+comodo,184,158,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#015	834
+einbech,57,36,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#016	834
+einbroch,57,202,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#017	834
+geffen,115,72,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#018	834
+gonryun,156,122,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#019	834
+
+hugel,89,150,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0120	834
+izlude,121,150,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0121	834
+jawaii,250,139,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0122	834
+lighthalzen,152,100,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0123	834
+louyang,226,103,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0124	834
+manuk,272,144,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0125	834
+mid_camp,203,289,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0126	834
+moc_ruins,72,164,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0127	834
+morocc,153,97,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0128	834
+moscovia,220,191,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0129	834
+niflheim,212,182,5	duplicate(BuffsSupports)	หลวงปู่เค็ม#0130	834
+payon,179,106,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0131	834
+prontera,162,193,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0132	834
+prontera,202,182,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0233	834
+prontera,109,191,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0334	834
+prontera,159,283,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0435	834
+prontera,196,258,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0536	834
+rachel,125,116,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0137	834
+splendide,201,153,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0138	834
+thor_camp,249,74,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0139	834
+umbala,105,148,3	duplicate(BuffsSupports)	หลวงปู่เค็ม#0140	834
+veins,217,121,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0141	834
+xmas,143,136,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0142	834
+yuno,164,45,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0143	834
+brasilis,194,221,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0144	834
+dewata,195,187,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0145	834
+dicastes01,201,194,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0146	834
+ecl_in01,45,60,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0147	834
+malangdo,132,114,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0148	834
+malaya,227,204,6	duplicate(BuffsSupports)	หลวงปู่เค็ม#0149	834
+mora,55,152,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0150	834
+verus04,125,243,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0151	834
+harboro1,294,206,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0152	834
+sp_cor,157,171,4	duplicate(BuffsSupports)	หลวงปู่เค็ม#0153	834
+
+//==============================================
+
+/*-	script	BuffsSupportsLvUp	-1,{
+	end;
+
+OnPCBaseLvUpEvent:
+		//เช็คไอเทมที่เสียหายถ้ามีซ่อมให้ทันที
+		if (getbrokenid(1) > 0)
+		{
+			atcommand "@repairall"; 
+		}
+		
+		//แก้สถานะต่างๆ
+		//sc_end SC_STAN;
+		//sc_end SC_STUN;
+		//sc_end SC_STONE;
+		//sc_end SC_SLOWDOWN;
+		//sc_end SC_FREEZE;
+		//sc_end SC_SLEEP;
+		//sc_end SC_CURSE;
+		//sc_end SC_SILENCE;
+		//sc_end SC_CONFUSION;
+		//sc_end SC_BLIND;
+		//sc_end SC_BLEEDING;
+		//sc_end SC_DECREASEAGI;
+		//sc_end SC_POISON;
+		//sc_end SC_HALLUCINATION;
+		//sc_end SC_STRIPWEAPON;
+		//sc_end SC_STRIPARMOR;
+		//sc_end SC_STRIPHELM;
+		//sc_end SC_STRIPSHIELD;
+		//sc_end SC_CHANGEUNDEAD;
+		//sc_end SC_ORCISH;
+		//sc_end SC_BERSERK;
+		//sc_end SC_SKE;
+		//sc_end SC_SWOO;
+		//sc_end SC_SKA;
+		//sc_end SC_BURNING;
+		//sc_end SC_FREEZING;
+		//sc_end SC_FEAR;
+
+		//บัพค่าอาหาร 30นาที Support rAthena
+		//sc_start SC_STRFood, 1800000,5;
+		//sc_start SC_AGIFood, 1800000,5;
+		//sc_start SC_VITFood, 1800000,5;
+		//sc_start SC_INTFood, 1800000,5;
+		//sc_start SC_DEXFood, 1800000,5;
+		//sc_start SC_LUKFood, 1800000,5;
+		
+		//บัพสกิลต่างๆ
+		//sc_start SC_BLESSING,1800000,10;
+		//sc_start SC_INCREASEAGI,1800000,10;
+		//sc_start 41,1800000,10; //กอเรีย
+		//sc_start 40,1800000,10; // MAGNIFICAT เร่ง
+		if(agitcheck()){
+				//sc_end SC_POEMBRAGI;
+				//sc_end SC_SERVICE4U;
+				//sc_end SC_ASSNCROS;
+				//sc_end SC_APPLEIDUN;
+			//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ ทั่วไป  ยกเลิกสถานะ ( บากิ & เซอร์วิส ) เนื่องจากอยู่ในช่วงเวลา สงครามชิงปราสาท)";
+		}else{
+			//sc_start4 SC_POEMBRAGI,1000*60*5,5,70,90,10;
+			//sc_start4 SC_SERVICE4U,1000*60*5,5,40,40,1;
+			//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ ทั่วไป ในขณะคุณได้อยู่ในสถานะ ( บากิ & เซอร์วิส ) เป็นเวลา 5 นาที (ไม่สามารถใช้ได้ใน สนามประลอง & สงครามชิงปราสาท ได้)";
+		}
+
+		//เพิ่มHPและSP 100%
+		percentheal 100,0; 
+		
+		//เอฟเฟกเพิ่มความสวยงาม
+		//specialeffect 509;
+		//specialeffect 410;
+		//specialeffect2 509;
+		//specialeffect2 EF_HEAL2;
+		//specialeffect2 EF_INCAGILITY;
+		//specialeffect2 EF_BLESSING;
+		//==============================================
+		//==============================================
+		//==============================================
+		
+		//ส่องไอเทมปริศนาที่มีในตัวทั้งหมด
+			atcommand "@identifyall";
+		
+		
+		// VIP บัพ
+		if(vip_status(VIP_STATUS_ACTIVE) || getgmlevel() >= 99){
+			//sc_start 72,1800000,5; // WEAPON เคลือบอาวุธ
+			//sc_start 73,1800000,5; // SHIELD เคลือบโล่
+			//sc_start 74,1800000,5; // ARMOR เคลือบชุดเกราะ
+			//sc_start 75,1800000,5; // HELM เคลือบส่วนหัว
+			//sc_start SC_SpeedUp1,1800000,1; //วิ่งเร็ว
+			//sc_start SC_ATKPOTION,1800000,50; //+atk
+			//sc_start SC_MATKPOTION,1800000,50; //+matk
+			//sc_start SC_ENDURE,1800000,10;
+			//sc_start 29,1800000,10; //แอง
+			//sc_start SC_IMPOSITIO,600000,5;
+			//sc_start 41,600000,5; //กอเรีย
+			//sc_start 34,1800000,1; //พิษ
+			//sc_start 121,1800000,10; //วินวอค
+			//sc_start 39,1800000,10; //ไครี่
+			//sc_start 120,1800000,10; // Falconeye
+			//sc_start 36,1800000,10; // SUFFRAGIUM ร่ายไว
+			//sc_start 115,1800000,5; // ASSUMPTIO ถึก
+			//sc_start 40,600000,5; // MAGNIFICAT เร่ง
+			//sc_start 44,1800000,5; // WEAPONPERFECTION เพิ่มโจมตี 100% อาวุธ
+			//sc_start 46,1800000,5; //MAXIMIZEPOWER โจมตีแรงที่สุด
+			//sc_start SC_HitFood,600000,10;
+			//sc_start SC_FleeFood,600000,10;
+			//sc_start SC_BATKFood,600000,10;
+			//sc_start SC_MATKFood,600000,10;
+			
+			if(agitcheck()){
+				//sc_end SC_POEMBRAGI;
+				//sc_end SC_SERVICE4U;
+				//sc_end SC_ASSNCROS;
+				//sc_end SC_APPLEIDUN;
+				//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ VIP ได้รับ บัพช่วยเหลือพิเศษ & ยกเลิกสถานะ ( บากิ & เซอร์วิส ) เนื่องจากอยู่ในช่วงเวลา สงครามชิงปราสาท)";
+			}else{
+				//sc_start4 SC_POEMBRAGI,1000*60*15,5,70,90,10;
+				//sc_start4 SC_SERVICE4U,1000*60*15,5,40,40,1;
+				//dispbottom "[หลวงปู่เค็ม] คุณ เป็นผู้เล่น ระดับ VIP ได้รับ บัพช่วยเหลือพิเศษ & ในขณะคุณได้อยู่ในสถานะ ( บากิ & เซอร์วิส ) เป็นเวลา 15 นาที (ไม่สามารถใช้ได้ใน สนามประลอง & สงครามชิงปราสาท ได้)";
+			}
+			
+			//เพิ่มHPและSP 100%
+			percentheal 100,100; 
+			
+			//เอฟเฟกเพิ่มความสวยงาม
+		specialeffect2 509;
+		//specialeffect2 EF_HEAL2;
+		//specialeffect2 EF_INCAGILITY;
+		//specialeffect2 EF_BLESSING;
+			//==============================================
+			//==============================================
+			//==============================================
+		end;
+	}
+	}*/

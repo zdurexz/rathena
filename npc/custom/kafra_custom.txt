@@ -1,0 +1,64 @@
+prontera,152,192,6	script	Kafra Employee#97	4_F_KAFRA1,{
+	cutin "kafra_01",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับ~!";
+	mes "Kafra Services";
+	mes "อยู่ข้างคุณเสมอ";
+	mes "ฉันจะช่วยคุณได้อย่างไร";
+	callfunc "F_Kafra",5,0,0,30,750;
+	savepoint "prontera",155,183,1,1;
+	callfunc "F_KafEnd",0,1,"ในเมือง Prontera";
+}
+
+prontera,205,182,6	script	Kafra Employee#98	4_F_KAFRA1,{
+	cutin "kafra_01",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับ~!";
+	mes "Kafra Services";
+	mes "อยู่ข้างคุณเสมอ";
+	mes "ฉันจะช่วยคุณได้อย่างไร";
+	callfunc "F_Kafra",5,0,0,30,750;
+	savepoint "prontera",203,175,1,1;
+	callfunc "F_KafEnd",0,1,"ในเมือง Prontera";
+}
+
+prontera,112,191,6	script	Kafra Employee#99	4_F_KAFRA1,{
+	cutin "kafra_01",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับ~!";
+	mes "Kafra Services";
+	mes "อยู่ข้างคุณเสมอ";
+	mes "ฉันจะช่วยคุณได้อย่างไร";
+	callfunc "F_Kafra",5,0,0,30,750;
+	savepoint "prontera",110,186,1,1;
+	callfunc "F_KafEnd",0,1,"ในเมือง Prontera";
+}
+
+prontera,151,283,6	script	Kafra Employee#100	4_F_KAFRA1,{
+	cutin "kafra_01",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับ~!";
+	mes "Kafra Services";
+	mes "อยู่ข้างคุณเสมอ";
+	mes "ฉันจะช่วยคุณได้อย่างไร";
+	callfunc "F_Kafra",5,0,0,30,750;
+	savepoint "prontera",155,278,1,1;
+	callfunc "F_KafEnd",0,1,"ในเมือง Prontera";
+}
+
+prontera,206,258,6	script	Kafra Employee#101	4_F_KAFRA1,{
+	cutin "kafra_01",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับ~!";
+	mes "Kafra Services";
+	mes "อยู่ข้างคุณเสมอ";
+	mes "ฉันจะช่วยคุณได้อย่างไร";
+	callfunc "F_Kafra",5,0,0,30,750;
+	savepoint "prontera",202,253,1,1;
+	callfunc "F_KafEnd",0,1,"ในเมือง Prontera";
+}	

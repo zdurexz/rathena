@@ -1,0 +1,263 @@
+prontera,134,208,6	script	Gachapon costume	506,{
+
+setarray .OTH_ITEMLIST[0],19526,19527,19541,19575,19684,19702,19707,19710,19747,19751,19752,19753,19774,19837,19883,19937,20025,20037,20455;
+setarray .COSN_ITEMLIST[0],18742,18744,19158,19433,19589,19769,19787,19859,19910,20154,20246,20247,20798;
+setarray .RARE_ITEMLIST[0],18740,19539,20510,20514,20515,20519,20524,20530,20588;
+setarray .min_amount,1;
+setarray .max_amount,1;
+	
+	mes "^000099[Gachapon]^000000";
+	mes "คุณ ^FF0000[ "+ strcharinfo(0) +" ] อยากเสี่ยงดวงไหม ใช้ บัตร Gachapon Card  1 Ea^000000";
+	next;
+	menu "^009933•^000000 จัดไป",L_ok,"^009933•^000000 ตัวอย่างของรางวัล",L_view,"^009933•^000000 ไว้ก่อน",L_no;
+	
+L_view:
+	callfunc "preview_gacha_shop3";
+	end;
+	
+		
+L_ok:
+	if(countitem(81005) < 1) goto L_not;
+		mes "^000099[Gachapon]^000000";
+		mes "ขอให้โชคดี";
+		set .rand, rand(0,100);
+		switch(.rand){
+        case 1:
+            set .Random, rand( getarraysize( .RARE_ITEMLIST ) );
+			delitem 81005,1;
+            getitem .RARE_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.RARE_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        case 2:
+            set .Random, rand( getarraysize( .COSN_ITEMLIST ) );
+			delitem 81005,1;
+            getitem .COSN_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+			announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.COSN_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        default:
+            set .@amount,rand( .min_amount[.@random],.max_amount[.@random] );
+            set .Random, rand( getarraysize( .OTH_ITEMLIST ) );
+        if ( .OTH_ITEMLIST[ .Random ] == 12913 || .OTH_ITEMLIST[ .Random ] == 12914 ) {
+			delitem 81005,1;
+            getitem .OTH_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            } else {
+			delitem 81005,1;
+            getitem .OTH_ITEMLIST[ .Random ], .@amount;
+			specialeffect2 10;
+			//announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.OTH_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        }
+        break;
+    }
+		
+L_no:
+	mes "^000099[Gachapon]^000000";
+	mes "พร้อมแล้วก็มาใหม่นะ^000000";
+	close;
+	
+L_not:
+	mes "^000099[Gachapon]^000000";
+	mes "ท่านไม่มี ^FF0000"+getitemname(81005)+"^000000";
+	close;
+	
+OnInit:
+	setarray .messages$," ","G","a","c","h","a","p","o","n";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+	
+}
+
+
+
+
+prontera,129,208,6	script	Gachapon costume#1	506,{
+
+setarray .OTH_ITEMLIST[0],31037,31052,31090,31094,31128,31139,31153,31160,31161,31162,31318,31430,31433;
+setarray .COSN_ITEMLIST[0],31885,20575,20595,19795,31565,31611,19551,31509,31566;
+setarray .RARE_ITEMLIST[0],20590,20598,20603,20727,19630;
+setarray .min_amount,1;
+setarray .max_amount,1;
+
+	
+	mes "^000099[Gachapon]^000000";
+	mes "คุณ ^FF0000[ "+ strcharinfo(0) +" ] อยากเสี่ยงดวงไหม ใช้ เงิน 2M^000000";
+	next;
+	menu "^009933•^000000 จัดไป",L_ok,"^009933•^000000 ตัวอย่างของรางวัล",L_view,"^009933•^000000 ไว้ก่อน",L_no;
+	
+L_view:
+	callfunc "preview_gacha_shop1";
+	end;
+	
+		
+L_ok:
+	if (Zeny < .cost) goto L_not;
+		mes "^000099[Gachapon]^000000";
+		mes "ขอให้โชคดี";
+		set .rand, rand(0,100);
+		switch(.rand){
+        case 1:
+            set .Random, rand( getarraysize( .RARE_ITEMLIST ) );
+			set Zeny,Zeny-.cost;
+            getitem .RARE_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.RARE_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        case 2:
+            set .Random, rand( getarraysize( .COSN_ITEMLIST ) );
+			set Zeny,Zeny-.cost;
+            getitem .COSN_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+			announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.COSN_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        default:
+            set .@amount,rand( .min_amount[.@random],.max_amount[.@random] );
+            set .Random, rand( getarraysize( .OTH_ITEMLIST ) );
+        if ( .OTH_ITEMLIST[ .Random ] == 12913 || .OTH_ITEMLIST[ .Random ] == 12914 ) {
+			set Zeny,Zeny-.cost;
+            getitem .OTH_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            } else {
+			set Zeny,Zeny-.cost;
+            getitem .OTH_ITEMLIST[ .Random ], .@amount;
+			specialeffect2 10;
+			//announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.OTH_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        }
+        break;
+    }
+		
+L_no:
+	mes "^000099[Gachapon]^000000";
+	mes "พร้อมแล้วก็มาใหม่นะ^000000";
+	close;
+	
+L_not:
+	mes "^000099[Gachapon]^000000";
+	mes "เจ้ามีเงินไม่พอ";
+	close;	
+	
+OnInit:
+	.cost = 2000000; // ค่าสุ่ม
+	setarray .messages$," ","G","a","c","h","a","p","o","n","Z","e","n","y";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+	
+}
+
+
+
+
+
+
+prontera,129,204,6	script	Gachapon costume#2	506,{
+
+setarray .OTH_ITEMLIST[0],14541,14542,14543,14544,14534,14535,12216,12215,12218,12710,7620,7621,7619,12221,12412,6635,12103;
+setarray .COSN_ITEMLIST[0],20963,20966,20964,20965,20967,20968,2576,18791,19163,5585,32204,28903,28902,19439,2168,28717,19138,19327,32206,32258,15420,15146,19306,5918,18813,19112,5933,19139,28921,19426,28598,20931,28533,15283,15405,32263,28941,2589,19116,15419;
+setarray .RARE_ITEMLIST[0],28594,28502,28565,2202,22134,20952,28910,28942,470061,5900,19101,15189,40325,400078,400079,400094,400095,400098,400099,400116,400117,400118,400119,400120,400121;
+setarray .min_amount,1;
+setarray .max_amount,1;
+
+	
+	mes "^000099[Gachapon]^000000";
+	mes "คุณ ^FF0000[ "+ strcharinfo(0) +" ] อยากเสี่ยงดวงไหม ใช้ เงิน 2M^000000";
+	next;
+	menu "^009933•^000000 จัดไป",L_ok,"^009933•^000000 ตัวอย่างของรางวัล",L_view,"^009933•^000000 ไว้ก่อน",L_no;
+	
+L_view:
+	callfunc "preview_gacha_shop2";
+	end;
+	
+		
+L_ok:
+	if (Zeny < .cost) goto L_not;
+		mes "^000099[Gachapon]^000000";
+		mes "ขอให้โชคดี";
+		set .rand, rand(0,100);
+		switch(.rand){
+        case 1:
+            set .Random, rand( getarraysize( .RARE_ITEMLIST ) );
+			set Zeny,Zeny-.cost;
+            getitem .RARE_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.RARE_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        case 2:
+            set .Random, rand( getarraysize( .COSN_ITEMLIST ) );
+			set Zeny,Zeny-.cost;
+            getitem .COSN_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+			announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.COSN_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        break;
+       
+        default:
+            set .@amount,rand( .min_amount[.@random],.max_amount[.@random] );
+            set .Random, rand( getarraysize( .OTH_ITEMLIST ) );
+        if ( .OTH_ITEMLIST[ .Random ] == 12913 || .OTH_ITEMLIST[ .Random ] == 12914 ) {
+			set Zeny,Zeny-.cost;
+            getitem .OTH_ITEMLIST[ .Random ], 1;
+			specialeffect2 10;
+            } else {
+			set Zeny,Zeny-.cost;
+            getitem .OTH_ITEMLIST[ .Random ], .@amount;
+			specialeffect2 10;
+			//announce "[ ระบบ ]  :  ผู้เล่น ["+strcharinfo(0)+"] หมุนตู้  Gachapon ได้รับ "+getitemname(.OTH_ITEMLIST[ .Random ])+" ",bc_all,0xFFFF00;
+        }
+        break;
+    }
+		
+L_no:
+	mes "^000099[Gachapon]^000000";
+	mes "พร้อมแล้วก็มาใหม่นะ^000000";
+	close;
+	
+L_not:
+	mes "^000099[Gachapon]^000000";
+	mes "เจ้ามีเงินไม่พอ";
+	close;	
+	
+OnInit:
+	.cost = 2000000; // ค่าสุ่ม
+	setarray .messages$," ","G","a","c","h","a","p","o","n","-","O","c","p";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+	
+}

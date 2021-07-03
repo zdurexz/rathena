@@ -1,0 +1,139 @@
+
+//===== Current Version: =====================================
+//= 1.1 
+//===== Compatible With: =====================================
+//= rAthena SVN
+//===== Description: =========================================
+//= Exchange cards for points?.?
+//============================================================
+
+prontera,169,177,3	script	Box Trader	4_f_rachold,{
+	mes "[Box Trader]";
+	mes "หวัดดี, "+strcharinfo(0)+"!";
+	mes "มีอะไรให้ข้ารับใช้ไหม ?";
+	next;
+	switch(select(" > ร้านค้าใช้พอยท์ซื้อ (^0055FF"+getd(.Points$)+"^000000): > ออก")) {
+	case 1:
+		mes "[Box Trader]";
+		mes "เจ้ามี ^0055FF"+getd(.Points$)+"^000000 แต้ม"+((getd(.Points$) == 1)?".":".");
+		callshop "Box_Point",1;
+		npcshopattach "Box_Point";
+		end;
+	case 2:
+		mes "[Box Trader]";
+		mes "*ง่าส์*";
+		mes "แล้วมาใหม่น้า!";
+		close;		
+	}
+
+OnBuyItem:
+	for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+		for(set .@j,0; .@j<getarraysize(.Shop); set .@j,.@j+2)
+			if (@bought_nameid[.@i] == .Shop[.@j]) {
+				set .@cost, .@cost+(.Shop[.@j+1]*@bought_quantity[.@i]);
+				break;
+			}
+	if (.@cost > getd(.Points$)) {
+		mes "[Card Trader]";
+		mes "เจ้ามีแต้มพอยท์ไม่พอ.";
+	}
+	else {
+		mes "รายการสินค้า:";
+		mes "-----------------------------------";
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+			getitem @bought_nameid[.@i], @bought_quantity[.@i];
+			mes "  ^777777"+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+"^000000";
+		}
+		mes " ";
+		mes "---------- รวมทั้งหมด: ^0055FF"+.@cost+" แต้ม.^000000 -------";
+		setd .Points$, getd(.Points$)-.@cost;
+	}
+	deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+	deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+	close;
+
+OnInit:
+	set .Level,0;   		// เลเวลมอนสเตอร์ขั้นต่ำในการแลกการ์ด.
+	set .Points$,"#Box_Point";	// ตัวแปรพอยท์.
+	setarray .Shop[0],		// ร้านขายของ: <รหัสไอเท็ม>,<ราคาพอยท์>
+	30002,1100,6234,20,6233,40,6232,60,6239,100,6230,20,6229,40,6228,60,6238,100;
+	setarray .Points[0],5,50;	// แต้มพอยท์ต่อ <การ์ดทั่วไป>,<การ์ดบอส>
+	npcshopdelitem "Box_Point",909;
+	for(set .@i,0; .@i<getarraysize(.Shop); set .@i,.@i+2)
+		npcshopadditem "Box_Point",.Shop[.@i],.Shop[.@i+1];
+	waitingroom "Box Points",0;
+	end;
+}
+-	shop	Box_Point	-1,909:-1
+
+
+prontera,134,212,4	script	ร้านค้า เติมเงิน#1	4_m_rupert,{
+	mes "[CASH BONUS]";
+	mes "หวัดดี, "+strcharinfo(0)+"!";
+	mes "มีอะไรให้ข้ารับใช้ไหม ?";
+	next;
+	switch(select(" > ร้านค้าใช้ CASH BONUSซื้อ (^0055FF"+getd(.Points$)+"^000000): > ออก")) {
+	case 1:
+		mes "[Box Trader]";
+		mes "เจ้ามี ^0055FF"+getd(.Points$)+"^000000 แต้ม"+((getd(.Points$) == 1)?".":".");
+		callshop "CASHBONUS",1;
+		npcshopattach "CASHBONUS";
+		end;
+	case 2:
+		mes "[CASH BONUS]";
+		mes "*ง่าส์*";
+		mes "แล้วมาใหม่น้า!";
+		close;		
+	}
+
+OnBuyItem:
+	for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1)
+		for(set .@j,0; .@j<getarraysize(.Shop); set .@j,.@j+2)
+			if (@bought_nameid[.@i] == .Shop[.@j]) {
+				set .@cost, .@cost+(.Shop[.@j+1]*@bought_quantity[.@i]);
+				break;
+			}
+	if (.@cost > getd(.Points$)) {
+		mes "[Card Trader]";
+		mes "เจ้ามีแต้มพอยท์ไม่พอ.";
+	}
+	else {
+		mes "รายการสินค้า:";
+		mes "-----------------------------------";
+		for(set .@i,0; .@i<getarraysize(@bought_nameid); set .@i,.@i+1) {
+			getitem @bought_nameid[.@i], @bought_quantity[.@i];
+			mes "  ^777777"+@bought_quantity[.@i]+"x "+getitemname(@bought_nameid[.@i])+"^000000";
+		}
+		mes " ";
+		mes "---------- รวมทั้งหมด: ^0055FF"+.@cost+" แต้ม.^000000 -------";
+		setd .Points$, getd(.Points$)-.@cost;
+	}
+	deletearray @bought_nameid[0], getarraysize(@bought_nameid);
+	deletearray @bought_quantity[0], getarraysize(@bought_quantity);
+	close;
+
+OnInit:
+	set .Level,0;   		// เลเวลมอนสเตอร์ขั้นต่ำในการแลกการ์ด.
+	set .Points$,"#CASHBONUS";	// ตัวแปรพอยท์.
+	setarray .Shop[0],		// ร้านขายของ: <รหัสไอเท็ม>,<ราคาพอยท์>
+	50005,1,12412,30,50001,50,50002,90,50003,150,50004,500,76073,5000,76074,3000,76075,3000,76076,3000,76077,3000,76078,3000,76079,3000,76080,3000,76081,5000,76082,3000,76083,5000,76084,3000,76085,5000,76086,3000,76087,3000,76088,3000,76089,3000,76090,3000,20597,5000;
+	setarray .Points[0],5,50;	// แต้มพอยท์ต่อ <การ์ดทั่วไป>,<การ์ดบอส>
+	npcshopdelitem "CASHBONUS",909;
+	for(set .@i,0; .@i<getarraysize(.Shop); set .@i,.@i+2)
+		npcshopadditem "CASHBONUS",.Shop[.@i],.Shop[.@i+1];
+	setarray .messages$," ","ร้","า","น","ค้","า","เ","ติ","ม","เ","งิ","น";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+}
+-	shop	CASHBONUS	-1,909:-1

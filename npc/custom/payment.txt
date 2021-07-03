@@ -1,0 +1,142 @@
+-	script	Payment	 -1,{
+
+OnInit:
+
+	//CASH BONUS (สะสมจำนวน Cash เพื่อรับ Bonus Item) - ไม่ใช่หน่วยเงินบาท
+	//จำนวน CASH BONUS สะสมที่จะได้รับรางวัล
+	set .cash_bonus_minimum,500;
+	
+	//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+	setarray .cash_sbonus_item_id[0],0;
+	
+	//จำนวน Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+	setarray .cash_sbonus_item_amount[0],1;
+
+	while (1)
+	{
+		query_sql "SELECT `scb_id`,`amount`,`user_id` FROM `payment` WHERE `status` = '00'",.scbId$,.pay_amount,.pay_user_id;
+		sleep 500;
+		if (getarraysize(.scbId$) > 0) {
+			for (set .i,0; .i < getarraysize(.scbId$); set .i,.i+1) {
+					switch(.pay_amount[.i]) {
+					//ตั้งค่าจำนวน CASHPOINT ที่จะได้รับ
+					case 50:
+					//จำนวน CASHPOINT สำหรับบัตร 50 บาท
+					set .pay_amount[.i], 500;
+					//จำนวน CASHBONUS สำหรับบัตร 50 บาท
+					set .cash_bonus_amount[.i], 50;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],0;
+					setarray .cash_bonus_item_amount[.i],0;
+					break;
+					case 90:
+					//จำนวน CASHPOINT สำหรับบัตร 90 บาท
+					set .pay_amount[.i], 900;
+					//จำนวน CASHBONUS สำหรับบัตร 90 บาท
+					set .cash_bonus_amount[.i], 90;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],0;
+					setarray .cash_bonus_item_amount[.i],0;
+					break;
+					case 150:
+					//จำนวน CASHPOINT สำหรับบัตร 150 บาท
+					set .pay_amount[.i], 1500;
+					//จำนวน CASHBONUS สำหรับบัตร 150 บาท
+					set .cash_bonus_amount[.i], 0;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],0;
+					setarray .cash_bonus_item_amount[.i],0;
+					break;
+					case 300:
+					//จำนวน CASHPOINT สำหรับบัตร 300 บาท
+					set .pay_amount[.i], 3000;
+					//จำนวน CASHBONUS สำหรับบัตร 300 บาท
+					set .cash_bonus_amount[.i], 300;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],0;
+					setarray .cash_bonus_item_amount[.i],0;
+					break;
+					case 500:
+					//จำนวน CASHPOINT สำหรับบัตร 500 บาท
+					set .pay_amount[.i], 5000;
+					//จำนวน CASHBONUS สำหรับบัตร 500 บาท
+					set .cash_bonus_amount[.i], 500;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],45000,6635;
+					setarray .cash_bonus_item_amount[.i],5,5;
+					break;
+					case 1000:
+					//จำนวน CASHPOINT สำหรับบัตร 1000 บาท
+					set .pay_amount[.i], 10000;
+					//จำนวน CASHBONUS สำหรับบัตร 1000 บาท
+					set .cash_bonus_amount[.i], 0;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],45000,6635;
+					setarray .cash_bonus_item_amount[.i],10,10;
+					break;
+					case 3000:
+					//จำนวน CASHPOINT สำหรับบัตร 3000 บาท
+					set .pay_amount[.i], 30000;
+					//จำนวน CASHBONUS สำหรับบัตร 3000 บาท
+					set .cash_bonus_amount[.i], 3000;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],45000,6635;
+					setarray .cash_bonus_item_amount[.i],30,30;
+					break;
+					case 5000:
+					//จำนวน CASHPOINT สำหรับบัตร 5000 บาท
+					set .pay_amount[.i], 50000;
+					//จำนวน CASHBONUS สำหรับบัตร 5000 บาท
+					set .cash_bonus_amount[.i], 5000;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],45000,6635;
+					setarray .cash_bonus_item_amount[.i],50,50;
+					break;
+					case 10000:
+					//จำนวน CASHPOINT สำหรับบัตร 10000 บาท
+					set .pay_amount[.i], 100000;
+					//จำนวน CASHBONUS สำหรับบัตร 10000 บาท
+					set .cash_bonus_amount[.i], 10000;
+					//Item ที่จะได้รับหากลูกค้าเติมเงินสะสมถึงจำนวนที่กำหนด (ตั้งค่าเป็น 0 ทั้งคู่ หากไม่ต้องการแจก Item)
+					setarray .cash_bonus_item_id[.i],45000,6635;
+					setarray .cash_bonus_item_amount[.i],100,100;
+					break;
+					}
+				if(.pay_amount[.i] > 0 && attachrid(.pay_user_id[.i]) == 1)
+				{
+					dispbottom "[Payment Center System] คุณได้รับ " + .pay_amount[.i] + " Cash";
+					set #CASHPOINTS,(#CASHPOINTS + .pay_amount[.i]);
+					set #CASHBONUS,(#CASHBONUS + .cash_bonus_amount);
+					dispbottom "[Payment Center System] คุณมี Cash Bonus สะสม " + #CASHBONUS + " Cash";
+						
+					while(#CASHBONUS >= .cash_bonus_minimum && .cash_sbonus_item_id > 0 && .cash_bonus_item_amount > 0)
+					{
+						set #CASHBONUS,(#CASHBONUS - .cash_bonus_minimum);
+						
+						for (set .j, 0; .j < getarraysize(.cash_sbonus_item_id); set .j, .j + 1) {
+							getitem .cash_sbonus_item_id[.j], .cash_sbonus_item_amount[.j];
+						}
+						
+						dispbottom "[Payment Center System] คุณได้รับ Bonus Item " + getitemname(.cash_sbonus_item_id) + " จำนวน " + .cash_sbonus_item_amount + " eA";
+						dispbottom "[Payment Center System] คุณมี Cash Bonus สะสม " + #CASHBONUS + " Cash";
+					}
+					
+						for (set .j, 0; .j < getarraysize(.cash_bonus_item_id); set .j, .j + 1) {
+							getitem .cash_bonus_item_id[.j], .cash_bonus_item_amount[.j];
+						}
+						
+						dispbottom "[Payment Center System] คุณได้รับ Bonus Item " + getitemname(.cash_bonus_item_id) + " จำนวน " + .cash_bonus_item_amount + " eA";
+						
+					query_sql "UPDATE `payment` SET `status` = '02' WHERE `scb_id` = " + .scbId$[.i];
+					detachrid;
+				}
+			}
+			deletearray .scbId$[0],getarraysize(.scbId$);
+			deletearray .pay_amount[0],getarraysize(.pay_amount);
+			deletearray .pay_user_id[0],getarraysize(.pay_user_id);
+		}
+		sleep 5000;
+	}
+	end;
+
+}

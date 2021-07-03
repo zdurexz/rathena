@@ -1,0 +1,262 @@
+//==============================================
+//==============================================
+//==============================================
+// - Script By : แม่มดน้อย จอมป่วน
+// - Script City : Thailand 
+// - Script Support Server : rAthena & Hercules
+// Contacts
+// Facebook https://www.facebook.com/appleroplus2
+// Gmail appleroplus@gmail.com
+// Skype appleroplus@hotmail.com
+//==============================================
+//==============================================
+//==============================================
+-	script	boss_b	-1,{
+
+mes "เราจะพาท่านไปล่าบอสทั้งหมด";
+mes "โปรดเลือกสถานที่ต่างๆที่จะไป";
+mes "^FF0000จำเป็นต้องใช้บัตรผ่าน TCG Bossnia 1 ea.^000000";
+menu 
+"^FF0000•^000000 ห้อง^000000 รวมบอส ทั่วไป ^00FF00ระดับง่าย^000000  [ "+getmapusers("bossnia_01")+"] คน",Lgo1,
+"^FF0000•^000000 ห้อง^000000 รวมบอส ทั่วไป ^0000FFระดับกลาง^000000  [ "+getmapusers("bossnia_02")+"] คน",Lgo2,
+"^FF0000•^000000 ห้อง^000000 รวมบอส ชีวภาพ ^CC00FFระดับยาก^000000 [ "+getmapusers("bossnia_03")+"] คน",Lgo3,
+"^FF0000•^000000 ห้อง^000000 รวมบอส แพทใหม่ ^FF0000ระดับยากมาก^000000 [ "+getmapusers("bossnia_04")+"] คน",Lgo4,
+"^FF0000•^000000 ยกเลิก ^DAA520ไม่ไปดีกว่าข้ากลัว T__T^000000",no01;
+
+Lgo1:
+if(countitem(7227)<1) goto Q1;
+delitem 7227,1;
+warp "bossnia_01",0,0;
+announce "[ระบบ] ขณะนี้ คุณ [ "+strcharinfo(0)+" ] ได้เข้าสู่  ห้อง รวมบอส ทั่วไป ระดับง่าย แล้วจ้า ขณะนี้มีผู้เล่นทั้งหมด [ "+getmapusers("bossnia_01")+" ] คน",0,0x66FF00;
+close;
+
+Lgo2:
+if(countitem(7227)<1) goto Q1;
+delitem 7227,1;
+warp "bossnia_02",0,0;
+announce "[ระบบ] ขณะนี้ คุณ [ "+strcharinfo(0)+" ] ได้เข้าสู่  ห้อง รวมบอส ทั่วไป ระดับกลาง แล้วจ้า ขณะนี้มีผู้เล่นทั้งหมด [ "+getmapusers("bossnia_02")+" ] คน",0,0x66FF00;
+close;
+
+Lgo3:
+if(countitem(7227)<1) goto Q1;
+delitem 7227,1;
+warp "bossnia_03",0,0;
+announce "[ระบบ] ขณะนี้ คุณ [ "+strcharinfo(0)+" ] ได้เข้าสู่  ห้อง รวมบอส ชีวภาพ ระดับยาก แล้วจ้า ขณะนี้มีผู้เล่นทั้งหมด [ "+getmapusers("bossnia_03")+" ] คน",0,0x66FF00;
+close;
+
+Lgo4:
+if(countitem(7227)<1) goto Q1;
+delitem 7227,1;
+warp "bossnia_04",0,0;
+announce "[ระบบ] ขณะนี้ คุณ [ "+strcharinfo(0)+" ] ได้เข้าสู่ ห้อง รวมบอส แพทใหม่ ระดับยากมาก แล้วจ้า ขณะนี้มีผู้เล่นทั้งหมด [ "+getmapusers("bossnia_04")+" ] คน",0,0x66FF00;
+close;
+
+no01:
+mes "โอกาศหน้าเชิญใหม่";
+close; 
+
+Q1:
+mes "ขออภัยค่ะคุณมี TCG ไม่เพียงพอต่อการใช้บริการค่ะ";
+close;
+	
+OnInit:
+Waitingroom "ไปล่าบอสทั้งหมด" , 0;
+end;
+}
+
+prontera,149,205,4	duplicate(boss_b)	ไปล่าบอสทั้งหมด#01	10211
+
+
+bossnia_01,0,0,0,0	monster	Baphomet	1039,1,0,0,1
+bossnia_01,0,0,0,0	monster	Osiris	1038,1,0,0,1
+bossnia_01,0,0,0,0	monster	Eddga	1115,1,0,0,1
+bossnia_01,0,0,0,0	monster	Phreeoni	1159,1,0,0,1
+bossnia_01,0,0,0,0	monster	Lady Tanee	1688,1,0,0,1
+bossnia_01,0,0,0,0	monster	Thanatos Phantom	1708,1,0,0,1
+bossnia_01,0,0,0,0	monster	Orc Hero	1087,1,0,0,1
+bossnia_01,0,0,0,0	monster	Drake	1112,1,0,0,1
+bossnia_01,0,0,0,0	monster	Maya	1147,1,0,0,1
+bossnia_01,0,0,0,0	monster	Doppelganger	1046,1,0,0,1
+bossnia_01,0,0,0,0	monster	Mistress	1059,1,0,0,1
+bossnia_01,0,0,0,0	monster	Golden Thief Bug	1086,1,0,0,1
+bossnia_01,0,0,0,0	monster	Moonlight Flower	1150,1,0,0,1
+bossnia_01,0,0,0,0	monster	Pharaoh	1157,1,0,0,1
+bossnia_01,0,0,0,0	monster	Orc Lord	1190,1,0,0,1
+bossnia_01,0,0,0,0	monster	Stormy Knight	1251,1,0,0,1
+bossnia_01,0,0,0,0	monster	Hatii	1252,1,0,0,1
+bossnia_01,0,0,0,0	monster	Dark Lord	1272,1,0,0,1
+bossnia_01,0,0,0,0	monster	Turtle General	1312,1,0,0,1
+bossnia_01,0,0,0,0	monster	Lord of the Dead	1373,1,0,0,1
+bossnia_01,0,0,0,0	monster	Dracula	1389,1,0,0,1
+bossnia_01,0,0,0,0	monster	Evil Snake Lord	1418,1,0,0,1
+bossnia_01,0,0,0,0	monster	Samurai Specter	1492,1,0,0,1
+bossnia_01,0,0,0,0	monster	Amon Ra	1511,1,0,0,1
+bossnia_01,0,0,0,0	monster	Tao Gunka	1583,1,0,0,1
+bossnia_01,0,0,0,0	monster	RSX-0806	1623,1,0,0,1
+bossnia_01,0,0,0,0	monster	White Lady	1630,1,0,0,1
+bossnia_01,0,0,0,0	monster	Vesper	1685,1,0,0,1
+bossnia_01,0,0,0,0	monster	Detardeurus	1719,1,0,0,1
+bossnia_01,0,0,0,0	monster	Kiel D-01	1734,1,0,0,1
+bossnia_01,0,0,0,0	monster	Valkyrie Randgris	1751,1,0,0,1
+bossnia_01,0,0,0,0	monster	Gloom Under Night	1768,1,0,0,1
+bossnia_01,0,0,0,0	monster	Ktullanux	1779,1,0,0,1
+bossnia_01,0,0,0,0	monster	Atroce	1785,1,0,0,1
+bossnia_01,0,0,0,0	monster	Ifrit	1832,1,0,0,1
+bossnia_01,0,0,0,0	monster	Falling Bishop	1871,1,0,0,1
+bossnia_01,0,0,0,0	monster	Beelzebub	1873,1,0,0,1
+bossnia_01,0,0,0,0	monster	Nidhoggur's Shadow	2022,1,0,0,1
+bossnia_01,0,0,0,0	monster	Lost Dragon	2131,1,0,0,1
+bossnia_01,0,0,0,0	monster	Boitata	2068,1,0,0,1
+bossnia_01,0,0,0,0	monster	Scaraba Queen	2087,1,0,0,1
+bossnia_01,0,0,0,0	monster	Amdarais	2476,1,0,0,1
+bossnia_01,0,0,0,0	monster	Buwaya	2319,1,0,0,1
+bossnia_01,0,0,0,0	monster	Gold Queen Scaraba	2165,1,0,0,1
+bossnia_01,0,0,0,0	monster	Kraken	2202,1,0,0,1
+bossnia_01,0,0,0,0	monster	Leak	2156,1,0,0,1
+bossnia_01,0,0,0,0	monster	Wounded Morroc	1917,1,0,0,1
+bossnia_01,0,0,0,0	monster	Giant Octopus	2194,1,0,0,1
+bossnia_01,0,0,0,0	monster	Mutant Coelacanth 	2189,1,0,0,1
+bossnia_01,0,0,0,0	monster	Violent Coelacanth 	2190,1,0,0,1
+bossnia_01,0,0,0,0	monster	Naght Sieger	1956,1,0,0,1
+
+bossnia_02,0,0,0,0	monster	Baphomet	1039,2,0,0,1
+bossnia_02,0,0,0,0	monster	Osiris	1038,2,0,0,1
+bossnia_02,0,0,0,0	monster	Eddga	1115,2,0,0,1
+bossnia_02,0,0,0,0	monster	Phreeoni	1159,2,0,0,1
+bossnia_02,0,0,0,0	monster	Lady Tanee	1688,2,0,0,1
+bossnia_02,0,0,0,0	monster	Thanatos Phantom	1708,2,0,0,1
+bossnia_02,0,0,0,0	monster	Orc Hero	1087,2,0,0,1
+bossnia_02,0,0,0,0	monster	Maya	1147,2,0,0,1
+bossnia_02,0,0,0,0	monster	Doppelganger	1046,2,0,0,1
+bossnia_02,0,0,0,0	monster	Mistress	1059,2,0,0,1
+bossnia_02,0,0,0,0	monster	Golden Thief Bug	1086,1,0,0,1
+bossnia_02,0,0,0,0	monster	Drake	1112,2,0,0,1
+bossnia_02,0,0,0,0	monster	Moonlight Flower	1150,2,0,0,1
+bossnia_02,0,0,0,0	monster	Pharaoh	1157,2,0,0,1
+bossnia_02,0,0,0,0	monster	Orc Lord	1190,2,0,0,1
+bossnia_02,0,0,0,0	monster	Stormy Knight	1251,2,0,0,1
+bossnia_02,0,0,0,0	monster	Hatii	1252,2,0,0,1
+bossnia_02,0,0,0,0	monster	Dark Lord	1272,2,0,0,1
+bossnia_02,0,0,0,0	monster	Turtle General	1312,2,0,0,1
+bossnia_02,0,0,0,0	monster	Lord of the Dead	1373,2,0,0,1
+bossnia_02,0,0,0,0	monster	Dracula	1389,2,0,0,1
+bossnia_02,0,0,0,0	monster	Evil Snake Lord	1418,2,0,0,1
+bossnia_02,0,0,0,0	monster	Samurai Specter	1492,2,0,0,1
+bossnia_02,0,0,0,0	monster	Amon Ra	1511,2,0,0,1
+bossnia_02,0,0,0,0	monster	Tao Gunka	1583,2,0,0,1
+bossnia_02,0,0,0,0	monster	RSX-0806	1623,2,0,0,1
+bossnia_02,0,0,0,0	monster	White Lady	1630,2,0,0,1
+bossnia_02,0,0,0,0	monster	Daehyon	2253,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Egnigem Cenia	1658,2,0,0,1
+bossnia_02,0,0,0,0	monster	Vesper	1685,2,0,0,1
+bossnia_02,0,0,0,0	monster	Detardeurus	1719,2,0,0,1
+bossnia_02,0,0,0,0	monster	Kiel D-01	1734,2,0,0,1
+bossnia_02,0,0,0,0	monster	Valkyrie Randgris	1751,2,0,0,1
+bossnia_02,0,0,0,0	monster	Gloom Under Night	1768,2,0,0,1
+bossnia_02,0,0,0,0	monster	Ktullanux	1779,2,0,0,1
+bossnia_02,0,0,0,0	monster	Atroce	1785,2,0,0,1
+bossnia_02,0,0,0,0	monster	Ifrit	1832,2,0,0,1
+bossnia_02,0,0,0,0	monster	Falling Bishop	1871,2,0,0,1
+bossnia_02,0,0,0,0	monster	Beelzebub	1873,2,0,0,1
+bossnia_02,0,0,0,0	monster	Gopinich	1885,2,0,0,1
+bossnia_02,0,0,0,0	monster	Nidhoggur's Shadow	2022,2,0,0,1
+bossnia_02,0,0,0,0	monster	Lost Dragon	2131,2,0,0,1
+bossnia_02,0,0,0,0	monster	Boitata	2068,2,0,0,1
+bossnia_02,0,0,0,0	monster	Scaraba Queen	2087,2,0,0,1
+bossnia_02,0,0,0,0	monster	Amdarais	2476,2,0,0,1
+bossnia_02,0,0,0,0	monster	Buwaya	2319,2,0,0,1
+bossnia_02,0,0,0,0	monster	Gioia	2251,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Gold Queen Scaraba	2165,2,0,0,1
+bossnia_02,0,0,0,0	monster	Kades	2255,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Kraken	2202,2,0,0,1
+bossnia_02,0,0,0,0	monster	Leak	2156,2,0,0,1
+bossnia_02,0,0,0,0	monster	Pyuriel	2249,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Soheon	2254,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Rudo	2256,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Warrior Laura	2250,1,1800000,0,1
+//bossnia_02,0,0,0,0	monster	Bangungot	2327,1,1800000,0,1
+bossnia_02,0,0,0,0	monster	Wounded Morroc	1917,2,0,0,1
+bossnia_02,0,0,0,0	monster	Bakonawa	2320,2,0,0,1
+bossnia_02,0,0,0,0	monster	Root of Corruption	2475,2,0,0,1
+bossnia_02,0,0,0,0	monster	Giant Octopus	2194,2,0,0,1
+bossnia_02,0,0,0,0	monster	Mutant Coelacanth 	2189,2,0,0,1
+bossnia_02,0,0,0,0	monster	Violent Coelacanth 	2190,2,0,0,1
+bossnia_02,0,0,0,0	monster	Dark Coelacanth 	2187,2,0,0,1
+bossnia_02,0,0,0,0	monster	Weird Coelacanth 	2188,2,0,0,1
+bossnia_02,0,0,0,0	monster	Naght Sieger	1956,2,0,0,1
+
+bossnia_03,0,0,0,0	monster	Egnigem Cenia	1658,2,0,0,1
+bossnia_03,0,0,0,0	monster	Assassin Cross Eremes	2113,2,0,0,1
+bossnia_03,0,0,0,0	monster	Champion Chen	2238,2,0,0,1
+bossnia_03,0,0,0,0	monster	Clown Alphoccio	2240,2,0,0,1
+bossnia_03,0,0,0,0	monster	Creator Flamel	2236,2,0,0,1
+bossnia_03,0,0,0,0	monster	Gypsy Trentini	2241,2,0,0,1
+bossnia_03,0,0,0,0	monster	High Priest Magaleta 	1649,2,0,0,1
+bossnia_03,0,0,0,0	monster	High Wizard Katrinn 	1651,2,0,0,1
+bossnia_03,0,0,0,0	monster	Lord Knight Seyren	1646,2,0,0,1
+bossnia_03,0,0,0,0	monster	Professor Celia	2237,2,0,0,1
+bossnia_03,0,0,0,0	monster	Sniper Shecil	1650,2,0,0,1
+bossnia_03,0,0,0,0	monster	Stalker Gertie	2239,2,0,0,1
+bossnia_03,0,0,0,0	monster	Whitesmith Harword	2111,2,0,0,1
+bossnia_03,0,0,0,0	monster	Paladin Randel	2235,2,0,0,1
+bossnia_03,0,0,0,0	monster	White Knight	3145,2,0,0,1
+bossnia_03,0,0,0,0	monster	Khalitzburg Knight	3146,2,0,0,1 3150
+bossnia_03,0,0,0,0	monster	Realized Amdarais	3150,2,0,0,1
+bossnia_03,0,0,0,0	monster	Stefan.J.E.Wolf	3473,1,0,0,1
+//bossnia_03,0,0,0,0	monster	Sarah	3190,1,0,0,1
+
+//bossnia_04,0,0,0,0	monster	Aira	2443,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Ezella	2446,2,0,0,1
+//bossnia_04,0,0,0,0	monster	King of the Alley	2442,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Kuluna	2444,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Lune	2447,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Mallina	2445,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Morin	2448,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Nasarin	2449,2,0,0,1
+//bossnia_04,0,0,0,0	monster	Pori Pori	1502,2,0,0,1
+//bossnia_04,0,0,0,0	monster	RWC Boss	2341,2,0,0,1
+//bossnia_04,0,0,0,0	monster	The Last One	2441,2,0,0,1
+bossnia_04,0,0,0,0	monster	Celine Kimi	2996,1,0,0,1
+bossnia_04,0,0,0,0	monster	Fenrir	2564,1,0,0,1
+bossnia_04,0,0,0,0	monster	Nightmare Amon Ra	2362,1,0,0,1
+bossnia_04,0,0,0,0	monster	Time Holder	3074,1,0,0,1
+bossnia_04,0,0,0,0	monster	Faceworm Queen	2529,1,0,0,1
+bossnia_04,0,0,0,0	monster	Red Faceworm Queen	2532,1,0,0,1
+bossnia_04,0,0,0,0	monster	Green Faceworm Queen	2533,1,0,0,1
+bossnia_04,0,0,0,0	monster	Blue Faceworm Queen	2534,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Yellow Faceworm Queen	2535,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Agony Of Royal Knight	3148,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Grudge Of Royal Knight	3149,1,0,0,1
+//bossnia_04,0,0,0,0	monster	White Knight	3145,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Khalitzburg Knight	3146,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Sarah	3190,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Realized Amdarais	3150,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Realized Corruption Root	3151,1,0,0,1
+bossnia_04,0,0,0,0	monster	Enhanced Amdarais	3449,1,0,0,1
+bossnia_04,0,0,0,0	monster	Bijou	3450,1,0,0,1
+bossnia_04,0,0,0,0	monster	Infinite Osiris	3427,1,0,0,1
+bossnia_04,0,0,0,0	monster	Infinite Eddga	3426,1,0,0,1
+bossnia_04,0,0,0,0	monster	Infinite Phreeoni	3428,1,0,0,1
+bossnia_04,0,0,0,0	monster	Infinite Orc Hero	3429,1,0,0,1
+bossnia_04,0,0,0,0	monster	Infinite Tao Gunka	3430,1,0,0,1
+bossnia_04,0,0,0,0	monster	Sorcerer Celia	3242,1,0,0,1
+bossnia_04,0,0,0,0	monster	Sura Chen	3243,1,0,0,1
+bossnia_04,0,0,0,0	monster	Minstrel Alphoccio	3245,1,0,0,1
+bossnia_04,0,0,0,0	monster	Guillotine Cross Eremes	3220,1,0,0,1
+bossnia_04,0,0,0,0	monster	Arch Bishop Margaretha	3221,1,0,0,1
+bossnia_04,0,0,0,0	monster	Ranger Shecil	3222,1,0,0,1
+bossnia_04,0,0,0,0	monster	Mechanic Harword	3223,1,0,0,1
+bossnia_04,0,0,0,0	monster	Warlock Katrinn	3224,1,0,0,1
+bossnia_04,0,0,0,0	monster	Rune Knight Seyren	3225,1,0,0,1
+bossnia_04,0,0,0,0	monster	Royal Guard Randel	3240,1,0,0,1
+bossnia_04,0,0,0,0	monster	Genetic Flamel	3241,1,0,0,1
+bossnia_04,0,0,0,0	monster	Shadow Chaser Gertie	3244,1,0,0,1
+bossnia_04,0,0,0,0	monster	Wanderer Trentini	3246,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Old King Groza Of Abyss	3658,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Old King Groza	3659,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Cutie	3621,1,0,0,1
+//bossnia_04,0,0,0,0	monster	Bahamut	3801,1,0,0,1
+bossnia_04,0,0,0,0	monster	Despair God Morroc	3097,1,1800000,0,1
+bossnia_04,0,0,0,0	monster	Brinaranea	3091,1,1800000,0,1
+bossnia_04,0,0,0,0	monster	Awakened Ferre	3073,1,1800000,0,1
+bossnia_04,0,0,0,0	monster	Big Eggring	3505,1,1800000,0,1

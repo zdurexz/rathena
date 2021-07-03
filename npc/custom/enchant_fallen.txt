@@ -1,0 +1,243 @@
+//============================================================
+//= Fallen Warrior Enchantment
+//===== By: ==================================================
+//= n0tme
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= An npc that will let you enchat your Fallen Warrior wings with stats
+//===== Additional Comments: =================================
+//= Fully working.
+//= 1.0 First release
+//============================================================
+lhz_dun_n,151,263,4	script	Fallen Warrior#fallen	10029,{
+    disable_items;
+	.@fallen_type = 0;
+    if (checkweight(20748,1) == 0) {
+        mes "เจ้าพกของมาเยอะเกินไป กรุณาลดของออกก่อน!";
+        close;
+    }
+    if (MaxWeight - Weight < 10000) {
+        mes "น้ำหนักเกิน กรุณาลดน้ำหนักลงก่อน!";
+        close;
+    }
+    if (getequipid(EQI_GARMENT) == 20748 || getequipid(EQI_GARMENT) == 20749 || getequipid(EQI_GARMENT) == 40203) {
+		.@fallen_type = getequipid(EQI_GARMENT);
+        if(getequipcardid(EQI_GARMENT,1)){
+            if (getequiprefinerycnt(EQI_GARMENT)>=7)  {
+                if(getequipcardid(EQI_GARMENT,2)) {
+                    if (getequiprefinerycnt(EQI_GARMENT)>=9) {
+                        if(getequipcardid(EQI_GARMENT,3)) {
+                            goto jExit;
+                        }
+                        else { // third slot array
+                            set .@menu$, "^777777ออฟ Manteau of The Fallen ครั้งที่ 3^000000";
+                        }
+                    } else
+                        goto jExit;
+                }
+                else { //second slot array
+                    set .@menu$, "^777777ออฟ Manteau of The Fallen ครั้งที่ 2^000000";
+                }
+            }
+            else {
+jExit:            set .@menu$, "";
+            }
+        }
+        else { // first slot array
+        set .@menu$, "^777777ออฟ Manteau of The Fallen ครั้งที่ 1^000000";
+        }
+    } else
+        set .@menu$, "";
+ 
+    mes "[Fallen Warrior]";
+    mes "ถ้าเจ้ามี Manteau of The Fallen, ข้าสามารถออฟให้เจ้าได้โดยใช้เงิน 1 ล้าน zeny.";
+    mes "^ff0000*คำเตือน: สวมใส่ Manteau of The Fallen ทุกครั้งถึงจะเห็นเมนูออฟ!^000000";
+    next;
+    
+    switch(select("มันคืออะไร ?:"+.@menu$+":ลบออฟ")) {
+        case 1:
+            switch(select("จบการสนทนา:เจ้าทำอะไรได้บ้าง ?")) {
+                case 1:
+                    mes "[Fallen Warrior]";
+                    mes "เจ้าพูดบ้าอะไร ?";
+                    close;
+                case 2:
+                    mes "[Fallen Warrior]";
+                    mes "ข้าสามารถออฟ  Manteau of The Fallen ให้กับเจ้าได้ ถ้าเจ้าจ่าย 1,000,000 zeny ให้กับข้า.";    
+                    next;
+                    mes "ข้าจะออฟให้ 1 ช่อง ถ้าค่าตีบวกอยู่ที่ +6 หรือต่ำกว่า.";    
+                    mes "2 ช่อง ถ้าค่าตีบวกอยู่ที่ +7 หรือ +8.";    
+                    mes "และ 3 ช่อง ถ้าค่าตีบวกอยู่ที่ +9 หรือสูงกว่า.";    
+                    mes "[Fallen Warrior]";
+                    close;
+            }
+        case 2:
+            if (Zeny < 1000000) { //zeny amount
+                mes "[Fallen Warrior]";
+                mes "ข้าทำไม่ได้ถ้าเจ้าไม่มีเงิน!";
+                close;
+            }
+            mes "[Fallen Warrior]";
+            mes "เลือกประเภทที่จะออฟ";
+            next;
+            switch(select("Fighting:Magic:Archer:Fatal:Aspd:Max HP:Max SP:Str:Agi:Dex:Vit:Int:Luk")) {//dito tayo sir
+                set .@i, rand(1,15);
+                case 1: //Fighting
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4821;
+                    else if (.@i < 4)   set .@enchant,4820;
+                    else if (.@i < 8)   set .@enchant,4808;
+                    else set .@enchant,4809;
+                goto eStart;
+                case 2: //Magic
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4828;
+                    else if (.@i < 4)   set .@enchant,4827;
+                    else if (.@i < 8)   set .@enchant,4826;
+                    else set .@enchant,4812;
+                goto eStart;
+                case 3:// Archer
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4835;
+                    else if (.@i < 4)   set .@enchant,4834;
+                    else if (.@i < 8)   set .@enchant,4833;
+                    else set .@enchant,4832;
+                goto eStart;
+                case 4://Fatal
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4866;
+                    else if (.@i < 4)   set .@enchant,4865;
+                    else if (.@i < 8)   set .@enchant,4864;
+                    else set .@enchant,4863;
+                goto eStart;
+                case 5://Aspd
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4807;
+                    else if (.@i < 4)   set .@enchant,4872;
+                    else if (.@i < 8)   set .@enchant,4869;
+                    else set .@enchant,4869;
+                goto eStart;
+                case 6:// MHP
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4868;
+                    else if (.@i < 4)   set .@enchant,4867;
+                    else if (.@i < 8)   set .@enchant,4862;
+                    else set .@enchant,4861;
+                goto eStart;
+                case 7://MSP
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4801;
+                    else if (.@i < 4)   set .@enchant,4871;
+                    else if (.@i < 8)   set .@enchant,4800;
+                    else set .@enchant,4870;
+                goto eStart;
+                case 8://STR
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4853;
+                    else if (.@i < 4)   set .@enchant,4704;
+                    else if (.@i < 8)   set .@enchant,4703;
+                    else set .@enchant,4702;
+                goto eStart;
+                case 9://AGI
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4854;
+                    else if (.@i < 4)   set .@enchant,4733;
+                    else if (.@i < 8)   set .@enchant,4732;
+                    else set .@enchant,4731;
+                goto eStart;
+                case 10://DEX
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4857;
+                    else if (.@i < 4)   set .@enchant,4724;
+                    else if (.@i < 8)   set .@enchant,4723;
+                    else set .@enchant,4722;
+                goto eStart;
+                case 11:// VIT
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4855;
+                    else if (.@i < 4)   set .@enchant,4744;
+                    else if (.@i < 8)   set .@enchant,4743;
+                    else set .@enchant,4742;
+                goto eStart;
+                case 12://INT
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4856;
+                    else if (.@i < 4)   set .@enchant,4714;
+                    else if (.@i < 8)   set .@enchant,4713;
+                    else set .@enchant,4712;
+                goto eStart;
+                case 13://LUK
+                    if(getequipcardid(EQI_GARMENT,2)) set .@enchant,4858;
+                    else if (.@i < 4)   set .@enchant,4754;
+                    else if (.@i < 8)   set .@enchant,4753;
+                    else set .@enchant,4752;
+                goto eStart;
+                
+eStart:            specialeffect2 EF_REPAIRWEAPON;
+                progressbar "ffff00",2;
+                if (getequipisequiped(EQI_GARMENT) == 0) {
+                    mes "[Fallen Warrior]";
+                    mes "ไอเท็มได้ถูกถอดออก!";
+                    close;
+                }
+                if (getequipid(EQI_GARMENT) != 20748 && getequipid(EQI_GARMENT) != 20749 && getequipid(EQI_GARMENT) != 40203) {
+                    mes "[Fallen Warrior]";
+                    mes "ไอเท็มไม่ตรง!";
+                    close;
+                }
+            Zeny -= 1000000;    
+            // find slot to enchant
+                if(getequipcardid(EQI_GARMENT,1)){
+                        if(getequipcardid(EQI_GARMENT,2)) {
+                                    set .@equip_refine, getequiprefinerycnt(EQI_GARMENT);
+									
+                                    setarray .@equip_card[0], getequipcardid(EQI_GARMENT,0),getequipcardid(EQI_GARMENT,1),getequipcardid(EQI_GARMENT,2);
+                                    getitem2 .@fallen_type,1,1,.@equip_refine,0,.@equip_card[0],.@equip_card[1],.@equip_card[2],.@enchant; //Archangel_Wing
+                            }
+                        else { //second slot array
+                            set .@equip_refine, getequiprefinerycnt(EQI_GARMENT);
+                            setarray .@equip_card[0], getequipcardid(EQI_GARMENT,0),getequipcardid(EQI_GARMENT,1),getequipcardid(EQI_GARMENT,3);
+                            getitem2 .@fallen_type,1,1,.@equip_refine,0,.@equip_card[0],.@equip_card[1],.@enchant,.@equip_card[3]; //Archangel_Wing
+                        }
+                }
+                else { // first slot array
+                    set .@equip_refine, getequiprefinerycnt(EQI_GARMENT);
+                    setarray .@equip_card[0], getequipcardid(EQI_GARMENT,0),getequipcardid(EQI_GARMENT,2),getequipcardid(EQI_GARMENT,3);
+                    getitem2 .@fallen_type,1,1,.@equip_refine,0,.@equip_card[0],.@enchant,.@equip_card[2],.@equip_card[3]; //Archangel_Wing
+                }
+            delequip EQI_GARMENT;
+            mes "[Fallen Warrior]";
+            mes "เอาไป!";
+            mes "การออฟประสบผลสำเร็จ!";
+            close;
+            }
+        case 3:
+                mes "[Fallen Warrior]";
+                mes "ลบออฟต้องการ ^0000ff1 ล้าน zeny^000000. ไอเท็มจะไม่ได้รับความเสียหายตอนลบออฟ.";
+                next;
+                if(select("ขอทำใจก่อน...:Ok, ข้าต้องการลบออฟ.") == 1) {
+                    mes "[Fallen Warrior]";
+                    mes "Ok! ข้าจะรอเจ้า!";
+                    close;
+                }
+                specialeffect2 EF_REPAIRWEAPON;
+                progressbar "ffff00",2;
+                if (getequipisequiped(EQI_GARMENT) == 0) {
+                    mes "[Fallen Warrior]";
+                    mes "ไอเท็มได้ถูกถอดออก!";
+                    close;
+                }
+                if (getequipid(EQI_GARMENT) != 20748 && getequipid(EQI_GARMENT) != 20749 && getequipid(EQI_GARMENT) != 40203) {
+                    mes "[Fallen Warrior]";
+                    mes "โอ้... เจ้าไม่ได้สวมใส่ Fallen Warrior Wing!";
+                    close;
+                }
+                if (Zeny < 1000000) {
+                    mes "[Fallen Warrior]";
+                    mes "ข้าทำไม่ได้ถ้าเจ้าไม่มีเงิน!";
+                    close;
+                }
+                if ((getequipcardid(EQI_GARMENT,3) < 4700) && (getequipcardid(EQI_GARMENT,2) < 4700) && (getequipcardid(EQI_GARMENT,1) < 4700)) { // Armor Enchant System
+                    mes "[Fallen Warrior]";
+                    mes "ไอเท็มนี้ไม่เคยออฟเลย, กรุณาตรวจดูใหม่!";
+                    close;
+                }
+                set .@equip_refine, getequiprefinerycnt(EQI_GARMENT);
+                setarray .@equip_card[0], getequipcardid(EQI_GARMENT,0);//,getequipcardid(EQI_GARMENT,1),getequipcardid(EQI_GARMENT,2);
+                Zeny -= 1000000;
+                delequip EQI_GARMENT;
+                getitem2 .@fallen_type,1,1,.@equip_refine,0,.@equip_card[0],.@equip_card[1],.@equip_card[2],0; //Fallen Manteau Warrior
+                mes "[Fallen Warrior]";
+                mes "เอาไป!";
+                close;
+    }
+}

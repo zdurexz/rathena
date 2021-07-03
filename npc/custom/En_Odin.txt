@@ -1,0 +1,443 @@
+//===== Script =======================================
+//= Enchant Racing Cap
+//= By JumBo
+//= ดัดแปลงมาจากออฟหมวกแลป 5
+//====================================================
+hu_in01,97,322,5	script	Enchant Odin	4_M_SCIENCE,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Susan Grey]";
+	mes "ข้าสามารถยกระดับความสามารถของอุปกรณ์ของเจ้า ถ้าเจ้านำ";
+	mes getitemname(25767)+" มาให้ข้าและเงินอีกเล็กน้อยให้แก่เจ้า.";
+	next;
+	switch( select( "ออฟชุด", "ลบออฟ", "รายละเอียด", "ออก" ) ) {
+	case 1:
+		switch( select( "ออฟชุด" , "ออฟมัพ" , "ออฟรองเท้า") ){
+			case 1:
+			.@equip_id = getequipid(EQI_ARMOR);
+				switch(.@equip_id) {
+					case 15397:// Str Soutane [1]
+					case 15398:// Agi Soutane [1]
+					case 15399:// Vit Soutane [1]
+					case 15401:// Int Soutane [1]
+					case 15400:// Dex Soutane [1]
+					case 15402:// Luk Soutane [1]
+						.@part = EQI_ARMOR;
+						goto OptionNext;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Soutane มาด้วย.^000000";
+						close;
+				}
+			case 2:
+			.@equip_id = getequipid(EQI_GARMENT);
+				switch(.@equip_id) {
+					case 20947:// Clergy's Manteau [1]
+						.@part = EQI_GARMENT;
+						goto OptionNext;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Clergy's Manteau มาด้วย.^000000";
+						close;
+				}
+			case 3:
+			.@equip_id = getequipid(EQI_SHOES);
+				switch(.@equip_id) {
+					case 22209:// 	Clergy's Boots [1]
+						.@part = EQI_SHOES;
+						goto OptionNext;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Clergy's Boots มาด้วย.^000000";
+						close;
+				}
+		}
+OptionNext:
+		mes "[Susan Grey]";
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+		
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			mes "การออฟช่องที่ 4. จะสุ่ม 1 ใน 6 สเตตัส โดยมีค่า 1-3.";
+		}
+		else if (.@card[2] == 0) {
+			.@slot = 2;
+			mes "การออฟช่องที่ 3. จะสุ่ม 1 ใน 6 สเตตัส โดยมีค่า 1-4.";
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			mes "^FF0000การออฟช่องที่ 2. มีโอกาสได้หินออฟ.^000000";
+			mes "Str Blessing , Agi Blessing , Vit Blessing , Dex Blessing , Int Blessing , Luk Blessing ";
+		} else {
+				mes "^FF0000เลเวลหินออฟสูงสุดแล้ว ไม่สามารถอัพเกรดได้อีก.^000000";
+				close;
+		}
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@refine))
+			close;
+			
+		next;
+		mes "[Susan Grey]";
+		mes "^FF0000ระดับเลเวลการตีบวก, การ์ด, ของสวมใส่จะไม่สูญหาย หากอัพเกรดล้มเหลว.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Susan Grey]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		
+		switch(.@slot) {
+		case 3:
+			setarray .@enchant[0],
+				4705,	// Strength6
+				4706,	// Strength7
+				4707,	// Strength8
+				4715,	// Inteligence6
+				4716,	// Inteligence7
+				4717,	// Inteligence8
+				4725,	// Dexterity6
+				4726,	// Dexterity7
+				4727,	// Dexterity8
+				4735,	// Agility6
+				4736,	// Agility7
+				4737,	// Agility8
+				4745,	// Vitality6
+				4746,	// Vitality7
+				4747,	// Vitality8
+				4755,	// Luck6
+				4756,	// Luck7
+				4757,	// Luck8
+				4794,	// Def+12
+				4902,	// Def+18
+				4786,	// Mdef+2
+				4787,	// Mdef+4
+				4867,	// Max HP +3%
+				4900,	// Max HP +5%
+				4801,	// SP +100
+				4802,	// SP +150
+				4764,	// Cri+5
+				4764,	// Cri+7
+				29241,	// Cri+10
+				4762,	// Flee+6
+				29238;	// Flee+10
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 15;
+			.@cost_zeny = 500000;
+			break;
+		case 2:
+			setarray .@enchant[0],
+				4705,	// Strength6
+				4706,	// Strength7
+				4707,	// Strength8
+				4715,	// Inteligence6
+				4716,	// Inteligence7
+				4717,	// Inteligence8
+				4725,	// Dexterity6
+				4726,	// Dexterity7
+				4727,	// Dexterity8
+				4735,	// Agility6
+				4736,	// Agility7
+				4737,	// Agility8
+				4745,	// Vitality6
+				4746,	// Vitality7
+				4747,	// Vitality8
+				4755,	// Luck6
+				4756,	// Luck7
+				4757,	// Luck8
+				4794,	// Def+12
+				4902,	// Def+18
+				4786,	// Mdef+2
+				4787,	// Mdef+4
+				4867,	// Max HP +3%
+				4900,	// Max HP +5%
+				4801,	// SP +100
+				4802,	// SP +150
+				4764,	// Cri+5
+				4764,	// Cri+7
+				29241,	// Cri+10
+				4762,	// Flee+6
+				29238;	// Flee+10
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 50;
+			.@cost_zeny = 1500000;
+			break;
+		case 1:
+			if (.@part == 7 && getequiprefinerycnt(.@part) >= 9){
+				setarray .@enchant[0],
+					4706,	// Strength7
+					4707,	// Strength8
+					4716,	// Inteligence7
+					4717,	// Inteligence8
+					4726,	// Dexterity7
+					4727,	// Dexterity8
+					4736,	// Agility7
+					4737,	// Agility8
+					4746,	// Vitality7
+					4747,	// Vitality8
+					4756,	// Luck7
+					4757,	// Luck8
+					4903,   // Def +21
+					4790,	// Mdef+10
+					4900,	// Max HP +5%
+					4802,	// SP+150
+					29241,	// Crit +10
+					29238,	// Flee+10*/
+					4820,	// Fighting Spirit 5
+					4821,	// Fighting Spirit 6
+					4812,	// Spell 4
+					4826,	// Spell 5
+					4835,	// Expert Archer 4
+					4836,	// Expert Archer 5
+					4843,	// Sharp 4
+					4844,	// Sharp 5
+					4873,	// ASPD Lv. 3
+					4881,	// ASPD Lv. 4
+					310076,	// Str Blessing
+					310077,	// Agi Blessing
+					310078,	// Vit Blessing
+					310079,	// Dex Blessing
+					310080,	// Int Blessing
+					310081;	// Luk Blessing
+					.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+					.@requirement = 75;
+					.@cost_zeny = 2000000;
+					break;
+			}
+			if( (.@part == 2 || .@part == 3 ) && getequiprefinerycnt(.@part) >= 7){
+				setarray .@enchant[0],
+					4706,	// Strength7
+					4707,	// Strength8
+					4716,	// Inteligence7
+					4717,	// Inteligence8
+					4726,	// Dexterity7
+					4727,	// Dexterity8
+					4736,	// Agility7
+					4737,	// Agility8
+					4746,	// Vitality7
+					4747,	// Vitality8
+					4756,	// Luck7
+					4757,	// Luck8*/
+					4902,	// Def +18
+					29026,	// Def +20
+					4788,	// Mdef +6
+					4789,	// Mdef +8
+					4867,	// Max HP +3%
+					4900,	// Max HP +5%
+					4801,	// SP +100
+					4802;	// SP +150
+					.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+					.@requirement = 75;
+					.@cost_zeny = 2000000;
+					break;
+			}
+			setarray .@enchant[0],
+				4705,	// Strength6
+				4706,	// Strength7
+				4707,	// Strength8
+				4715,	// Inteligence6
+				4716,	// Inteligence7
+				4717,	// Inteligence8
+				4725,	// Dexterity6
+				4726,	// Dexterity7
+				4727,	// Dexterity8
+				4735,	// Agility6
+				4736,	// Agility7
+				4737,	// Agility8
+				4745,	// Vitality6
+				4746,	// Vitality7
+				4747,	// Vitality8
+				4755,	// Luck6
+				4756,	// Luck7
+				4757,	// Luck8
+				4794,	// Def+12
+				4902,	// Def+18
+				4786,	// Mdef+2
+				4787,	// Mdef+4
+				4867,	// Max HP +3%
+				4900,	// Max HP +5%
+				4801,	// SP +100
+				4802,	// SP +150
+				4764,	// Cri+5
+				4764,	// Cri+7
+				29241,	// Cri+10
+				4762,	// Flee+6
+				29238;	// Flee+10
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 75;
+			.@cost_zeny = 2000000;
+			break;
+		case 999:
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29310 || .@card[1] > 29584) {
+				mes "[Susan Grey]";
+				mes "มีบางอย่างผิดพลาด.";
+				close;
+			}
+			if (.@enchant_level < 1 || .@enchant_level > 3) {
+				specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Susan Grey]";
+				mes "มีบางอย่างผิดพลาด2.";
+				close;
+			}
+			break;
+		default:
+			mes "[Susan Grey]";
+			mes "มีบางอย่างผิดพลาด3.";
+			close;
+		}
+		next;
+		mes "[Susan Grey]";
+		mes "^0000cdต้องการ Angel's Dreams " + .@requirement + " อัน และเงิน " + .@cost_zeny + " zeny สำหรับการออฟ.^000000";
+		next;
+		if (select( "จ่ายค่าธรรมเนียม.", "ทำไมต้องจ่ายด้วย." ) == 2) {
+			mes "[Susan Grey]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		if ((countitem(25767) < .@requirement) || (Zeny < .@cost_zeny)) {
+			mes "[Susan Grey]";
+			mes "^FF0000เจ้ามี Angel's Dreams หรือเงินไม่พอ.^000000";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 25767, .@requirement;// Angel's Dreams
+		Zeny -= .@cost_zeny;
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		equip .@equip_id;
+		if (.@slot == 999 && .@level_dt == 0) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Susan Grey]";
+			mes "^FF0000การอัพเกรดล้มเหลว, หินออฟคงเลเวลเดิม.^000000";
+			close;
+		}
+		if (.@level_dt == -1) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Susan Grey]";
+			mes "^FF0000การอัพเกรดล้มเหลว, หินออฟจะถูกลดหนึ่งระดับ.^000000";
+			close;
+		}
+		specialeffect2 EF_FIREHIT;
+		mes "[Susan Grey]";
+		mes "^0000cdยอดเยี่ยม. เจ้าทำสำเร็จ.^000000";
+		close;
+	case 2:
+		switch( select( "ออฟชุด" , "ออฟมัพ" , "ออฟรองเท้า") ){
+			case 1:
+			.@equip_id = getequipid(EQI_ARMOR);
+				switch(.@equip_id) {
+					case 15397:// Str Soutane [1]
+					case 15398:// Agi Soutane [1]
+					case 15399:// Vit Soutane [1]
+					case 15401:// Int Soutane [1]
+					case 15400:// Dex Soutane [1]
+					case 15402:// Luk Soutane [1]
+						.@part = EQI_ARMOR;
+						goto DeleteOption;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Soutane มาด้วย.^000000";
+						close;
+				}
+			case 2:
+			.@equip_id = getequipid(EQI_GARMENT);
+				switch(.@equip_id) {
+					case 20947:// Clergy's Manteau [1]
+						.@part = EQI_GARMENT;
+						goto DeleteOption;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Clergy's Manteau มาด้วย.^000000";
+						close;
+				}
+			case 3:
+			.@equip_id = getequipid(EQI_SHOES);
+				switch(.@equip_id) {
+					case 22209:// 	Clergy's Boots [1]
+						.@part = EQI_SHOES;
+						goto DeleteOption;
+						break;
+					default:
+						mes "[Susan Grey]";
+						mes "^FF0000เจ้าไม่ได้ใส่ Clergy's Boots มาด้วย.^000000";
+						close;
+				}
+		}
+DeleteOption:
+		setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+		.@refine = getequiprefinerycnt(.@part);
+
+		if (.@card[3] < 1) {
+			mes "[Susan Grey]";
+			mes "^FF0000หมวกนี้ยังไม่ผ่านการออฟ, ไม่สามารถลบได้.*^000000";
+			close;
+		}
+		mes "[Susan Grey]";
+		mes "^0000cdในการลบออฟเจ้าต้องมี 100 Angel's Dreams และเงินอีก 500,000 zeny.^000000";
+		next;
+		if (select( "จ่ายค่าธรรมเนียม.", "ปล่อยผ่าน." ) == 2) {
+			mes "[Susan Grey]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		if ((countitem(25767) < 100) || (Zeny < 500000)) {
+			mes "^0000cdในการลบออฟเจ้าต้องมี 100 Angel's Dreams และเงินอีก 500,000 zeny.^000000";
+			close;
+		}
+		mes "[Susan Grey]";
+		mes "ข้าจะทำการลบออฟให้เดี๋ยวนี้.";
+		next;
+		progressbar "000000",1;
+		specialeffect2 EF_FIREHIT;
+		delitem 25767,100;// Angel's Dreams
+		Zeny -= 500000;
+
+		if (callfunc("F_IsEquipIDHack", .@part, .@equip_id) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@part, .@refine))
+			close;
+
+		delequip .@part;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+		equip .@equip_id;
+		mes "[Susan Grey]";
+		mes "ลบออฟเรียบร้อย.";
+		close;
+	case 3:
+		mes "[Susan Grey]";
+		mes "การออฟ  จำเป็นต้องใช้  Angel's Dreams และเงินอีกจำนวนหนึ่ง.";
+		mes "ในการออฟช่องที่ 4 และ 3 จะสุ่มค่าสเตตัสมาให้.";
+		mes "ซึ่งจะไม่มีโอกาสล้มเหลว.";
+		next;
+		mes "[Susan Grey]";
+		mes "ในการออฟช่องที่ 2 มีโอกาสได้หินออฟ พิเศษ ";
+		mes "ซึ่งสามารถเลือกออฟได้ตามที่เจ้าต้องการ";
+		mes "จะมีออฟพิเศษ แค่ชุดเกาะที่ +9 แล้วเท่านั้น";
+		mes "และสามารถรีเซ็ทได้ตลอด";
+		next;
+		mes "[Susan Grey]";
+		mes "การลบออฟ จำเป็นต้องใช้ 100  Angel's Dreams.";
+		mes "และเงินอีก 500,000 zeny ไม่มีโอกาสล้มเหลวในการลบออฟ.";
+		close;
+	case 4:
+		mes "[Susan Grey]";
+		mes "ก็แล้วแต่เจ้า.";
+		close;
+	}
+OnInit:
+    waitingroom "Enchant Odin",0;
+    end;
+}

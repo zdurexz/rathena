@@ -1,0 +1,676 @@
+//==============================================
+// ตายจะส่งกลับเมืองทันที
+-	script	DiceDie	-1,{
+OnInit:
+set .time, 10;
+setarray .map$, 
+//กำหนดแผนที่
+"quiz_02";
+end;
+	
+OnPCDieEvent:
+for ( set .@i, 0; .@i < getarraysize(.map$); set .@i, .@i+1 ) {
+	if ( strcharinfo(3) == .map$[.@i] ) {
+		sleep2 1000;
+//ส่งกลับเมือง
+warp "SavePoint",0,0;
+break;
+}
+}
+//close;
+}
+//==============================================
+quiz_02	mapflag	nowarpto
+quiz_02	mapflag	nowarp
+quiz_02	mapflag	noskill
+quiz_02	mapflag	nosave
+quiz_02	mapflag	nomemo
+quiz_02	mapflag	noteleport
+
+
+prontera,140,226,5	script	กิจกรรมทอยเต๋า#1	864,{
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes	"สวัสดีคุณ,^FF0000"+strcharinfo(0)+"^000000";
+	mes	"มีกิจกรรมมาแนะนำ สนุก ลุ้น เฮฮา";
+	mes	"กับกิจกรรมทอยเต๋าพาเพลิน";
+	mes	"^0000FFเงื่อนไขร่วมกิจกรรม^000000";
+	mes	"^FF0000Lv.99^000000 ขึ้นไป และ ^FF00001 ID^000000 / ^FF00001 IP^000000";
+	mes	"คุณต้องการเข้าร่วมกิจกรรมหรือไม่?";
+	next;
+	switch(select("^FF0000•^000000 เข้าร่วมกิจกรรม ("+getmapusers("quiz_02")+" คน)","^FF0000•^000000 เปล่า,แค่แวะมาดูเฉยๆ",""+(getgmlevel()==99?"^FF0000•^000000 ^FF0000ระบบจัดการ GameMaster^000000":"")+"")) {
+		case 1:
+			if ($@Looktao_block == 1) {
+				mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+				mes "^FF0000ประตูกิจกรรมได้ถูกปิดลงแล้ว";
+				close;
+			}
+			if( BaseLevel <= 98 ) {
+				mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";	
+				mes "พาม พ๊าม ! !"; 
+				mes "Lv. 99 ขึ้นไปถึงสามารถเข้าร่วม";
+				mes "กิจกรรมทอยเต๋าพาเพลินได้น่ะ";
+				mes "พบกันใหม่โอกาสหน้าน่ะ..?";
+				close;
+			}
+			warp "quiz_02",304,260;
+			close;
+		case 2:
+			close;
+		case 3:
+			if (getgmlevel() < 99) close;
+			mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+			mes "สวัสดี ท่านต้องการทำอะไร";
+			if (select("^FF0000•^000000 เปิดกิจกรรม:^FF0000•^000000 ปิดกิจกรรม") == 1) {
+				set $@Looktao_block,0;
+				announce "[ กิจกรรมทอยเต๋าพาเพลิน : เปิดประตูกิจกรรมทอยเต๋าแล้วขณะนี้ ขอเชิญชวนเพื่อนๆมาร่วมสนุกกัน ! ]",bc_all;
+			} else {
+				set $@Looktao_block,1;
+				announce "[ กิจกรรมทอยเต๋าพาเพลิน : ประตูกิจกรรมได้ถูกปิดลงแล้ว พบกันใหม่เร็วๆนี้]",bc_all;
+			}
+			close;
+	}
+	close;
+	
+	OnInit:
+		setcell	"quiz_02",291,261,317,261,cell_walkable,0;
+		setcell	"quiz_02",291,237,317,237,cell_walkable,0;
+		setcell	"quiz_02",291,260,291,238,cell_walkable,0;
+		setcell	"quiz_02",317,260,318,238,cell_walkable,0;
+		setcell	"quiz_02",301,253,292,253,cell_walkable,0;
+		setcell	"quiz_02",292,245,301,245,cell_walkable,0;
+		setcell	"quiz_02",308,253,316,253,cell_walkable,0;
+		setcell	"quiz_02",308,245,316,245,cell_walkable,0;
+		set $@Looktao_block,1;
+		waitingroom "กิจกรรม ทอยเต๋า",0;
+		end;
+}
+
+
+quiz_02,304,250,4	script	 จัดการระบบ GM#ทอยเต๋า	871,{
+	if (getgmlevel()<99) {end;}
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ระบบจัดการกิจกรรมทอยเต๋า";
+	mes "โปรดเลือกรายการที่ต้องการ ?";
+	next;
+	switch(select("^FF0000•^000000 เปิดประตู","^FF0000•^000000 ปิดประตู","^FF0000•^000000 เตะห้อง 1","^FF0000•^000000 เตะห้อง 2","^FF0000•^000000 เตะห้อง 3","^FF0000•^000000 เตะห้อง 4","^FF0000•^000000 เตะห้อง 5","^FF0000•^000000 เตะห้อง 6","^FF0000•^000000 สุ่มห้อง 1-6","^FF0000•^000000 ล้างระบบ","^FF0000•^000000 ยกเลิก")) {
+	case 1:
+	close2;
+	callfunc("F_EventLooktao",7);
+	break;
+	case 2:
+	close2;
+	callfunc("F_EventLooktao",8);
+	break;
+	case 3:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",1);
+	break;
+	case 4:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",2);
+	break;
+	case 5:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",3);
+	break;
+	case 6:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",4);
+	break;
+	case 7:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",5);
+	break;
+	case 8:
+	close2;
+	if ($@ELTRN_Active || getarraysize($@ELT_Point)) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	close;
+	}
+	callfunc("F_EventLooktao",6);
+	break;
+	case 9:
+	close2;
+	if ($@ELT_Point[1] == 0 || getarraysize($@ELT_Point) <= 2 || $@ELTRN_Active) {
+	mes	"^0000FF[ กิจกรรมทอยเต๋า ]^000000";
+	mes "ขณะนี้กิจกรรมเริ่มอยู่นะค่ะ";
+	mes "^FF0000ไม่สามารถทำรายการได้^000000";
+	switch(select("^FF0000•^000000 ล้างสุ่มห้องกิจกรรม")){
+	case 1:
+	close2;
+	setarray $@ELT_Point[1],1,2,3,4,5,6;
+	break;
+	}
+	end;
+	}
+//======================================================//
+	//atcommand "@itemmap 61001 30";
+	//atcommand "@itemmap 7539 50";
+	//atcommand "@itemmap 616 1";
+	//atcommand "@itemmap 7621 10";
+	//mapannounce "quiz_02","[กิจกรรมทอยเต๋า] : เริ่มทำการเสี่ยงท้ายสุ่มห้องแล้ว ยินดีด้วย คุณได้รับ Cash Coin 30 ea. Poring Coin 50 ea. Old Card Album 1 ea. Token Of Ziegfried 10 ea.",bc_map,0xFFFF00;
+//======================================================//
+	setarray .@ELT_X[1],295,295,295,313,313,313;
+	setarray .@ELT_Y[1],260,251,242,260,251,242;
+	set $@ELTRN_Active,1;
+	set .@ELT_Point,0;
+	set .@ELT_Speed,1;
+	for(set .@i,0;.@i<18;set .@i,.@i+1){
+	for(set .@a,0;.@a<.@r;set .@a,.@a+1){
+	set .@ELT_Point,.@ELT_Point+1;
+	if(.@ELT_Point>(getarraysize($@ELT_Point)-1))
+	set .@ELT_Point,1;
+	set .@ELT_Slot,$@ELT_Point[.@ELT_Point];
+	movenpc "EventLooktaoPoint",.@ELT_X[.@ELT_Slot],.@ELT_Y[.@ELT_Slot];
+	donpcevent "Wall#effect"+.@ELT_Slot+"::OnEffectRN";
+	sleep2 .@ELT_Speed;
+	}
+	if (.@i < 10) {
+	set .@ELT_Speed,.@ELT_Speed+10;
+	set .@r,rand(15,25);
+	} else if (.@i < 15) {
+	set .@ELT_Speed,.@ELT_Speed+100;
+	set .@r,rand(3,7);
+	} else if (.@i < 18) {
+	set .@ELT_Speed,.@ELT_Speed+250;
+	set .@r,rand(2,6);
+	}
+	}
+	for(set .@i,1;.@i<getarraysize($@ELT_Point);set .@i,.@i+1)
+	if (.@ELT_Slot == $@ELT_Point[.@i])
+	deletearray $@ELT_Point[.@i],1;
+	callfunc("F_EventLooktao",.@ELT_Slot);
+	break;
+	case 10:
+	switch(select("^FF0000•^000000 ล้างสุ่มห้องกิจกรรม","^FF0000•^000000 ล้างเตะห้องกิจกรรม")){
+	case 1:
+	close2;
+	setarray $@ELT_Point[1],1,2,3,4,5,6;
+	break;
+	case 2:
+	close2;
+	deletearray $@ELT_Point[0],255;
+	break;
+	}
+	break;
+	case 11:
+	close;
+	}
+end;
+}
+
+-	script	Wall#setup	-1,{
+end;
+OnInit:
+	setcell "quiz_02",306,264,320,237,cell_walkable,0;
+	setcell "quiz_02",288,264,302,237,cell_walkable,0;
+
+	setcell "quiz_02",289,263,301,256,cell_walkable,1;
+	setcell "quiz_02",289,254,301,247,cell_walkable,1;
+	setcell "quiz_02",289,245,301,238,cell_walkable,1;
+
+	setcell "quiz_02",307,263,319,256,cell_walkable,1;
+	setcell "quiz_02",307,254,319,247,cell_walkable,1;
+	setcell "quiz_02",307,245,319,238,cell_walkable,1;
+end;
+}
+
+-	script	Wall#looktao	-1,{end;}
+
+quiz_02,288,264,4	duplicate(Wall#looktao)	Wall#1	858
+quiz_02,288,263,4	duplicate(Wall#looktao)	Wall#2	858
+quiz_02,288,262,4	duplicate(Wall#looktao)	Wall#3	858
+quiz_02,288,261,4	duplicate(Wall#looktao)	Wall#4	858
+quiz_02,288,260,4	duplicate(Wall#looktao)	Wall#5	858
+quiz_02,288,259,4	duplicate(Wall#looktao)	Wall#6	858
+quiz_02,288,258,4	duplicate(Wall#looktao)	Wall#7	858
+quiz_02,288,257,4	duplicate(Wall#looktao)	Wall#8	858
+quiz_02,288,256,4	duplicate(Wall#looktao)	Wall#9	858
+quiz_02,288,255,4	duplicate(Wall#looktao)	Wall#10	858
+quiz_02,288,254,4	duplicate(Wall#looktao)	Wall#11	858
+quiz_02,288,253,4	duplicate(Wall#looktao)	Wall#12	858
+quiz_02,288,252,4	duplicate(Wall#looktao)	Wall#13	858
+quiz_02,288,251,4	duplicate(Wall#looktao)	Wall#14	858
+quiz_02,288,250,4	duplicate(Wall#looktao)	Wall#15	858
+quiz_02,288,249,4	duplicate(Wall#looktao)	Wall#16	858
+quiz_02,288,248,4	duplicate(Wall#looktao)	Wall#17	858
+quiz_02,288,247,4	duplicate(Wall#looktao)	Wall#18	858
+quiz_02,288,246,4	duplicate(Wall#looktao)	Wall#19	858
+quiz_02,288,245,4	duplicate(Wall#looktao)	Wall#20	858
+quiz_02,288,244,4	duplicate(Wall#looktao)	Wall#21	858
+quiz_02,288,243,4	duplicate(Wall#looktao)	Wall#22	858
+quiz_02,288,242,4	duplicate(Wall#looktao)	Wall#23	858
+quiz_02,288,241,4	duplicate(Wall#looktao)	Wall#24	858
+quiz_02,288,240,4	duplicate(Wall#looktao)	Wall#25	858
+quiz_02,288,239,4	duplicate(Wall#looktao)	Wall#26	858
+quiz_02,288,238,4	duplicate(Wall#looktao)	Wall#27	858
+quiz_02,288,237,4	duplicate(Wall#looktao)	Wall#28	858
+
+quiz_02,302,264,4	duplicate(Wall#looktao)	Wall#30	858
+quiz_02,302,263,4	duplicate(Wall#looktao)	Wall#31	858
+quiz_02,302,262,4	duplicate(Wall#looktao)	Wall#32	858
+quiz_02,302,261,4	duplicate(Wall#looktao)	Wall#33	858
+quiz_02,302,260,4	duplicate(Wall#looktao)	Wall#34	858
+quiz_02,302,259,4	duplicate(Wall#looktao)	Wall#35	858
+quiz_02,302,258,4	duplicate(Wall#looktao)	Wall#36	858
+quiz_02,302,257,4	duplicate(Wall#looktao)	Wall#37	858
+quiz_02,302,256,4	duplicate(Wall#looktao)	Wall#38	858
+quiz_02,302,255,4	duplicate(Wall#looktao)	Wall#39	858
+quiz_02,302,254,4	duplicate(Wall#looktao)	Wall#40	858
+quiz_02,302,253,4	duplicate(Wall#looktao)	Wall#41	858
+quiz_02,302,252,4	duplicate(Wall#looktao)	Wall#42	858
+quiz_02,302,251,4	duplicate(Wall#looktao)	Wall#43	858
+quiz_02,302,250,4	duplicate(Wall#looktao)	Wall#44	858
+quiz_02,302,249,4	duplicate(Wall#looktao)	Wall#45	858
+quiz_02,302,248,4	duplicate(Wall#looktao)	Wall#46	858
+quiz_02,302,247,4	duplicate(Wall#looktao)	Wall#47	858
+quiz_02,302,246,4	duplicate(Wall#looktao)	Wall#48	858
+quiz_02,302,245,4	duplicate(Wall#looktao)	Wall#49	858
+quiz_02,302,244,4	duplicate(Wall#looktao)	Wall#50	858
+quiz_02,302,243,4	duplicate(Wall#looktao)	Wall#51	858
+quiz_02,302,242,4	duplicate(Wall#looktao)	Wall#52	858
+quiz_02,302,241,4	duplicate(Wall#looktao)	Wall#53	858
+quiz_02,302,240,4	duplicate(Wall#looktao)	Wall#54	858
+quiz_02,302,239,4	duplicate(Wall#looktao)	Wall#55	858
+quiz_02,302,238,4	duplicate(Wall#looktao)	Wall#56	858
+quiz_02,302,237,4	duplicate(Wall#looktao)	Wall#57	858
+
+quiz_02,289,264,4	duplicate(Wall#looktao)	Wall#59	858
+quiz_02,290,264,4	duplicate(Wall#looktao)	Wall#60	858
+quiz_02,291,264,4	duplicate(Wall#looktao)	Wall#61	858
+quiz_02,292,264,4	duplicate(Wall#looktao)	Wall#62	858
+quiz_02,293,264,4	duplicate(Wall#looktao)	Wall#63	858
+quiz_02,294,264,4	duplicate(Wall#looktao)	Wall#64	858
+quiz_02,295,264,4	duplicate(Wall#looktao)	Wall#65	858
+quiz_02,296,264,4	duplicate(Wall#looktao)	Wall#66	858
+quiz_02,297,264,4	duplicate(Wall#looktao)	Wall#67	858
+quiz_02,298,264,4	duplicate(Wall#looktao)	Wall#68	858
+quiz_02,299,264,4	duplicate(Wall#looktao)	Wall#69	858
+quiz_02,300,264,4	duplicate(Wall#looktao)	Wall#70	858
+quiz_02,301,264,4	duplicate(Wall#looktao)	Wall#71	858
+quiz_02,289,255,4	duplicate(Wall#looktao)	Wall#72	858
+quiz_02,290,255,4	duplicate(Wall#looktao)	Wall#73	858
+quiz_02,291,255,4	duplicate(Wall#looktao)	Wall#74	858
+quiz_02,292,255,4	duplicate(Wall#looktao)	Wall#75	858
+quiz_02,293,255,4	duplicate(Wall#looktao)	Wall#76	858
+quiz_02,294,255,4	duplicate(Wall#looktao)	Wall#77	858
+quiz_02,295,255,4	duplicate(Wall#looktao)	Wall#78	858
+quiz_02,296,255,4	duplicate(Wall#looktao)	Wall#79	858
+quiz_02,297,255,4	duplicate(Wall#looktao)	Wall#80	858
+quiz_02,298,255,4	duplicate(Wall#looktao)	Wall#81	858
+quiz_02,299,255,4	duplicate(Wall#looktao)	Wall#82	858
+quiz_02,300,255,4	duplicate(Wall#looktao)	Wall#83	858
+quiz_02,301,255,4	duplicate(Wall#looktao)	Wall#84	858
+quiz_02,289,246,4	duplicate(Wall#looktao)	Wall#85	858
+quiz_02,290,246,4	duplicate(Wall#looktao)	Wall#86	858
+quiz_02,291,246,4	duplicate(Wall#looktao)	Wall#87	858
+quiz_02,292,246,4	duplicate(Wall#looktao)	Wall#88	858
+quiz_02,293,246,4	duplicate(Wall#looktao)	Wall#89	858
+quiz_02,294,246,4	duplicate(Wall#looktao)	Wall#90	858
+quiz_02,295,246,4	duplicate(Wall#looktao)	Wall#91	858
+quiz_02,296,246,4	duplicate(Wall#looktao)	Wall#92	858
+quiz_02,297,246,4	duplicate(Wall#looktao)	Wall#93	858
+quiz_02,298,246,4	duplicate(Wall#looktao)	Wall#94	858
+quiz_02,299,246,4	duplicate(Wall#looktao)	Wall#95	858
+quiz_02,300,246,4	duplicate(Wall#looktao)	Wall#96	858
+quiz_02,301,246,4	duplicate(Wall#looktao)	Wall#97	858
+quiz_02,289,237,4	duplicate(Wall#looktao)	Wall#98	858
+quiz_02,290,237,4	duplicate(Wall#looktao)	Wall#99	858
+quiz_02,291,237,4	duplicate(Wall#looktao)	Wall#100	858
+quiz_02,292,237,4	duplicate(Wall#looktao)	Wall#101	858
+quiz_02,293,237,4	duplicate(Wall#looktao)	Wall#102	858
+quiz_02,294,237,4	duplicate(Wall#looktao)	Wall#103	858
+quiz_02,295,237,4	duplicate(Wall#looktao)	Wall#104	858
+quiz_02,296,237,4	duplicate(Wall#looktao)	Wall#105	858
+quiz_02,297,237,4	duplicate(Wall#looktao)	Wall#106	858
+quiz_02,298,237,4	duplicate(Wall#looktao)	Wall#107	858
+quiz_02,299,237,4	duplicate(Wall#looktao)	Wall#108	858
+quiz_02,300,237,4	duplicate(Wall#looktao)	Wall#109	858
+quiz_02,301,237,4	duplicate(Wall#looktao)	Wall#110	858
+
+quiz_02,306,264,4	duplicate(Wall#looktao)	Wall#321	858
+quiz_02,306,263,4	duplicate(Wall#looktao)	Wall#322	858
+quiz_02,306,262,4	duplicate(Wall#looktao)	Wall#323	858
+quiz_02,306,261,4	duplicate(Wall#looktao)	Wall#324	858
+quiz_02,306,260,4	duplicate(Wall#looktao)	Wall#325	858
+quiz_02,306,259,4	duplicate(Wall#looktao)	Wall#326	858
+quiz_02,306,258,4	duplicate(Wall#looktao)	Wall#327	858
+quiz_02,306,257,4	duplicate(Wall#looktao)	Wall#328	858
+quiz_02,306,256,4	duplicate(Wall#looktao)	Wall#329	858
+quiz_02,306,255,4	duplicate(Wall#looktao)	Wall#210	858
+quiz_02,306,254,4	duplicate(Wall#looktao)	Wall#211	858
+quiz_02,306,253,4	duplicate(Wall#looktao)	Wall#212	858
+quiz_02,306,252,4	duplicate(Wall#looktao)	Wall#213	858
+quiz_02,306,251,4	duplicate(Wall#looktao)	Wall#214	858
+quiz_02,306,250,4	duplicate(Wall#looktao)	Wall#215	858
+quiz_02,306,249,4	duplicate(Wall#looktao)	Wall#216	858
+quiz_02,306,248,4	duplicate(Wall#looktao)	Wall#217	858
+quiz_02,306,247,4	duplicate(Wall#looktao)	Wall#218	858
+quiz_02,306,246,4	duplicate(Wall#looktao)	Wall#219	858
+quiz_02,306,245,4	duplicate(Wall#looktao)	Wall#220	858
+quiz_02,306,244,4	duplicate(Wall#looktao)	Wall#221	858
+quiz_02,306,243,4	duplicate(Wall#looktao)	Wall#222	858
+quiz_02,306,242,4	duplicate(Wall#looktao)	Wall#223	858
+quiz_02,306,241,4	duplicate(Wall#looktao)	Wall#224	858
+quiz_02,306,240,4	duplicate(Wall#looktao)	Wall#225	858
+quiz_02,306,239,4	duplicate(Wall#looktao)	Wall#226	858
+quiz_02,306,238,4	duplicate(Wall#looktao)	Wall#227	858
+quiz_02,306,237,4	duplicate(Wall#looktao)	Wall#228	858
+
+quiz_02,320,264,4	duplicate(Wall#looktao)	Wall#230	858
+quiz_02,320,263,4	duplicate(Wall#looktao)	Wall#231	858
+quiz_02,320,262,4	duplicate(Wall#looktao)	Wall#232	858
+quiz_02,320,261,4	duplicate(Wall#looktao)	Wall#233	858
+quiz_02,320,260,4	duplicate(Wall#looktao)	Wall#234	858
+quiz_02,320,259,4	duplicate(Wall#looktao)	Wall#235	858
+quiz_02,320,258,4	duplicate(Wall#looktao)	Wall#236	858
+quiz_02,320,257,4	duplicate(Wall#looktao)	Wall#237	858
+quiz_02,320,256,4	duplicate(Wall#looktao)	Wall#238	858
+quiz_02,320,255,4	duplicate(Wall#looktao)	Wall#239	858
+quiz_02,320,254,4	duplicate(Wall#looktao)	Wall#240	858
+quiz_02,320,253,4	duplicate(Wall#looktao)	Wall#241	858
+quiz_02,320,252,4	duplicate(Wall#looktao)	Wall#242	858
+quiz_02,320,251,4	duplicate(Wall#looktao)	Wall#243	858
+quiz_02,320,250,4	duplicate(Wall#looktao)	Wall#244	858
+quiz_02,320,249,4	duplicate(Wall#looktao)	Wall#245	858
+quiz_02,320,248,4	duplicate(Wall#looktao)	Wall#246	858
+quiz_02,320,247,4	duplicate(Wall#looktao)	Wall#247	858
+quiz_02,320,246,4	duplicate(Wall#looktao)	Wall#248	858
+quiz_02,320,245,4	duplicate(Wall#looktao)	Wall#249	858
+quiz_02,320,244,4	duplicate(Wall#looktao)	Wall#250	858
+quiz_02,320,243,4	duplicate(Wall#looktao)	Wall#251	858
+quiz_02,320,242,4	duplicate(Wall#looktao)	Wall#252	858
+quiz_02,320,241,4	duplicate(Wall#looktao)	Wall#253	858
+quiz_02,320,240,4	duplicate(Wall#looktao)	Wall#254	858
+quiz_02,320,239,4	duplicate(Wall#looktao)	Wall#255	858
+quiz_02,320,238,4	duplicate(Wall#looktao)	Wall#256	858
+quiz_02,320,237,4	duplicate(Wall#looktao)	Wall#257	858
+
+quiz_02,307,264,4	duplicate(Wall#looktao)	Wall#259	858
+quiz_02,308,264,4	duplicate(Wall#looktao)	Wall#260	858
+quiz_02,309,264,4	duplicate(Wall#looktao)	Wall#261	858
+quiz_02,310,264,4	duplicate(Wall#looktao)	Wall#262	858
+quiz_02,311,264,4	duplicate(Wall#looktao)	Wall#263	858
+quiz_02,312,264,4	duplicate(Wall#looktao)	Wall#264	858
+quiz_02,313,264,4	duplicate(Wall#looktao)	Wall#265	858
+quiz_02,314,264,4	duplicate(Wall#looktao)	Wall#266	858
+quiz_02,315,264,4	duplicate(Wall#looktao)	Wall#267	858
+quiz_02,316,264,4	duplicate(Wall#looktao)	Wall#268	858
+quiz_02,317,264,4	duplicate(Wall#looktao)	Wall#269	858
+quiz_02,318,264,4	duplicate(Wall#looktao)	Wall#270	858
+quiz_02,319,264,4	duplicate(Wall#looktao)	Wall#271	858
+quiz_02,307,255,4	duplicate(Wall#looktao)	Wall#272	858
+quiz_02,308,255,4	duplicate(Wall#looktao)	Wall#273	858
+quiz_02,309,255,4	duplicate(Wall#looktao)	Wall#274	858
+quiz_02,310,255,4	duplicate(Wall#looktao)	Wall#275	858
+quiz_02,311,255,4	duplicate(Wall#looktao)	Wall#276	858
+quiz_02,312,255,4	duplicate(Wall#looktao)	Wall#277	858
+quiz_02,313,255,4	duplicate(Wall#looktao)	Wall#278	858
+quiz_02,314,255,4	duplicate(Wall#looktao)	Wall#279	858
+quiz_02,315,255,4	duplicate(Wall#looktao)	Wall#280	858
+quiz_02,316,255,4	duplicate(Wall#looktao)	Wall#281	858
+quiz_02,317,255,4	duplicate(Wall#looktao)	Wall#282	858
+quiz_02,318,255,4	duplicate(Wall#looktao)	Wall#283	858
+quiz_02,319,255,4	duplicate(Wall#looktao)	Wall#284	858
+quiz_02,307,246,4	duplicate(Wall#looktao)	Wall#285	858
+quiz_02,308,246,4	duplicate(Wall#looktao)	Wall#286	858
+quiz_02,309,246,4	duplicate(Wall#looktao)	Wall#287	858
+quiz_02,310,246,4	duplicate(Wall#looktao)	Wall#288	858
+quiz_02,311,246,4	duplicate(Wall#looktao)	Wall#289	858
+quiz_02,312,246,4	duplicate(Wall#looktao)	Wall#290	858
+quiz_02,313,246,4	duplicate(Wall#looktao)	Wall#291	858
+quiz_02,314,246,4	duplicate(Wall#looktao)	Wall#292	858
+quiz_02,315,246,4	duplicate(Wall#looktao)	Wall#293	858
+quiz_02,316,246,4	duplicate(Wall#looktao)	Wall#294	858
+quiz_02,317,246,4	duplicate(Wall#looktao)	Wall#295	858
+quiz_02,318,246,4	duplicate(Wall#looktao)	Wall#296	858
+quiz_02,319,246,4	duplicate(Wall#looktao)	Wall#297	858
+quiz_02,307,237,4	duplicate(Wall#looktao)	Wall#298	858
+quiz_02,308,237,4	duplicate(Wall#looktao)	Wall#299	858
+quiz_02,309,237,4	duplicate(Wall#looktao)	Wall#2100	858
+quiz_02,310,237,4	duplicate(Wall#looktao)	Wall#2101	858
+quiz_02,311,237,4	duplicate(Wall#looktao)	Wall#2102	858
+quiz_02,312,237,4	duplicate(Wall#looktao)	Wall#2103	858
+quiz_02,313,237,4	duplicate(Wall#looktao)	Wall#2104	858
+quiz_02,314,237,4	duplicate(Wall#looktao)	Wall#2105	858
+quiz_02,315,237,4	duplicate(Wall#looktao)	Wall#2106	858
+quiz_02,316,237,4	duplicate(Wall#looktao)	Wall#2107	858
+quiz_02,317,237,4	duplicate(Wall#looktao)	Wall#2108	858
+quiz_02,318,237,4	duplicate(Wall#looktao)	Wall#2109	858
+quiz_02,319,237,4	duplicate(Wall#looktao)	Wall#2110	858
+
+quiz_02,295,263,4	script	 #001	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 1",0;
+end;
+}
+quiz_02,295,254,4	script	 #002	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 2",0;
+end;
+}
+quiz_02,295,245,4	script	 #003	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 3",0;
+end;
+}
+quiz_02,313,263,4	script	 #004	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 4",0;
+end;
+}
+quiz_02,313,254,4	script	 #005	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 5",0;
+end;
+}
+quiz_02,313,245,4	script	 #006	111,{
+end;
+OnInit:
+waitingroom "ห้องหมายเลข 6",0;
+end;
+}
+
+quiz_02,295,260,0	script	Wall#effect1	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+quiz_02,295,251,0	script	Wall#effect2	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+quiz_02,295,242,0	script	Wall#effect3	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+quiz_02,313,260,0	script	Wall#effect4	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+quiz_02,313,251,0	script	Wall#effect5	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+quiz_02,313,242,0	script	Wall#effect6	139,{
+OnEffectLT:
+	specialeffect 622;
+end;
+OnEffectRN:
+	setarray .@effect[0],70;
+	specialeffect .@effect[rand(getarraysize(.@effect))];
+end;
+}
+
+quiz_02,304,264,0	script	EventLooktaoPoint	45,0,{end;}
+
+function	script	F_EventLooktao	{
+	switch(getarg(0)) {
+	case 1:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 1 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect1::OnEffectLT";
+	sleep2 1500;
+	areawarp "quiz_02",289,263,301,256,"prontera",156,187;
+	end;
+	case 2:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 2 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect2::OnEffectLT";
+	areawarp "quiz_02",289,254,301,247,"prontera",156,187;
+	end;
+	case 3:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 3 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect3::OnEffectLT";
+	sleep2 1500;
+	areawarp "quiz_02",289,245,301,238,"prontera",156,187;
+	end;
+	case 4:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 4 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect4::OnEffectLT";
+	sleep2 1500;
+	areawarp "quiz_02",307,263,319,256,"prontera",156,187;
+	end;
+	case 5:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน] : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 5 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect5::OnEffectLT";
+	sleep2 1500;
+	areawarp "quiz_02",307,254,319,247,"prontera",156,187;
+	end;
+	case 6:
+	mapannounce "quiz_02","[ กิจกรรมทอยเต๋าพาเพลิน : ห้องที่โชคร้ายได้แก่ ห้องหมายเลข [ 6 ] เสียใจด้วยจริงๆ! ]",0xFFFF00;
+	set $@ELTRN_Active,0;
+	donpcevent "Wall#effect6::OnEffectLT";
+	sleep2 1500;
+	areawarp "quiz_02",307,245,319,238,"prontera",156,187;
+	end;
+	case 7:
+	setcell "quiz_02",302,263,302,256,cell_walkable,1;
+	hideonnpc "Wall#33";
+	hideonnpc "Wall#34";
+	hideonnpc "Wall#35";
+	hideonnpc "Wall#36";
+	setcell "quiz_02",302,254,302,247,cell_walkable,1;
+	hideonnpc "Wall#42";
+	hideonnpc "Wall#43";
+	hideonnpc "Wall#44";
+	hideonnpc "Wall#45";
+	setcell "quiz_02",302,245,302,238,cell_walkable,1;
+	hideonnpc "Wall#51";
+	hideonnpc "Wall#52";
+	hideonnpc "Wall#53";
+	hideonnpc "Wall#54";
+	setcell "quiz_02",306,263,306,256,cell_walkable,1;
+	hideonnpc "Wall#324";
+	hideonnpc "Wall#325";
+	hideonnpc "Wall#326";
+	hideonnpc "Wall#327";
+	setcell "quiz_02",306,254,306,247,cell_walkable,1;
+	hideonnpc "Wall#213";
+	hideonnpc "Wall#214";
+	hideonnpc "Wall#215";
+	hideonnpc "Wall#216";
+	setcell "quiz_02",306,245,306,238,cell_walkable,1;
+	hideonnpc "Wall#222";
+	hideonnpc "Wall#223";
+	hideonnpc "Wall#224";
+	hideonnpc "Wall#225";
+	end;
+	case 8:
+	setcell "quiz_02",302,263,302,256,cell_walkable,0;
+	hideoffnpc "Wall#33";
+	hideoffnpc "Wall#34";
+	hideoffnpc "Wall#35";
+	hideoffnpc "Wall#36";
+	setcell "quiz_02",302,254,302,247,cell_walkable,0;
+	hideoffnpc "Wall#42";
+	hideoffnpc "Wall#43";
+	hideoffnpc "Wall#44";
+	hideoffnpc "Wall#45";
+	setcell "quiz_02",302,245,302,238,cell_walkable,0;
+	hideoffnpc "Wall#51";
+	hideoffnpc "Wall#52";
+	hideoffnpc "Wall#53";
+	hideoffnpc "Wall#54";
+	setcell "quiz_02",306,263,306,256,cell_walkable,0;
+	hideoffnpc "Wall#324";
+	hideoffnpc "Wall#325";
+	hideoffnpc "Wall#326";
+	hideoffnpc "Wall#327";
+	setcell "quiz_02",306,254,306,247,cell_walkable,0;
+	hideoffnpc "Wall#213";
+	hideoffnpc "Wall#214";
+	hideoffnpc "Wall#215";
+	hideoffnpc "Wall#216";
+	setcell "quiz_02",306,245,306,238,cell_walkable,0;
+	hideoffnpc "Wall#222";
+	hideoffnpc "Wall#223";
+	hideoffnpc "Wall#224";
+	hideoffnpc "Wall#225";
+	end;
+	}
+}

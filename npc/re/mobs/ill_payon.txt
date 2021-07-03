@@ -1,0 +1,13 @@
+// Mapflags
+pay_d03_i	mapflag	nomemo
+
+
+// Mob Spanw
+pay_d03_i,0,0,0,0	monster	Angry Nine Tail	3759,30,5000
+pay_d03_i,0,0,0,0	monster	Cursed Munak	3760,20,5000
+pay_d03_i,0,0,0,0	monster	Cursed Bongun	3761,20,5000
+pay_d03_i,0,0,0,0	monster	Cursed Sohee	3762,25,5000
+pay_d03_i,0,0,0,0	monster	Unfair Soldier	3763,30,5000
+pay_d03_i,0,0,0,0	monster	Truthful Wizard	3764,2,600000
+pay_d03_i,0,0,0,0	monster	Illusion Hero	3765,5,5000
+pay_d03_i,0,0,0,0	boss_monster	Angry Moonlight	3758,1,7200000,600000,0

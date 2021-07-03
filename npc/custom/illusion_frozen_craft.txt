@@ -1,0 +1,210 @@
+//===== rAthena Script =======================================
+//= Euphy's Quest Shop
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.6c
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A dynamic quest shop based on Lunar's, with easier config.
+//= Includes support for multiple shops & cashpoints.
+//= Item Preview script by ToastOfDoom.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.2 Added category support.
+//= 1.3 More options and fixes.
+//= 1.4 Added debug settings.
+//= 1.5 Replaced categories with shop IDs.
+//= 1.6 Added support for purchasing stackables.
+//= 1.6a Added support for previewing costumes and robes.
+//= 1.6b Added 'disable_items' command.
+//= 1.6c Replaced function 'A_An' with "F_InsertArticle".
+//============================================================
+
+// Shop NPCs -- supplying no argument displays entire menu.
+//	callfunc "rrshop"{,<shop ID>{,<shop ID>{,...}}};
+//  ADD YOUR NPC HERE
+//============================================================
+ice_d03_i,194,49,4	script	Ice Cave Explorer	797,{
+	mes "[Ice Cave Explorer]","Have you ever heard this ?","It's cold out here, but it's freezing inside";
+	next;
+	mes "[Ice Cave Explorer]","Greeting adventurer!, I'm an Ice cave explorer.","What can I do for you?";
+	next;
+	menu "Ask about Illusion's equipment",pick1, "Just chilling around",pick2;
+		pick2: {
+			next;
+			mes "[Ice Cave Explorer]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		pick1: {
+		next;
+		mes "[Ice Cave Explorer]","Illusion equipments are the new choice to upgrade your weapon","it can endow +9 or higher equipments by absorb an energy from the special place.","just like Ice Cave that have too powerful energy.";
+		next;
+		mes "[Ice Cave Explorer]","Would you like to try ?","I can endow your weapon with your special ingredients";
+		next;
+		menu "Yes,of course",ask1, "See you next time",ask2;
+		ask2: {
+			next;
+			mes "[Ice Cave Explorer]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		ask1:	menu "Illusion Combo Battle Glove [2]",firm1, "Illusion Huuma Fluttering Snow [2]",firm2, "Illusion Cap [1]",firm3, "Illusion Survivor's Manteau [1]",firm4, "Illusion Sacred Mission [1]",firm5;
+				firm1: {
+				mes "<ITEM>Illusion Combo Battle Glove[2]<INFO>1846</INFO></ITEM>","  - +9 Combo Battle Glove [4]","  - 100 Illusion Stone","  - 100 Snowball"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(1846,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25299 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1822 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,100;
+							delitem 25299,100;
+							getitem 1846,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm2: {
+				mes "<ITEM>Illusion Huuma Fluttering Snow[2]<INFO>13337</INFO></ITEM>","  - +9 Huuma Fluttering Snow","  - 100 Illusion Stone","  - 200 Ktullanux's Eye"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(13337,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25300 && @inventorylist_amount[.@i] >= 200) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 13314 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,100;
+							delitem 25300,200;
+							getitem 13337,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm3: {
+				mes "<ITEM>Illusion Cap[1]<INFO>19223</INFO></ITEM>","  - +9 Cap [1]","  - 50 Illusion Stone","  - 100 Frozen Stone"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(19223,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 10) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25297 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HEAD_TOP) == 2227 && getequiprefinerycnt(EQI_HEAD_TOP) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HEAD_TOP;
+							delitem 25271,50;
+							delitem 25297,100;
+							getitem 19223,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm4: {
+				mes "<ITEM>Illusion Survivor's Manteau[1]<INFO>20847</INFO></ITEM>","  - +9 Survivor's Manteau","  - 100 Illusion Stone","  - 200 Frozen Stone"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(20847,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25297 && @inventorylist_amount[.@i] >= 200) .@true[2] = 1;
+					}
+					if(getequipid(EQI_GARMENT) == 2509 && getequiprefinerycnt(EQI_GARMENT) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_GARMENT;
+							delitem 25271,100;
+							delitem 25297,200;
+							getitem 20847,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm5: {
+				mes "<ITEM>Illusion Sacred Mission[1]<INFO>28922</INFO></ITEM>","  - +9 Sacred Mission[1]","  - 100 Illusion Stone","  - 300 Soul-contained Gemstone"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28922,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 100) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25298 && @inventorylist_amount[.@i] >= 300) .@true[2] = 1;
+						}
+					if(getequipid(EQI_HAND_L) == 2128 && getequiprefinerycnt(EQI_HAND_L) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_L;
+							delitem 25271,100;
+							delitem 25298,300;
+							getitem 28922,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+		}
+}
+
+ice_d03_i,188,49,4	script	Frostcutter	934,{
+mes "[Frostcutter]","Do you want to cut 5 piece of ^0000ffIllusion Gemstone^000000? to 1 ^ff0000Illusion Stone^000000 ?";
+	if (select("Yes:No" ) == 1) {
+		.@count = countitem(25272);
+		.@gem = .@count/5;
+		if (.@gem >= 1) {
+			next;
+			mes "[Frostcutter]","Wow, It's a brilliant light","That's so Beautiful ore";
+			specialeffect2 567;
+			delitem 25272,.@gem*5;
+			getitem 25271,.@gem;
+			close;
+		}
+		else {
+			next;
+			mes "[Frostcutter]","Too bad. You have insufficient gemstone";
+			close;
+		}
+	}
+	else {
+		next;
+		mes "[Frostcutter]","Good luck. If you have some ^0000ffIllusion Gemstone^000000. please bring back to me";
+		close;
+	}
+}

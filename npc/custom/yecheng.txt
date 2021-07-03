@@ -1,0 +1,139 @@
+ba_in01,87,380,3	script	Yecheon#ep172module_trader	4_EP17_CLEANER_W,{
+	disable_items;
+	cutin "ep172_omega",2;
+	mes "[Yecheon]";
+	mes "I can provide you an Automatic Module, Physical Automatic Improvement Device, and Magical Automatic Improvement Device. It will help you the improve abilites of your automatic equipments.";
+	next;
+	cutin "",255;
+	switch(select("More information.:Get Automatic Module:Get Physical Automatic Improvement Device:Get Magical Automatic Improvement Device:Cancel")){
+		case 1:
+			cutin "ep172_omega",2;
+			mes "[Yecheon]";
+			mes "You can get an ^FF0000automatic module^000000 for ^0000CD90 Barmeal Tickets^000000. I will give you a random automatic module excluding the epic grade modules.";
+			next;
+			mes "[Yecheon]";
+			mes "I'm also providing ^FF0000Physical Automatic Improvement Device and Magical Automatic Improvement Device^000000. You can exchange it for ^0000CD45 Barmeal Tickets^000000, or ^0000CD1500000 Zeny^000000.";
+			next;
+			mes "[Yecheon]";
+			mes "Then, combat-specialized guest, do safely improve your abilities.";
+			close3;
+			
+		case 2:
+			.@price = 90;
+			cutin "ep172_omega",2;
+			mes "[Yecheon]";
+			mes "I will exchange 1 random Automatic Module excluding the epic grade modules for 90 <ITEM>[Barmeal Ticket]<INFO>1000103</INFO></ITEM>.";
+			next;
+			cutin "",255;
+			if(select("Exchange Barmeal Ticket.:Do not exchange") == 2){
+				mes "[Yecheon]";
+				mes "Transaction ended.";
+				close3;
+			}
+			cutin "ep172_omega",2;
+			if(countitem(1000103) < .@price){
+				mes "[Yecheon]";
+				mes "You don't have enough Barmeal tickets for the exchange.";
+				close3;
+			}
+			mes "[Yecheon]";
+			mes "I exchanged it for one random Automatic Module.";
+			delitem 1000103,.@price;
+			getitem .module[rand(getarraysize(.module))],1;
+			close3;
+			
+		case 3:
+			cutin "ep172_omega",2;
+			mes "[Yecheon]";
+			mes "I will exchange ^FF00001 Physical Automatic Improvement Device^000000 for 45 <ITEM>[Barmeal Ticket]<INFO>1000103</INFO></ITEM> or 1500000 Zeny.";
+			next;
+			cutin "",255;
+			.@price = 45;
+			.@zeny = 1500000;
+			switch(select("Exchange for Barmeal Ticket.:Exchange for 1500000 Zeny.:Do not exchange.")){
+				case 1:
+					cutin "ep172_omega",2;
+					if(countitem(1000103) < .@price){
+						mes "[Yecheon]";
+						mes "You don't have enough Barmeal tickets for the exchange.";
+						close3;
+					}
+					mes "[Yecheon]";
+					mes "I exchanged it for one random Physical Automatic Improvement Device.";
+					delitem 1000103,.@price;
+					getitem .p_rand[rand(getarraysize(.p_rand))],1;
+					close3;
+					
+				case 2:
+					cutin "ep172_omega",2;
+					if(Zeny < .@zeny){
+						mes "[Yecheon]";
+						mes "You don't have enough Zeny for the exchange.";
+						close3;
+					}
+					mes "[Yecheon]";
+					mes "I exchanged it for one random Physical Automatic Improvement Device.";
+					Zeny -= .@zeny;
+					getitem .p_rand[rand(getarraysize(.p_rand))],1;
+					close3;
+
+				case 3:
+					end;
+			}
+			
+		case 4:
+			cutin "ep172_omega",2;
+			mes "[Yecheon]";
+			mes "I will exchange ^FF00001 Magical Automatic Improvement Device^000000 for 45 <ITEM>[Barmeal Ticket]<INFO>1000103</INFO></ITEM> or 1500000 Zeny.";
+			next;
+			cutin "",255;
+			.@price = 45;
+			.@zeny = 1500000;
+			switch(select("Exchange for Barmeal Ticket.:Exchange for 1500000 Zeny.:Do not exchange.")){
+				case 1:
+					cutin "ep172_omega",2;
+					if(countitem(1000103) < .@price){
+						mes "[Yecheon]";
+						mes "You don't have enough Barmeal tickets for the exchange.";
+						close3;
+					}
+					mes "[Yecheon]";
+					mes "I exchanged it for one random Magical Automatic Improvement Device.";
+					delitem 1000103,.@price;
+					getitem .m_rand[rand(getarraysize(.m_rand))],1;
+					close3;
+					
+				case 2:
+					cutin "ep172_omega",2;
+					if(Zeny < .@zeny){
+						mes "[Yecheon]";
+						mes "You don't have enough Zeny for the exchange.";
+						close3;
+					}
+					mes "[Yecheon]";
+					mes "I exchanged it for one random Magical Automatic Improvement Device.";
+					Zeny -= .@zeny;
+					getitem .m_rand[rand(getarraysize(.m_rand))],1;
+					close3;
+
+				case 3:
+					end;
+			}
+
+		case 5:
+			close;
+	}
+	
+OnInit:
+	setarray .physical,100164,50,100165,30,100166,20;
+	setarray .magical,100167,50,100168,30,100169,20;
+	for(.@i = 0; .@i < getarraysize(.physical); .@i += 2){
+		for(.@x = 0; .@x < .physical[.@i+1]; .@x++){
+			.p_rand[getarraysize(.p_rand)] = .physical[.@i];
+			.m_rand[getarraysize(.m_rand)] = .magical[.@i];
+		}
+	}
+	for(.@i = 1000105; .@i < 1000150; .@i++)
+		.module[getarraysize(.module)] = .@i;
+	end;
+}

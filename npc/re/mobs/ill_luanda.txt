@@ -1,0 +1,15 @@
+// Mapflags
+com_d02_i	mapflag	nomemo
+//com_d02_i2	mapflag	nomemo
+
+// Mob Spawn - Luanda Cave
+com_d02_i,0,0,0,0	monster	Ancient Tri Joint	20270,35,5000
+com_d02_i,0,0,0,0	monster	Ancient Stalactic Golem	20271,60,5000
+com_d02_i,0,0,0,0	monster	Ancient Megalith	20272,30,5000
+com_d02_i,0,0,0,0	boss_monster	Ancient Tao Gunka	20273,1,7200000,600000,0
+
+// Mob Spawn - Umbala Cave
+com_d02_i2,0,0,0,0	monster	Ancient Stone Shooter	20274,30,5000
+com_d02_i2,0,0,0,0	monster	Ancient Wootan Fighter	20276,50,5000
+com_d02_i2,0,0,0,0	monster	Ancient Wootan Shooter	20275,50,5000
+com_d02_i2,0,0,0,0	boss_monster	Ancient Wootan Defender	20277,1,7200000,600000,0

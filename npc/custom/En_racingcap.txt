@@ -1,0 +1,398 @@
+//===== Script =======================================
+//= Enchant Racing Cap
+//= By JumBo
+//= ดัดแปลงมาจากออฟหมวกแลป 5
+//====================================================
+prontera,96,219,5	script	Enchant Researcher Oipel	4_M_SCIENCE,{
+	disable_items;
+	if ((MaxWeight - Weight) < 1000) {
+		mes "เจ้าแบกของมาหนักเกินไป. ลองลดน้ำหนักลงแล้วมาใหม่.";
+		close;
+	}
+	if (checkweight(501,1) == 0) {
+		mes "เจ้าพกของมามากเกินไป. ลองลดของลงแล้วมาใหม่.";
+		close;
+	}
+	mes "[Enchant Researcher Oipel]";
+	mes "ข้าสามารถยกระดับความสามารถของ Racing Cap ได้.";
+	mes "ถ้าเจ้านำ Poring Coin มาให้ข้าและเงินอีกเล็กน้อย ข้าจะออฟ Racing Cap ให้แก่เจ้า.";
+	next;
+	switch( select( "ออฟ Racing Cap", "ลบออฟ Racing Cap", "รายละเอียด", "ออก" ) ) {
+	case 1:
+		.@equip_id = getequipid(EQI_HEAD_TOP);
+		switch(.@equip_id) {
+			case 19189:// Racing Cap (Mechanic)
+			case 19190:// Racing Cap (Genetic)
+			case 19191:// Racing Cap (Guillotine Cross)
+			case 19192:// Racing Cap (Shadow Chaser)
+			case 19193:// Racing Cap (Warlock)
+			case 19194:// Racing Cap (Sorcerer)
+			case 19195:// Racing Cap (Rune Knight)
+			case 19196:// Racing Cap (Royal Guard)
+			case 19197:// Racing Cap (Archbishop)
+			case 19198:// Racing Cap (Sura)
+			case 19199:// Racing Cap (Ranger)
+			case 19200:// Racing Cap (Minstrel)
+			case 19201:// Racing Cap (Wanderer)
+			case 19202:// Racing Cap (Gunslinger)
+			case 19203:// Racing Cap (Ninja)
+			case 19204:// Racing Cap (Super Novice)
+			case 19205:// Racing Cap (Summoner)
+			case 19396:// Racing Cap (Star Gladiator)
+			case 19397:// Racing Cap (Soul Linker)
+				break;
+			default:
+				mes "[Enchant Researcher Oipel]";
+				mes "^FF0000เจ้าไม่ได้ใส่หมวก Racing Cap มาด้วย.^000000";
+				close;
+		}
+		mes "[Enchant Researcher Oipel]";
+	
+		setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+		
+		if (.@card[3] == 0) {
+			.@slot = 3;
+			mes "การออฟช่องที่ 4. จะสุ่ม 1 ใน 6 สเตตัส โดยมีค่า 1-3.";
+		}
+		else if (.@card[2] == 0) {
+			.@slot = 2;
+			mes "การออฟช่องที่ 3. จะสุ่ม 1 ใน 6 สเตตัส โดยมีค่า 1-4.";
+		}
+		else if (.@card[1] == 0) {
+			.@slot = 1;
+			mes "^FF0000การออฟช่องที่ 2. มีโอกาสได้หินออฟ Racing ตามอาชีพ.^000000";
+			mes "หรืออาจได้ Fighting Spirit, Expert Archer, Sharp, Spell, Fatal, Attack Speed, เลเวล 1-2 แทน.";
+		}
+		else {
+			switch( .@card[1] ) {
+			case 29310:	// Racing (Rune Knight) Lv1
+			case 29313:	// Racing (Royal Guard) Lv1
+			case 29316:	// Racing (Mechanic) Lv1
+			case 29319:	// Racing (Genetic) Lv1
+			case 29322:	// Racing (Guillotine Cross) Lv1
+			case 29325:	// Racing (Shadow Chaser) Lv1
+			case 29328:	// Racing (Warlock) Lv1
+			case 29331:	// Racing (Sorcerer) Lv1
+			case 29334:	// Racing (Archbishop) Lv1
+			case 29337:	// Racing (Sura) Lv1
+			case 29340:	// Racing (Ranger) Lv1
+			case 29343:	// Racing (Wander & Minstrel) Lv1
+			case 29346:	// Racing (Gunslinger) Lv1
+			case 29349:	// Racing (Ninja) Lv1
+			case 29352:	// Racing (Super Novice) Lv1
+			case 29355:	// Racing (Summoner) Lv1
+			case 29579:	// Racing (Star Gladiator) Lv1
+			case 29582:	// Racing (Soul Linker) Lv1
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@requirement = 50;
+				.@cost_zeny = 500000;
+				.@enchant_level = 1;
+				.@enchant_rate = 30;
+				if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+				else
+				.@level_dt = 0;
+				break;
+			case 29311:	// Racing (Rune Knight) Lv2
+			case 29314:	// Racing (Royal Guard) Lv2
+			case 29317:	// Racing (Mechanic) Lv2
+			case 29320:	// Racing (Genetic) Lv2
+			case 29323:	// Racing (Guillotine Cross) Lv2
+			case 29326:	// Racing (Shadow Chaser) Lv2
+			case 29329:	// Racing (Warlock) Lv2
+			case 29332:	// Racing (Sorcerer) Lv2
+			case 29335:	// Racing (Archbishop) Lv2
+			case 29338:	// Racing (Sura) Lv2
+			case 29341:	// Racing (Ranger) Lv2
+			case 29344:	// Racing (Wander & Minstrel) Lv2
+			case 29347:	// Racing (Gunslinger) Lv2
+			case 29350:	// Racing (Ninja) Lv2
+			case 29353:	// Racing (Super Novice) Lv2
+			case 29356:	// Racing (Summoner) Lv2
+			case 29580:	// Racing (Star Gladiator) Lv2
+			case 29583:	// Racing (Soul Linker) Lv2
+				mes "ถ้าเจ้าอัพเกรดสำเร็จ เจ้าจะได้พลังที่แข็งแกร่งขึ้น. แต่ถ้าเจ้าอัพเกรดล้มเหลว เจ้าจะสูญเสียพลังไปหนึ่งระดับ.";
+				.@requirement = 100;
+				.@cost_zeny = 1000000;
+				.@enchant_level = 2;
+				.@enchant_rate = 15;
+				if (.@enchant_rate > rand(100))
+				.@level_dt = 1;
+				else
+				.@level_dt = -1;
+				break;
+			case 29312:	// Racing (Rune Knight) Lv3
+			case 29315:	// Racing (Royal Guard) Lv3
+			case 29318:	// Racing (Mechanic) Lv3
+			case 29321:	// Racing (Genetic) Lv3
+			case 29324:	// Racing (Guillotine Cross) Lv3
+			case 29327:	// Racing (Shadow Chaser) Lv3
+			case 29330:	// Racing (Warlock) Lv3
+			case 29333:	// Racing (Sorcerer) Lv3
+			case 29336:	// Racing (Archbishop) Lv3
+			case 29339:	// Racing (Sura) Lv3
+			case 29342:	// Racing (Ranger) Lv3
+			case 29345:	// Racing (Wander & Minstrel) Lv3
+			case 29348:	// Racing (Gunslinger) Lv3
+			case 29351:	// Racing (Ninja) Lv3
+			case 29354:	// Racing (Super Novice) Lv3
+			case 29357:	// Racing (Summoner) Lv3
+			case 29581:	// Racing (Star Gladiator) Lv3
+			case 29584:	// Racing (Soul Linker) Lv3
+			default:
+				mes "^FF0000เลเวลหินออฟสูงสุดแล้ว ไม่สามารถอัพเกรดได้อีก.^000000";
+				close;
+			}
+			.@slot = 999;
+		}
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+			close;
+			
+		next;
+		mes "[Enchant Researcher Oipel]";
+		mes "^FF0000ระดับเลเวลการตีบวก, การ์ด, ของสวมใส่จะไม่สูญหาย หากอัพเกรดล้มเหลว.^000000";
+		next;
+		if (select( "พร้อมสำหรับการออฟแล้ว.", "ข้ายังไม่พร้อม." ) == 2) {
+			mes "[Enchant Researcher Oipel]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		
+		switch(.@slot) {
+		case 3:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4720,	// Dexterity1
+				4721,	// Dexterity2
+				4722,	// Dexterity3
+				4730,	// Agility1
+				4731,	// Agility2
+				4732,	// Agility3
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4750,	// Luck1
+				4751,	// Luck2
+				4752;	// Luck3
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 10;
+			.@cost_zeny = 100000;
+			break;
+		case 2:
+			setarray .@enchant[0],
+				4700,	// Strength1
+				4701,	// Strength2
+				4702,	// Strength3
+				4703,	// Strength4
+				4710,	// Inteligence1
+				4711,	// Inteligence2
+				4712,	// Inteligence3
+				4713,	// Inteligence4
+				4720,	// Dexterity1
+				4721,	// Dexterity2
+				4722,	// Dexterity3
+				4723,	// Dexterity4
+				4730,	// Agility1
+				4731,	// Agility2
+				4732,	// Agility3
+				4733,	// Agility4
+				4740,	// Vitality1
+				4741,	// Vitality2
+				4742,	// Vitality3
+				4743,	// Vitality4
+				4750,	// Luck1
+				4751,	// Luck2
+				4752,	// Luck3
+				4753;	// Luck4
+			.@card[.@slot] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 15;
+			.@cost_zeny = 150000;
+			break;
+		case 1:
+			setarray .@enchant[0],
+				4811,	// Fighting Spirit Lv1
+				4810,	// Fighting Spirit Lv2
+				4832,	// Expert Archer Lv1
+				4833,	// Expert Archer Lv2
+				4818,	// Sharp Lv1
+				4817,	// Sharp Lv2
+				4815,	// Spell Lv1
+				4814,	// Spell Lv2
+				4863,	// Fatal Lv1
+				4864,	// Fatal Lv2
+				4869,	// Attack Speed Lv1
+				4872,	// Attack Speed Lv2
+				29310,	// Racing (Rune Knight) Lv1
+				29313,	// Racing (Royal Guard) Lv1
+				29316,	// Racing (Mechanic) Lv1
+				29319,	// Racing (Genetic) Lv1
+				29322,	// Racing (Guillotine Cross) Lv1
+				29325,	// Racing (Shadow Chaser) Lv1
+				29328,	// Racing (Warlock) Lv1
+				29331,	// Racing (Sorcerer) Lv1
+				29334,	// Racing (Archbishop) Lv1
+				29337,	// Racing (Sura) Lv1
+				29340,	// Racing (Ranger) Lv1
+				29343,	// Racing (Wander & Minstrel) Lv1
+				29346,	// Racing (Gunslinger) Lv1
+				29349,	// Racing (Ninja) Lv1
+				29352,	// Racing (Super Novice) Lv1
+				29355,	// Racing (Summoner) Lv1
+				29579,	// Racing (Star Gladiator) Lv1
+				29582;	// Racing (Soul Linker) Lv1
+			.@card[1] = .@enchant[ rand( getarraysize(.@enchant) ) ];
+			.@requirement = 20;
+			.@cost_zeny = 200000;
+			break;
+		case 999:
+			.@enchant_level += .@level_dt;
+			.@card[1] += .@level_dt;
+			if (.@card[1] < 29310 || .@card[1] > 29584) {
+				mes "[Enchant Researcher Oipel]";
+				mes "มีบางอย่างผิดพลาด.";
+				close;
+			}
+			if (.@enchant_level < 1 || .@enchant_level > 3) {
+				specialeffect2 EF_SUI_EXPLOSION;
+				mes "[Enchant Researcher Oipel]";
+				mes "มีบางอย่างผิดพลาด2.";
+				close;
+			}
+			break;
+		default:
+			mes "[Enchant Researcher Oipel]";
+			mes "มีบางอย่างผิดพลาด3.";
+			close;
+		}
+		next;
+		mes "[Enchant Researcher Oipel]";
+		mes "^0000cdต้องการ Poring Coin " + .@requirement + " อัน และเงิน " + .@cost_zeny + " zeny สำหรับการออฟ.^000000";
+		next;
+		if (select( "จ่ายค่าธรรมเนียม.", "ทำไมต้องจ่ายด้วย." ) == 2) {
+			mes "[Enchant Researcher Oipel]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		if ((countitem(7539) < .@requirement) || (Zeny < .@cost_zeny)) {
+			mes "[Enchant Researcher Oipel]";
+			mes "^FF0000เจ้ามี Poring Coin หรือเงินไม่พอ.^000000";
+			close;
+		}
+		progressbar "000000",1;
+		delitem 7539, .@requirement;// Poring Coin
+		Zeny -= .@cost_zeny;
+		delequip EQI_HEAD_TOP;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		if (.@slot == 999 && .@level_dt == 0) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Enchant Researcher Oipel]";
+			mes "^FF0000การอัพเกรดล้มเหลว, หินออฟคงเลเวลเดิม.^000000";
+			close;
+		}
+		if (.@level_dt == -1) {
+			specialeffect2 EF_SUI_EXPLOSION;
+			mes "[Enchant Researcher Oipel]";
+			mes "^FF0000การอัพเกรดล้มเหลว, หินออฟจะถูกลดหนึ่งระดับ.^000000";
+			close;
+		}
+		specialeffect2 EF_FIREHIT;
+		mes "[Enchant Researcher Oipel]";
+		mes "^0000cdยอดเยี่ยม. เจ้าทำสำเร็จ.^000000";
+		close;
+	case 2:
+		.@equip_id = getequipid(EQI_HEAD_TOP);
+		switch(.@equip_id) {
+			case 19189:// Racing Cap (Mechanic)
+			case 19190:// Racing Cap (Genetic)
+			case 19191:// Racing Cap (Guillotine Cross)
+			case 19192:// Racing Cap (Shadow Chaser)
+			case 19193:// Racing Cap (Warlock)
+			case 19194:// Racing Cap (Sorcerer)
+			case 19195:// Racing Cap (Rune Knight)
+			case 19196:// Racing Cap (Royal Guard)
+			case 19197:// Racing Cap (Archbishop)
+			case 19198:// Racing Cap (Sura)
+			case 19199:// Racing Cap (Ranger)
+			case 19200:// Racing Cap (Minstrel)
+			case 19201:// Racing Cap (Wanderer)
+			case 19202:// Racing Cap (Gunslinger)
+			case 19203:// Racing Cap (Ninja)
+			case 19204:// Racing Cap (Super Novice)
+			case 19205:// Racing Cap (Summoner)
+			case 19396:// Racing Cap (Star Gladiator)
+			case 19397:// Racing Cap (Soul Linker)
+				break;
+			default:
+				mes "[Enchant Researcher Oipel]";
+				mes "^FF0000เจ้าไม่ได้ใส่หมวก Racing Cap มาด้วย.^000000";
+				close;
+		}
+		setarray .@card[0], getequipcardid(EQI_HEAD_TOP,0), getequipcardid(EQI_HEAD_TOP,1), getequipcardid(EQI_HEAD_TOP,2), getequipcardid(EQI_HEAD_TOP,3);
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+
+		if (.@card[3] < 1) {
+			mes "[Enchant Researcher Oipel]";
+			mes "^FF0000หมวกนี้ยังไม่ผ่านการออฟ, ไม่สามารถลบได้.*^000000";
+			close;
+		}
+		mes "[Enchant Researcher Oipel]";
+		mes "^0000cdในการลบออฟเจ้าต้องมี 100 Poring Coin และเงินอีก 500,000 zeny.^000000";
+		next;
+		if (select( "จ่ายค่าธรรมเนียม.", "ปล่อยผ่าน." ) == 2) {
+			mes "[Enchant Researcher Oipel]";
+			mes "ก็แล้วแต่เจ้า.";
+			close;
+		}
+		if ((countitem(7539) < 100) || (Zeny < 500000)) {
+			mes "^0000cdในการลบออฟเจ้าต้องมี 100 Poring Coin และเงินอีก 500,000 zeny.^000000";
+			close;
+		}
+		mes "[Enchant Researcher Oipel]";
+		mes "ข้าจะทำการลบออฟให้เดี๋ยวนี้.";
+		next;
+		progressbar "000000",1;
+		specialeffect2 EF_FIREHIT;
+		delitem 7539,100;// Poring Coin
+		Zeny -= 500000;
+
+		if (callfunc("F_IsEquipIDHack", EQI_HEAD_TOP, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_HEAD_TOP, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", EQI_HEAD_TOP, .@refine))
+			close;
+
+		delequip EQI_HEAD_TOP;
+		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
+		mes "[Enchant Researcher Oipel]";
+		mes "ลบออฟเรียบร้อย.";
+		close;
+	case 3:
+		mes "[Enchant Researcher Oipel]";
+		mes "การออฟหมวก Racing Cap จำเป็นต้องใช้  Poring Coin และเงินอีกจำนวนหนึ่ง.";
+		mes "ในการออฟช่องที่ 4 และ 3 จะสุ่มค่าสเตตัสมาให้.";
+		mes "ซึ่งจะไม่มีโอกาสล้มเหลว.";
+		next;
+		mes "[Enchant Researcher Oipel]";
+		mes "ในการออฟช่องที่ 2 มีโอกาสได้หินออฟ Racing ตามอาชีพ.";
+		mes "ซึ่งสามารถอัพเกรดเลเวลหินออฟได้ สูงสุดคือเลเวล 3.";
+		mes "หากอัพเกรดล้มเหลว จะถูกลดเลเวลหินลงหนึ่งระดับ.";
+		mes "แต่จะไม่น้อยไปกว่าเลเวล 1.";
+		next;
+		mes "[Enchant Researcher Oipel]";
+		mes "การลบออฟหมวก Racing Cap จำเป็นต้องใช้ 100  Poring Coin.";
+		mes "และเงินอีก 500,000 zeny ไม่มีโอกาสล้มเหลวในการลบออฟ.";
+		close;
+	case 4:
+		mes "[Enchant Researcher Oipel]";
+		mes "ก็แล้วแต่เจ้า.";
+		close;
+	}
+OnInit:
+    waitingroom "Enchant Racing Cap",0;
+    end;
+}

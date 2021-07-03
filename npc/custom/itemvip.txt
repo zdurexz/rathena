@@ -1,0 +1,38 @@
+//prontera,143,179,6	cashshop	อุปกรณ์ KVM-(Cash)	795,1187:2000,1281:2000,1282:2000,1310:2000,1426:2000,1486:2000,1546:2000,1576:2000,1577:2000,1640:2000,1641:2000,1743:2000,1826:2000,1827:2000,1927:2000,1981:2000,2002:2000,13042:2000,13110:2000,13176:2000,13177:2000,13178:2000,13179:2000,13307:2000,13416:2000,13417:2000,13418:2000
+
+prontera,134,204,6	script	Vip Shop	4_f_fairy1,{
+	mes "[Vip Shop]";
+	mes "สวัสดียินดีตอนรับเข้าสู่";
+	mes "ร้านค้า VIP";
+	next;
+	if(vip_status(VIP_STATUS_ACTIVE)){
+	if (select("Look at items.:Cancel.") == 1) {
+		mes "[Vip Shop]";
+		mes "เรามีสินค้ามากมาย ให้เลือก สินค้าจะ รีทุก อาทิต";
+		close2;
+		callshop "vip_shop",1;
+		end;
+	}
+	}
+	mes "[Vip Shop]";
+	mes "ขอโทษ คุณไม่ใช่สมาชิก VIP";
+	mes "ไว้กลับมาใหม่ตอนคุณเป็น VIP แล้ว";
+	close;
+	
+OnInit:
+	setarray .messages$," ","V","I","P","S","H","O","P";
+	while( 1 )
+	{
+		set .Display$,"";
+		for( set .i,0; .i < getarraysize( .messages$ ); set .i,.i + 1 )
+		{
+			set .Display$,.Display$ + .messages$[.i];
+			delwaitingroom;
+			waitingroom .Display$,0;
+			sleep 100;
+		}
+	sleep 1000;
+	}
+	end;
+	
+}

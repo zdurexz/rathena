@@ -1,0 +1,247 @@
+//===== rAthena Script =======================================
+//= Euphy's Quest Shop
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.6c
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A dynamic quest shop based on Lunar's, with easier config.
+//= Includes support for multiple shops & cashpoints.
+//= Item Preview script by ToastOfDoom.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//= 1.2 Added category support.
+//= 1.3 More options and fixes.
+//= 1.4 Added debug settings.
+//= 1.5 Replaced categories with shop IDs.
+//= 1.6 Added support for purchasing stackables.
+//= 1.6a Added support for previewing costumes and robes.
+//= 1.6b Added 'disable_items' command.
+//= 1.6c Replaced function 'A_An' with "F_InsertArticle".
+//============================================================
+
+// Shop NPCs -- supplying no argument displays entire menu.
+//	callfunc "rrshop"{,<shop ID>{,<shop ID>{,...}}};
+//  ADD YOUR NPC HERE
+//============================================================
+com_d02_i,233,271,4	script	Mystical Explorer	642,{
+	mes "[Mystical Explorer]","Greeting adventurer!, I'm a Mystical Explorer.","What can I do for you?";
+	next;
+	menu "Ask about Illusion's equipment",pick1, "Just chilling around",pick2;
+		pick2: {
+			next;
+			mes "[Mystical Explorer]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		pick1: {
+		next;
+		mes "[Mystical Explorer]","Illusion equipments are the new choice to upgrade your weapon","it can endow +9 or higher equipments by absorb an energy from the special place.","just like Einbech's mine that have too powerful energy.";
+		next;
+		mes "[Mystical Explorer]","Would you like to try ?","I can endow your weapon with your special ingredients";
+		next;
+		menu "Yes,of course",ask1, "See you next time",ask2;
+		ask2: {
+			next;
+			mes "[Mystical Explorer]","Good luck. I hope we will meet again, soon.";
+			close;
+		}
+		ask1:	menu "Illusion Tablet [2]",firm1, "Illusion Hunter Bow [2]",firm2, "Illusion Goibne's Helm [1]",firm3, "Illusion Goibne's Armor [1]",firm4, 
+					"I﻿llusi﻿on Goibne's Gr﻿eaves﻿﻿ [1]",firm5, "Illusion Goibne's﻿ Spaulders﻿﻿﻿ [1]",firm6;
+				firm1: {
+				mes "<ITEM>Illusion Tablet[2]<INFO>28626</INFO></ITEM>","  - +9 Tablet [1] ","  - 50 Illusion Stone","  - 100 Fragile Worm"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(28626,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 50) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25642 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1552 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,50;
+							delitem 25642,100;
+							getitem 28626,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm2: {
+				mes "<ITEM>Illusion Hunter Bow [2]<INFO>18174</INFO></ITEM>","  - +9 Hunter Bow [1] ","  - 80 Illusion Stone","  - 50 Shooting Good Stone"," - 50 Flowerpot Stone"," - 50 Hair-like Leaf"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(18174,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 80) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25636 && @inventorylist_amount[.@i] >= 50) .@true[2] = 1;
+						if(@inventorylist_id[.@i] == 25640 && @inventorylist_amount[.@i] >= 50) .@true[4] = 1;
+						if(@inventorylist_id[.@i] == 25637 && @inventorylist_amount[.@i] >= 50) .@true[5] = 1;
+					}
+					if(getequipid(EQI_HAND_R) == 1726 && getequiprefinerycnt(EQI_HAND_R) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1 && .@true[4] == 1 && .@true[5] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HAND_R;
+							delitem 25271,80;
+							delitem 25636,50;
+							delitem 25640,50;
+							delitem 25637,50;
+							getitem 18174,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}			
+				else callfunc "required2";
+				}
+				firm3: {
+				mes "<ITEM>Illusion Goibne's Helm[1]<INFO>19366</INFO></ITEM>","  - +9 Goibne's Helm","  - 120 Illusion Stone","  - 10 Wootan Defender's Shield Fragment"," - 150 Wootan Token"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(19366,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25634 && @inventorylist_amount[.@i] >= 10) .@true[2] = 1;
+						if(@inventorylist_id[.@i] == 25633 && @inventorylist_amount[.@i] >= 150) .@true[4] = 1;
+					}
+					if(getequipid(EQI_HEAD_TOP) == 2406 && getequiprefinerycnt(EQI_HEAD_TOP) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1 && .@true[4] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_HEAD_TOP;
+							delitem 25271,120;
+							delitem 25634,10;
+							delitem 25633,150;
+							getitem 19366,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}
+				else callfunc "required2";
+				}				
+				firm4: {
+				mes "<ITEM>Illusion Goibne's Armor[1]<INFO>19366</INFO></ITEM>","  - +9 Goibne's Armor","  - 80 Illusion Stone","  - 100 Solid Clay"," - 150 Megalith Token"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(19366,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 80) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25641 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+						if(@inventorylist_id[.@i] == 25638 && @inventorylist_amount[.@i] >= 150) .@true[4] = 1;
+					}
+					if(getequipid(EQI_ARMOR) == 2354 && getequiprefinerycnt(EQI_ARMOR) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1 && .@true[4] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_ARMOR;
+							delitem 25271,80;
+							delitem 25641,100;
+							delitem 25638,150;
+							getitem 19366,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}
+				else callfunc "required2";
+				}
+				firm5: {
+				mes "<ITEM>Illusion Goibne's Greaves[1]<INFO>22192</INFO></ITEM>","  - +9 Goibne's Greaves","  - 80 Illusion Stone","  - 100 Wootan Warrior's﻿ Hai﻿r"," - 150 Wootan Token"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(22192,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 80) .@true[1] = 1;
+						if(@inventorylist_id[.@i] == 25635 && @inventorylist_amount[.@i] >= 100) .@true[2] = 1;
+						if(@inventorylist_id[.@i] == 25633 && @inventorylist_amount[.@i] >= 150) .@true[4] = 1;
+					}
+					if(getequipid(EQI_SHOES) == 2419 && getequiprefinerycnt(EQI_SHOES) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1 && .@true[4] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_SHOES;
+							delitem 25271,80;
+							delitem 25635,100;
+							delitem 25633,150;
+							getitem 22192,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}
+				else callfunc "required2";
+				}
+				firm6: {
+				mes "<ITEM>Illusion Goibne's Spaulders[1]<INFO>20923</INFO></ITEM>","  - +9  Goibne's Spaulders","  - 120 Illusion Stone","  - 10 Lightning Stone Fragment"," - 150 Megalith Tok﻿en"," ","Do you want to Comfirm?";
+				if (select("Yes:No" ) == 1) {
+					if (checkweight(20923,1)) {
+					getinventorylist;
+					for (; .@i < @inventorylist_count; .@i++) {
+						if(@inventorylist_id[.@i] == 25271 && @inventorylist_amount[.@i] >= 120) .@true[16] = 1;
+						if(@inventorylist_id[.@i] == 25639 && @inventorylist_amount[.@i] >= 10) .@true[17] = 1;
+						if(@inventorylist_id[.@i] == 25638 && @inventorylist_amount[.@i] >= 150) .@true[18] = 1;
+					}
+					if(getequipid(EQI_GARMENT) == 2520 && getequiprefinerycnt(EQI_GARMENT) >= 9) .@true[3] = 1;
+					if (.@true[1] == 1 && .@true[2] == 1 && .@true[3] == 1 && .@true[4] == 1) {
+							next;
+							mes "Weww It's looking good equipment!";
+							delequip EQI_GARMENT;
+							delitem 25271,120;
+							delitem 25639,10;
+							delitem 25638,150;
+							getitem 20923,1;
+							specialeffect2 567;
+							close;
+					}
+					callfunc "required1";
+					}
+					else callfunc "illu_weight";
+				}
+				else callfunc "required2";
+				}
+		}
+}
+
+com_d02_i,229,271,4	script	Gemstone Builder	10215,{
+mes "[Gemstone Builder]","Do you want to cut 5 piece of ^0000ffIllusion Gemstone^000000? to 1 ^ff0000Illusion Stone^000000 ?";
+	if (select("Yes:No" ) == 1) {
+		.@count = countitem(25272);
+		.@gem = .@count/5;
+		if (.@gem >= 1) {
+			next;
+			mes "[Gemstone Builder]","Wow, It's a brilliant light","That's so Beautiful ore";
+			specialeffect2 567;
+			delitem 25272,.@gem*5;
+			getitem 25271,.@gem;
+			close;
+		}
+		else {
+			next;
+			mes "[Gemstone Builder]","Too bad. You have insufficient gemstone";
+			close;
+		}
+	}
+	else {
+		next;
+		mes "[Gemstone Builder]","Good luck. If you have some ^0000ffIllusion Gemstone^000000. please bring back to me";
+		close;
+	}
+}

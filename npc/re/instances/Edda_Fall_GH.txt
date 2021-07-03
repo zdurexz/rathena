@@ -1,0 +1,469 @@
+//===== rAthena Script =======================================
+//= Edda Fall of Glast Heim
+//===== By: ================================================== 
+//= mr.TAURUS
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//============================================================
+//mapflag
+1@gl_prq	mapflag	noteleport
+1@gl_prq	mapflag	monster_noteleport
+1@gl_prq	mapflag	nomemo
+1@gl_prq	mapflag	nopenalty
+1@gl_prq	mapflag	nobranch
+1@gl_prq	mapflag	nosave	SavePoint
+1@gl_prq	mapflag	nochat
+1@gl_prq	mapflag	novending
+//============================================================
+glast_01,241,290,5	script	Oscar#entrance	4_ED_OSCAR,{
+	cutin "oscar01",2;
+	if (EddaFall != gettime(5)){
+		EddaFall = gettime(5);
+		EddaFallp = 1;
+	}
+	mes .NPCname$;
+	mes "จิตใจของเจ้าพร้อมหรือยัง?";
+	mes "ขอเตือนว่าเจ้าสามารถ^FF0000เข้าได้เพียงหนึ่งโหมดต่อวัน^000000";
+	mes "ทั้งโหมดยากหรือโหมดปกติ.";
+	mes "โปรดระวังไว้ว่าหากเจ้าเลือกเข้าสู่โหมดใดโหมดหนึ่งไปแล้ว";
+	mes "จะมีการใช้คูลดาวน์เดียวกันสำหรับทั้งสองโหมด.";
+	next;
+	switch(select(
+		""+.sb$+" ยกเลิก",
+		""+.sb$+" "+.instance_n$+"",
+		""+.sb$+" ^FF0000"+.instance_h$+"^000000"
+	)) {
+		case 1: close3; end;
+		case 2:
+			switch(select(
+				""+.sb$+" เข้าสู่ดันเจี้ยน",
+				""+.sb$+" สร้างดันเจี้ยน"
+			)) {
+				case 1:
+					mes .NPCname$;
+					switch(instance_enter(.instance_name$)) {
+						case IE_OTHER:
+							cutin "oscar05",2;
+							mes "ข้อผิดพลาดที่ไม่รู้จัก.";
+							close3;
+							end;
+						case IE_NOINSTANCE:
+							cutin "oscar04",2;
+							mes "ต้องทำการสร้างดันเจี้ยนก่อน.";
+							close3;
+							end;
+						case IE_OK:
+							if (EddaFallp <= 0) {
+								mes "คูลดาวน์ของ ^FF0000"+.instance_n$+"^000000 ยังคงเหลืออยู่. เราไม่สามารถเดินทางได้อีกในเวลานี้.";
+								close3;
+								end;
+							}
+							EddaFallp -= 1;
+							mapannounce "glast_01", strcharinfo(0)+ " กำลังเข้าสู่ "+.instance_name$, bc_map, "0x00ff99", FW_NORMAL, 12;
+							close3;
+							end;
+					}
+				case 2:
+					mes .NPCname$;
+					if(is_party_leader() == false) {
+						cutin "oscar04",2;
+						mes "เจ้าไม่ใช่หัวหน้าปาร์ตี้.";
+						close3;
+						end;
+					}
+					if (EddaFallp <= 0) {
+						mes "คูลดาวน์ของ ^FF0000"+.instance_n$+"^000000 ยังคงเหลืออยู่. เราไม่สามารถเดินทางได้อีกในเวลานี้.";
+						close3;
+						end;
+					}
+					if (instance_create(.instance_name$) < 1) {
+						cutin "oscar05",2;
+						mes "ปาร์ตี้: " + getpartyname( getcharid(1) ) + "";
+						mes "หัวหน้า: " + getpartyleader( getcharid(1) ) + "";
+						mes "^0000FF"+.instance_name$+"^000000 - ข้อผิดพลาดที่ไม่รู้จัก";
+						close3;
+						end;
+					}
+					cutin "oscar02",2;
+					mes "สร้างดันเจี้ยนเรียบร้อยแล้ว.";
+					close3;
+					end;
+			}
+		
+		case 3:
+			switch(select(
+				""+.sb$+" เข้าสู่ดันเจี้ยน",
+				""+.sb$+" สร้างดันเจี้ยน"
+			)) {
+				case 1:
+					mes .NPCname$;
+					switch(instance_enter(.instance_nameH$)) {
+						case IE_OTHER:
+							cutin "oscar05",2;
+							mes "ข้อผิดพลาดที่ไม่รู้จัก.";
+							close3;
+							end;
+						case IE_NOINSTANCE:
+							cutin "oscar04",2;
+							mes "ต้องทำการสร้างดันเจี้ยนก่อน.";
+							close3;
+							end;
+						case IE_OK:
+							if (EddaFallp <= 0) {
+								mes "คูลดาวน์ของ ^FF0000"+.instance_h$+"^000000 ยังคงเหลืออยู่. เราไม่สามารถเดินทางได้อีกในเวลานี้.";
+								close3;
+								end;
+							}
+							EddaFallp -= 1;
+							mapannounce "glast_01", strcharinfo(0)+ " กำลังเข้าสู่ "+.instance_nameH$, bc_map, "0x00ff99", FW_NORMAL, 12;
+							close3;
+							end;
+					}
+				case 2:
+					mes .NPCname$;
+					if(is_party_leader() == false) {
+						cutin "oscar04",2;
+						mes "เจ้าไม่ใช่หัวหน้าปาร์ตี้.";
+						close3;
+						end;
+					}
+					if (EddaFallp <= 0) {
+						mes "คูลดาวน์ของ ^FF0000"+.instance_h$+"^000000 ยังคงเหลืออยู่. เราไม่สามารถเดินทางได้อีกในเวลานี้.";
+						close3;
+						end;
+					}
+					if (instance_create(.instance_nameH$) < 1) {
+						cutin "oscar05",2;
+						mes "ปาร์ตี้: " + getpartyname( getcharid(1) ) + "";
+						mes "หัวหน้า: " + getpartyleader( getcharid(1) ) + "";
+						mes "^0000FF"+.instance_nameH$+"^000000 - ข้อผิดพลาดที่ไม่รู้จัก";
+						close3;
+						end;
+					}
+					cutin "oscar02",2;
+					mes "สร้างดันเจี้ยนเรียบร้อยแล้ว.";
+					close3;
+					end;
+			}
+	}	
+	end;
+	
+OnInit:
+	.NPCname$  = "[^0000FF "+strnpcinfo(1)+" ^000000]";
+	.sb$ = "~";
+	.instance_name$ = "Glast Heim Purification";
+	.instance_nameH$ = "Glast Heim Purification H";
+	.instance_n$ = "Glast Heim Purification";
+	.instance_h$ = "Glast Heim Purification(Hard)";
+	end;
+}
+
+// ===================================================
+// ============== Floor 1 ============================
+// ===================================================
+1@gl_prq,10,17,1	script	#hidden1	CLEAR_NPC,10,10,{
+	if('floor1) { end; }
+	'floor1 = 1;
+	'partyId$ = getcharid(1);
+	'mobsFloor = 20;
+	if (instance_live_info(ILI_NAME) == 'instance_name$) {
+		areamonster 'map$,80,30,13,80,"Flame Thorn",atoi('mob_id$[4]),15;
+		areamonster 'map$,80,30,13,80,"--ja--",atoi('mob_id$[2]),20,instance_npcname("#hidden1")+"::OnMyMobDead";
+	}
+	if (instance_live_info(ILI_NAME) == 'instance_nameH$) {
+		areamonster 'map$,80,30,13,80,"Flame Thorn",atoi('mobH_id$[4]),15;
+		areamonster 'map$,80,30,13,80,"--ja--",atoi('mobH_id$[2]),20,instance_npcname("#hidden1")+"::OnMyMobDead";
+	}
+	hideonnpc instance_npcname("#hidden1");
+	sleep 5000;
+	mapannounce instance_mapname('map$),"Oscar: สิ่งเดียวที่เราทำได้คือทำให้พวกเขาพักผ่อนเพื่อไม่ให้เจ็บปวดอีกต่อไป.",bc_map,'announceColor$;
+	sleep 5000;
+	mapannounce instance_mapname('map$),"Oscar: หากเจ้าชำระล้างผู้คนที่ถูกสาป, เจ้าจะสามารถมุ่งหน้าไปยังห้องถัดไปได้.",bc_map,'announceColor$;
+	sleep 5000;
+	mapannounce instance_mapname('map$),"Oscar: มันยากที่จะเดินไปรอบๆที่นี่ เพราะเวลาผิดเพี้ยนไปและยังคงวนเวียนซ้ำไปซ้ำมา.",bc_map,'announceColor$;
+	sleep 5000;
+	mapannounce instance_mapname('map$),"Oscar: โอ้, ข้าเกือบลืมไปแล้ว, หากเจ้าเห็น Flame Thorn ให้พยายามหลีกเลี่ยงมัน, มันเป็นมอนสเตอร์ที่อันตรายและน่ารำคาญเป็นอย่างมาก.",bc_map,'announceColor$;
+	end;
+
+OnMyMobDead:
+	'mobsFloor--;
+	dispbottom "Oscar: ผู้คนที่ถูกสาป เหลืออีก "+'mobsFloor+".";
+	if ('mobsFloor <= 0) {
+		mapannounce instance_mapname('map$),"Oscar: เวลาในโซนแรกกำลังไหลตามปกติ ตอนนี้ไปยังพื้นที่ถัดไป.",bc_map,'announceColor$;
+		sleep 5000;
+		'mobsFloor = 0;
+		warpparty 'map$,119,64,atoi('partyId$),'map$;
+	}
+	end;
+
+OnInstanceInit:
+	'map$ = instance_mapname("1@gl_prq");
+	'announceColor$ = "0x009933";
+	'mvpAnnounce$ = "0xEE6600";
+	'instance_name$ = "Glast Heim Purification";
+	'instance_nameH$ = "Glast Heim Purification H";
+	// Mob Normal Mode.
+	setarray 'mob_id$,
+		20388,	//Khalitzburg Knight
+		20390,	//White Knight
+		20392,	//Fallen Maid
+		20394,	//Dark Knight
+		1960,	//Thorn of Magic
+		20386;	//King Schmitd Von Walter
+	// Mob Hard Mode.
+	setarray 'mobH_id$,
+		20389,	//Khalitzburg Knight
+		20391,	//White Knight
+		20392,	//Fallen Maid
+		20394,	//Dark Knight
+		1960,	//Thorn of Magic
+		20387;	//King Schmitd Von Walter
+	'floor1 = 0;
+	'floor2 = 0;
+	'floor3 = 0;
+	'floor4 = 0;
+	'floor5 = 0;
+	'mvpAlive = 1;
+	'canleave = 0;
+	end;
+}
+
+// ===================================================
+// ============== Floor 2 ============================
+// ===================================================
+1@gl_prq,127,63,3	script	Oscar#f2	4_ED_OSCAR,3,3,{
+	if ('floor2) { end; }
+	'floor2 = 1;
+	sleep 1000;
+	npctalk "สถานที่แห่งนี้ถูกใช้โดยอัศวินเมื่อพวกเขาทำงาน.";
+	sleep 2000;
+	npctalk "ผู้ที่พักผ่อนหลังจากทำงานกะไม่สามารถอพยพได้ทันเวลา.";
+	sleep 2000;
+	npctalk "พวกเขาบ้าไปแล้วหลังจากถูกคำสาป, เช่นเดียวกับสาวใช้ที่กำลังเตรียมอาหาร.";
+	sleep 2000;
+	donpcevent instance_npcname("#hidden2")+"::OnStart";
+	hideonnpc instance_npcname("Oscar#f2");
+	disablenpc instance_npcname("Oscar#f2");
+	end;
+}
+
+1@gl_prq,126,80,3	script	#hidden2	CLEAR_NPC,{
+	end;
+OnStart:
+	'mobsFloor = 25;
+	if (instance_live_info(ILI_NAME) == 'instance_name$) {
+	areamonster 'map$,126,75,185,12,"Flame Thorn",atoi('mob_id$[4]),20;
+		areamonster 'map$,126,75,185,12,"--ja--",atoi('mob_id$[0]),23,instance_npcname("#hidden2")+"::OnMyMobDead";
+		areamonster 'map$,126,75,185,12,"--ja--",atoi('mob_id$[3]),2,instance_npcname("#hidden2")+"::OnMyMobDead";
+	}
+	if (instance_live_info(ILI_NAME) == 'instance_nameH$) {
+	areamonster 'map$,126,75,185,12,"Flame Thorn",atoi('mobH_id$[4]),20;
+		areamonster 'map$,126,75,185,12,"--ja--",atoi('mobH_id$[0]),23,instance_npcname("#hidden2")+"::OnMyMobDead";
+		areamonster 'map$,126,75,185,12,"--ja--",atoi('mobH_id$[3]),2,instance_npcname("#hidden2")+"::OnMyMobDead";
+	}
+	end;
+		
+OnMyMobDead:
+	'mobsFloor--;
+	dispbottom "Oscar: ผู้คนที่ถูกสาป เหลืออีก "+'mobsFloor+".";
+	if ('mobsFloor <= 0) {
+		mapannounce instance_mapname('map$),"Oscar: เวลาในโซนที่สองกำลังไหลตามปกติ ตอนนี้ไปยังพื้นที่ถัดไป.",bc_map,'announceColor$;
+		sleep 5000;
+		'mobsFloor = 0;
+		warpparty 'map$,148,113,atoi('partyId$),'map$;
+	}
+	end;
+}
+
+// ===================================================
+// ============== Floor 3 ============================
+// ===================================================
+1@gl_prq,148,121,3	script	Oscar#f3	4_ED_OSCAR,3,3,{
+	if ('floor3) { end; }
+	'floor3 = 1;
+	sleep 1000;
+	npctalk "ที่นี่เคยเป็นโรงแรมที่มีเลานจ์อยู่ที่นี่.";
+	sleep 2000;
+	npctalk "คนที่กินอาหารโดยไม่รู้สถานการณ์ก็ถูกสาปเช่นกัน.";
+	sleep 2000;
+	npctalk "ข้าทำความสะอาดไม่ค่อยเก่งด้วย, เจ้าช่วยสถานที่นี้ด้วยได้ไหม.";
+	sleep 2000;
+	donpcevent instance_npcname("#hidden3")+"::OnStart";
+	hideonnpc instance_npcname("Oscar#f3");
+	disablenpc instance_npcname("Oscar#f3");
+	end;
+}
+
+1@gl_prq,100,133,3	script	#hidden3	CLEAR_NPC,{
+	end;
+OnStart:
+	'mobsFloor = 30;
+	if (instance_live_info(ILI_NAME) == 'instance_name$) {
+	areamonster 'map$,187,106,122,189,"Flame Thorn",atoi('mob_id$[4]),20;
+		areamonster 'map$,187,106,122,189,"--ja--",atoi('mob_id$[1]),30,instance_npcname("#hidden3")+"::OnMyMobDead";
+	}
+	if (instance_live_info(ILI_NAME) == 'instance_nameH$) {
+	areamonster 'map$,187,106,122,189,"Flame Thorn",atoi('mobH_id$[4]),20;
+		areamonster 'map$,187,106,122,189,"--ja--",atoi('mobH_id$[1]),30,instance_npcname("#hidden3")+"::OnMyMobDead";
+	}
+	end;
+
+OnMyMobDead:
+	'mobsFloor--;
+	dispbottom "Oscar: ผู้คนที่ถูกสาป เหลืออีก "+'mobsFloor+".";
+	if ('mobsFloor <= 0) {
+		mapannounce instance_mapname('map$),"Oscar: เวลาในโซนที่สองกำลังไหลตามปกติ ตอนนี้ไปยังพื้นที่ถัดไป.",bc_map,'announceColor$;
+		sleep 5000;
+		'mobsFloor = 0;
+		warpparty 'map$,74,172,atoi('partyId$),'map$;
+	}
+
+}
+// ===================================================
+// ============== Floor 4 ============================
+// ===================================================
+1@gl_prq,67,174,3	script	Oscar#f4	4_ED_OSCAR,3,3,{
+	if ('floor4) { end; }
+	'floor4 = 1;
+	sleep 1000;
+	npctalk "นี่คือจุดที่พวกเขาใช้ในการเก็บรักษาวรรณกรรมทางทหาร.";
+	sleep 2000;
+	npctalk "เจ้าช่วยสถานที่นี้ด้วยได้ไหม.";
+	sleep 2000;
+	donpcevent instance_npcname("#hidden4")+"::OnStart";
+	hideonnpc instance_npcname("Oscar#f4");
+	disablenpc instance_npcname("Oscar#f4");
+	end;
+}
+
+1@gl_prq,67,174,3	script	#hidden4	CLEAR_NPC,{
+	end;
+OnStart:
+	'mobsFloor = 30;
+	if (instance_live_info(ILI_NAME) == 'instance_name$) {
+		areamonster 'map$,16,187,89,112,"Flame Thorn",atoi('mob_id$[4]),20;
+		areamonster 'map$,16,187,89,112,"--ja--",atoi('mob_id$[1]),15,instance_npcname("#hidden4")+"::OnMyMobDead";
+		areamonster 'map$,16,187,89,112,"--ja--",atoi('mob_id$[0]),15,instance_npcname("#hidden4")+"::OnMyMobDead";
+	}
+	if (instance_live_info(ILI_NAME) == 'instance_nameH$) {
+		areamonster 'map$,16,187,89,112,"Flame Thorn",atoi('mobH_id$[4]),20;
+		areamonster 'map$,16,187,89,112,"--ja--",atoi('mobH_id$[1]),15,instance_npcname("#hidden4")+"::OnMyMobDead";
+		areamonster 'map$,16,187,89,112,"--ja--",atoi('mobH_id$[0]),15,instance_npcname("#hidden4")+"::OnMyMobDead";
+	}
+	end;
+
+OnMyMobDead:
+	'mobsFloor--;
+	dispbottom "Oscar: ผู้คนที่ถูกสาป เหลืออีก "+'mobsFloor+".";
+	if ('mobsFloor <= 0) {
+		mapannounce instance_mapname('map$),"Oscar: เวลาในโซนที่สองกำลังไหลตามปกติ ตอนนี้ไปยังพื้นที่ถัดไป.",bc_map,'announceColor$;
+		sleep 5000;
+		warpparty 'map$,51,247,atoi('partyId$),'map$;
+	}
+}
+// ===================================================
+// ============== MVP Floor ==========================
+// ===================================================
+1@gl_prq,53,270,3	script	Oscar#mvp	4_ED_OSCAR,3,3,{
+
+	if('canleave == 1){
+		if (instance_live_info(ILI_NAME) == 'instance_name$) {
+			getitem 25739,9;
+			getexp 1625000,1200000;
+		}
+		if (instance_live_info(ILI_NAME) == 'instance_name$) {
+			getitem 25739,5;
+			getitem 25740,6;
+			getexp 7000000,4750000;
+		}
+		warp "glast_01",245,290;
+		end;
+	}
+	
+	if('floor5){ end; }
+	'floor5 = 1;
+	sleep 2000;
+	mapannounce instance_mapname('map$),"ข้ากำลังรวบรวมพลังงานเวลา. การต่อสู้จะเริ่มขึ้นในไม่ช้าโปรดเตรียมพร้อม.",bc_map,'announceColor$;
+	sleep 10000;
+	warpparty 'map$,51,270,atoi('partyId$),'map$;
+	hideonnpc instance_npcname("Oscar#mvp");
+	if (instance_live_info(ILI_NAME) == 'instance_name$) {
+		monster 'map$,51,281,"--ja--",atoi('mob_id$[5]),1,instance_npcname("Oscar#mvp")+"::OnMyMobDead";
+	}
+	if (instance_live_info(ILI_NAME) == 'instance_nameH$) {
+		monster 'map$,51,281,"--ja--",atoi('mobH_id$[5]),1,instance_npcname("Oscar#mvp")+"::OnMyMobDead";
+	}
+	// boss fight!
+	sleep 5000;
+	while('mvpAlive == 1){
+		mapannounce instance_mapname('map$),"Cursed King: ความเจ็บปวดทำให้ข้าแข็งแกร่งขึ้น.",bc_map,'mvpAnnounce$;
+		sleep 10000;
+	}
+	end;
+
+OnMyMobDead:
+	hideoffnpc instance_npcname("Oscar#mvp");
+	'mvpAlive = 0;
+	'canleave = 1;
+}
+
+
+/*
+-	script	::NPC_FIRE	-1,3,3,{
+    end;
+
+OnInit:
+	hideonnpc strnpcinfo(3);
+	specialeffect 696;
+	initnpctimer;
+end;
+OnTouch:
+	specialeffect 696,SELF;
+	npcskill "NPC_FIREATTACK",10,130,175;
+end;
+}
+
+1@gl_prq,10,309,5	duplicate(NPC_FIRE)	fire#v1	444,3,3
+1@gl_prq,10,306,5	duplicate(NPC_FIRE)	fire#v2	444,3,3
+1@gl_prq,10,303,5	duplicate(NPC_FIRE)	fire#v3	444,3,3
+1@gl_prq,10,300,5	duplicate(NPC_FIRE)	fire#v4	444,3,3
+1@gl_prq,10,297,5	duplicate(NPC_FIRE)	fire#v5	444,3,3
+1@gl_prq,10,294,5	duplicate(NPC_FIRE)	fire#v6	444,3,3
+1@gl_prq,10,291,5	duplicate(NPC_FIRE)	fire#v7	444,3,3
+1@gl_prq,10,288,5	duplicate(NPC_FIRE)	fire#v8	444,3,3
+1@gl_prq,10,285,5	duplicate(NPC_FIRE)	fire#v9	444,3,3
+1@gl_prq,10,282,5	duplicate(NPC_FIRE)	fire#v10	444,3,3
+1@gl_prq,10,279,5	duplicate(NPC_FIRE)	fire#v11	444,3,3
+1@gl_prq,10,276,5	duplicate(NPC_FIRE)	fire#v12	444,3,3
+1@gl_prq,10,273,5	duplicate(NPC_FIRE)	fire#v13	444,3,3
+1@gl_prq,10,270,5	duplicate(NPC_FIRE)	fire#v14	444,3,3
+1@gl_prq,10,267,5	duplicate(NPC_FIRE)	fire#v15	444,3,3
+1@gl_prq,10,264,5	duplicate(NPC_FIRE)	fire#v16	444,3,3
+1@gl_prq,10,261,5	duplicate(NPC_FIRE)	fire#v17	444,3,3
+1@gl_prq,10,258,5	duplicate(NPC_FIRE)	fire#v18	444,3,3
+1@gl_prq,10,255,5	duplicate(NPC_FIRE)	fire#v19	444,3,3
+1@gl_prq,10,252,5	duplicate(NPC_FIRE)	fire#v20	444,3,3
+1@gl_prq,10,249,5	duplicate(NPC_FIRE)	fire#v21	444,3,3
+
+-	script	#walk	-1,{
+
+	// fire going to right
+	for(.@i = 10; .@i < 90; .@i++) {
+		for(.@j = 1; .@j <= 21; .@j++) {
+			movenpc "fire#v"+.@j,.@i,(309-.@j*3);
+		}
+		sleep 100;
+	}
+	sleep 2000;
+	// fire going back to left
+	for(.@i = 90; .@i > 10; .@i--) {
+		for(.@j = 1; .@j <= 21; .@j++) {
+			movenpc "fire#v"+.@j,.@i,(309-.@j*3);
+		}
+		sleep 100;
+	}
+end;
+}
+*/

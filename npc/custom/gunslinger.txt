@@ -1,0 +1,137 @@
+
+moc_para01,183,31,4	script	ออฟ Drooping Gunslinger	10202,{
+
+mes .n$;
+mes "สวัสดีท่าน, "+strcharinfo(0)+"!";
+mes "มีอะไรให้ข้าช่วยมั้ย ?";
+if(select("- Enchant Drooping Gunslinger:- ไม่มีอะไร") - 1) close;
+next;
+mes .n$;
+mes "ก่อนที่เราจะเริ่มการเสริมพลัง ข้าขอแนะนำให้ท่านควรจะสวมอุปกรณ์ที่ต้องการเสียก่อน";
+mes "นอกจากนั้น คุณสมบัติที่จะเพิ่มเข้ามา ข้าไม่รับประกันนะว่าท่านจะได้รูปแบบไหน!";
+next;
+mes .n$;
+mes "การเสริมพลัง Drooping Gunslinger จะใช้ ^ff0000Gunslinger Scroll^000000 1 ชิ้น ท่านพร้อมที่จะเริ่มเลยหรือไม่?";
+next;
+mes .n$;
+mes "มาเริ่มกันเลย ขอข้าดูอุปกรณ์ของท่านหน่อยนะ";
+next;
+set .@part,EQI_HEAD_TOP; // Save equip location
+mes .n$;
+if(!getequipid(.@part)) {
+	mes "ท่านไม่ได้สวมใส่อุปกรณ์อยู่นี่!";
+	close;
+}
+switch(getequipid(.@part)) {
+	case 19157: // Drooping Gunslinger
+	set .@Type$,"Y";
+	break;
+	
+	default:
+	mes "เอ่อ. ขอโทษด้วย ข้าสามารถเสริมพลังได้เฉพาะหมวก Drooping Gunslinger เท่านั้น";
+	close;
+}
+mes "อุปกรณ์ที่สวมใส่: "+getitemname(getequipid(.@part));
+set .@ropt1,getequiprandomoption(.@part,0,ROA_ID);
+set .@ropt2,getequiprandomoption(.@part,1,ROA_ID);
+if(.@ropt1 && .@ropt2) {
+	next;
+	mes " ";
+	mes "ขอภัย อุปกรณ์นี้ผ่านการเสริมพลังมาแล้ว";
+	mes "ท่านต้องการ Reset option ฟรีหรือไม่ ?";
+	if (select("Yes:No" ) == 1) {
+		.@refine = getequiprefinerycnt(EQI_HEAD_TOP);
+		.@card1 = getequipcardid(EQI_HEAD_TOP,0);
+		.@card2 = getequipcardid(EQI_HEAD_TOP,1);
+		.@card3 = getequipcardid(EQI_HEAD_TOP,2);
+		.@card4 = getequipcardid(EQI_HEAD_TOP,3);
+		delequip EQI_HEAD_TOP;
+		getitem2 19157,1,1,.@refine,0,.@card1,.@card2,.@card3,.@card4;
+		mes "ลบ option เรียบร้อย";
+	close;
+	}
+}
+if (!countitem(23100)) {
+	next;
+	mes .n$;
+	mes "ขออภัย ท่านไม่มี Gunslinger Scroll";
+	close;
+}
+	
+next;
+// Randomize each Option Slot:
+// Random Option 1
+set .@Opt1,rand(getarraysize(getd(".RandOpt1_"+.@Type$)));
+if(getd(".RandOpt1_"+.@Type$+"_MinV["+.@Opt1+"]") != getd(".RandOpt1_"+.@Type$+"_MaxV["+.@Opt1+"]"))
+	set .@Opt1_V,rand(getd(".RandOpt1_"+.@Type$+"_MinV["+.@Opt1+"]"),getd(".RandOpt1_"+.@Type$+"_MaxV["+.@Opt1+"]"));
+else 
+	set .@Opt1_V,getd(".RandOpt1_"+.@Type$+"_MaxV["+.@Opt1+"]");
+	
+// Random Option 2
+set .@Opt2,rand(getarraysize(getd(".RandOpt2_"+.@Type$)));
+if(getd(".RandOpt2_"+.@Type$+"_MinV["+.@Opt2+"]") != getd(".RandOpt2_"+.@Type$+"_MaxV["+.@Opt2+"]"))
+	set .@Opt2_V,rand(getd(".RandOpt2_"+.@Type$+"_MinV["+.@Opt2+"]"),getd(".RandOpt2_"+.@Type$+"_MaxV["+.@Opt2+"]"));
+else 
+	set .@Opt2_V,getd(".RandOpt2_"+.@Type$+"_MaxV["+.@Opt2+"]");
+	
+// Random Option 3
+/*set .@Opt3,rand(getarraysize(getd(".RandOpt3_"+.@Type$)));
+if(getd(".RandOpt3_"+.@Type$+"_MinV["+.@Opt3+"]") != getd(".RandOpt3_"+.@Type$+"_MaxV["+.@Opt3+"]"))
+	set .@Opt3_V,rand(getd(".RandOpt3_"+.@Type$+"_MinV["+.@Opt3+"]"),getd(".RandOpt3_"+.@Type$+"_MaxV["+.@Opt3+"]"));
+else 
+	set .@Opt3_V,getd(".RandOpt3_"+.@Type$+"_MaxV["+.@Opt3+"]");*/
+
+// Apply options to equipped weapon
+delitem 23100,1;
+setrandomoption(.@part,0,getd(".RandOpt1_"+.@Type$+"["+.@Opt1+"]"),.@Opt1_V,0);
+setrandomoption(.@part,1,getd(".RandOpt2_"+.@Type$+"["+.@Opt2+"]"),.@Opt2_V,0);
+specialeffect2 643;
+//setrandomoption(.@part,2,getd(".RandOpt3_"+.@Type$+"["+.@Opt3+"]"),.@Opt3_V,0);
+mes .n$;
+mes "การ Option ให้แก่ \""+getitemname(getequipid(.@part))+"\" เสร็จสมบูรณ์";
+end;
+
+OnInit:
+set .n$,"[ออฟ Drooping Gunslinger]";
+// ========= Random Option Slot 1 ========= 
+// - Physical
+setarray .RandOpt1_Y[0],RDMOPT_VAR_STRAMOUNT, // Str
+					    RDMOPT_VAR_AGIAMOUNT,	// Agi
+					    RDMOPT_VAR_VITAMOUNT,	// Vit
+					    RDMOPT_VAR_INTAMOUNT,	// Int
+					    RDMOPT_VAR_DEXAMOUNT,	// Dex
+					    RDMOPT_VAR_LUKAMOUNT,	// Luk
+					    RDMOPT_VAR_MAXHPPERCENT,// %Max HP
+					    RDMOPT_VAR_MAXSPPERCENT,	 	// %Max SP
+					    RDMOPT_VAR_ATTPOWER,	 	// ATK
+					    RDMOPT_VAR_ATTMPOWER,		 	// MATK
+					    RDMOPT_VAR_HITSUCCESSVALUE,	 	// Hit
+					    RDMOPT_VAR_CRITICALSUCCESSVALUE,		 	// Cri
+					    RDMOPT_VAR_ITEMDEFPOWER,	 	// Def
+					    RDMOPT_VAR_MDEFPOWER,	 	// Mdef
+					    RDMOPT_VAR_AVOIDSUCCESSVALUE,	 	// Flee
+					    RDMOPT_VAR_PLUSASPDPERCENT;	// ASPD rate
+
+// - Values
+// Note: When MinV and MaxV are the same, rand() will not be used!
+setarray .RandOpt1_Y_MinV[0],1,1,1,1,1,1,1,1,5,5,5,5,30,10,5,5;
+setarray .RandOpt1_Y_MaxV[0],7,7,7,7,7,7,5,5,20,20,20,10,60,20,20,10;
+
+// ========= Random Option Slot 2 ========= 
+// - Physical
+setarray .RandOpt2_Y[0],RDMOPT_HEAL_VALUE,	// Healpower
+					    RDMOPT_HEAL_MODIFY_PERCENT,	// Healpower2
+					    RDMOPT_VAR_ATKPERCENT,	// %ATK
+					    RDMOPT_VAR_MAGICATKPERCENT,	// %MATK
+					    RDMOPT_RANGE_ATTACK_DAMAGE_TARGET,	// Long range
+					    RDMOPT_DEC_SPELL_CAST_TIME,	// Variable cast rate
+					    RDMOPT_DAMAGE_CRI_TARGET,	// Crit damage
+					    RDMOPT_VAR_PLUSASPD;	// ASPD +1
+
+// - Values
+// Note: When MinV and MaxV are the same, rand() will not be used!
+setarray .RandOpt2_Y_MinV[0],5,5,1,1,1,5,5,1;
+setarray .RandOpt2_Y_MaxV[0],15,15,7,7,7,10,10,1;
+
+end;
+}
