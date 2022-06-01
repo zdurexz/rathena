@@ -12734,9 +12734,7 @@ void clif_parse_StopAttack(int fd,struct map_session_data *sd)
 void clif_parse_PutItemToCart(int fd,struct map_session_data *sd)
 {
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
-	if (pc_istrading(sd))
-		return;
-	if (!pc_iscarton(sd))
+	if (pc_istrading(sd) || !pc_iscarton(sd) || pc_cant_act2(sd))
 		return;
 	if (map_getmapflag(sd->bl.m, MF_NOUSECART))
 		return;
@@ -12749,7 +12747,7 @@ void clif_parse_PutItemToCart(int fd,struct map_session_data *sd)
 void clif_parse_GetItemFromCart(int fd,struct map_session_data *sd)
 {
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
-	if (!pc_iscarton(sd))
+	if (!pc_iscarton(sd) || pc_cant_act2(sd))
 		return;
 	if (map_getmapflag(sd->bl.m, MF_NOUSECART))
 		return;
