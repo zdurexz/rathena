@@ -1039,6 +1039,8 @@ TIMER_FUNC(mob_delayspawn){
 			char message[128];
 			sprintf(message, "[MVP Spawn]: %s has been spawned on %s map.", md->name, map_mapid2mapname(md->spawn->m));
 			clif_broadcast(&md->bl, message, strlen(message) + 1, BC_DEFAULT, ALL_CLIENT);
+			
+			map_setmapflag(bl->m, MF_PVP, true);
 		}
 
 		mob_spawn(md);
@@ -1123,6 +1125,8 @@ int mob_spawn (struct mob_data *md)
 		md->bl.m = md->spawn->m;
 		md->bl.x = md->spawn->x;
 		md->bl.y = md->spawn->y;
+		
+	if(md->spawn->state.boss)  map_setmapflag(md->bl.m, MF_PVP, true);
 
 		if( (md->bl.x == 0 && md->bl.y == 0) || md->spawn->xs || md->spawn->ys )
 		{	//Monster can be spawned on an area.
@@ -3126,6 +3130,9 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 	// MvP tomb [GreenBox]
 	if (battle_config.mvp_tomb_enabled && md->spawn->state.boss && map_getmapflag(md->bl.m, MF_NOTOMB) != 1)
 		mvptomb_create(md, mvp_sd ? mvp_sd->status.name : NULL, time(NULL));
+	if(md->spawn->state.boss)  {
+	map_setmapflag(md->bl.m, MF_PVP, false);
+	}
 
 	if( !rebirth )
 		mob_setdelayspawn(md); //Set respawning.

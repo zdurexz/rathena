@@ -1,0 +1,102 @@
+prontera,168,162,0	script	Super Convex Mirror	46,{
+	mes "I will need some time to search them. Please wait a moment...";
+	next;
+	mes "List of MVP that are still alive.";
+	if (.map$[0] == "all") {
+		.@size = getunits(BL_MOB, .@mob_gid);
+		freeloop(1);
+		for (.@x = 0; .@x < .@size; .@x++) {
+			getunitdata .@mob_gid[.@x], .@data;
+			if (getmonsterinfo(.@data[UMOB_CLASS], MOB_MVPEXP) > 0) {
+				.@mob_name$ = getmonsterinfo(.@data[UMOB_CLASS], MOB_NAME);
+				mes " - ^008000"+.@mob_name$+"^000000";
+				mes " ";
+			}
+		}
+		freeloop(0);
+	}
+	else {
+		freeloop(1);
+		for(.@i = 0; .@i < .map_size; .@i++) {
+			.@size = getmapunits(BL_MOB, .map$[.@i], .@mob_gid);
+			.@total_count += .@size;
+			for (.@x = 0; .@x < .@size; .@x++) {
+				getunitdata .@mob_gid[.@x], .@data;
+				if (getmonsterinfo(.@data[UMOB_CLASS], MOB_MVPEXP) > 0) {
+					.@mob_name$ = getmonsterinfo(.@data[UMOB_CLASS], MOB_NAME);
+					mes " - ^008000"+.@mob_name$+" ^777777("+.map$[.@i]+")^000000";
+
+					if (.warp_to_mvp)
+						.@menu$ = .@menu$ + "^008000" + .@mob_name$ + "^000000 (" + .map$[.@i] + ")" + ":";
+				}
+			}
+		}
+		freeloop(0);
+			
+		if (.warp_to_mvp) {
+			.@i = select(.@menu$) - 1;
+			clear;
+			mes "Alright, you will be warped to " +.map$[.@i];
+			close2;
+			warp .map$[.@i], 0, 0;
+			if(.warp_to_mvp == 2) {
+				sleep2 3000;
+				sc_start SC_BOSSMAPINFO, 600000, 0;
+			}
+			end;
+		}
+	}
+	close;
+
+	OnInit:
+		// Enable player to warp to MVP?
+		// 0 = disabled
+		// 1 = enabled 
+		// 2 = enabled + SC_BOSSMAPINFO
+		.warp_to_mvp = 2;
+		
+		// enable this setting to fully utilize the NPC script. (use at your own risk)
+		// read more info at /conf/battle/monster.conf
+		setbattleflag("dynamic_mobs", 0);
+		
+		// list of MVP map.
+		setarray .map$,
+			// enable this if you want it search whole server. (unable to use warp to mvp option)
+			// "all",  
+			
+			// or list all the MVP maps here.
+			"moc_pryd06", "ra_fild02", "ra_fild03", "ra_fild04", "ve_fild01",
+			"ve_fild02", "lou_dun03", "prt_maze03", "abbey03", "lhz_dun03",
+			"gl_chyard", "abyss_03", "gef_dun02", "gef_dun01", "treasure02",
+			"pay_fild10", "gon_dun03", "abbey02", "xmas_fild01", "ra_san05",
+			"prt_sewb4", "mosk_dun03", "man_fild03", "thor_v03", "ama_dun03",
+			"kh_dun02", "ice_dun03", "ayo_dun02", "niflheim", "anthell02",
+			"mjolnir_04", "pay_dun04", "gef_fild02", "gef_fild14", "gef_fild10",
+			"moc_pryd04", "in_sphinx5", "moc_fild17", "ein_dun02", "xmas_dun02",
+			"beach_dun", "spl_fild03", "thana_boss", "tur_dun04", "odin_tem03",
+			"jupe_core", "lhz_dun02";
+			
+		.map_size = getarraysize(.map$);
+		if (.map$[0] == "all") {
+			.warp_to_mvp = 0;
+			debugmes strnpcinfo(3)+" can't provide '.warp_to_mvp' option if '.map$' array consists of 'all'."; 
+		}
+		
+		if (getbattleflag("dynamic_mobs") != 0)
+			debugmes strnpcinfo(3)+" cant search cached monsters if 'dynamic_mobs' is set to true."; 
+		end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
