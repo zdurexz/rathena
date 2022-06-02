@@ -232,7 +232,8 @@ enum e_item_job : uint16
 
 	ITEMJ_ALL_UPPER = ITEMJ_UPPER | ITEMJ_THIRD_UPPER | ITEMJ_FOURTH,
 	ITEMJ_ALL_BABY = ITEMJ_BABY | ITEMJ_THIRD_BABY,
-	ITEMJ_ALL_THIRD = ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY,
+    ITEMJ_ALL_THIRD = ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY | ITEMJ_FOURTH,
+    ITEMJ_ALL_FOURTH = ITEMJ_FOURTH,
 
 #ifdef RENEWAL
 	ITEMJ_ALL = ITEMJ_NORMAL | ITEMJ_UPPER | ITEMJ_BABY | ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY | ITEMJ_FOURTH,
@@ -1427,6 +1428,18 @@ bool itemdb_isNoEquip(struct item_data *id, uint16 m);
 bool itemdb_parse_roulette_db(void);
 
 void itemdb_reload(void);
+std::string base62_encode(unsigned int val);
+unsigned int base62_decode(std::string str);
+// Additional data for itemlink
+struct s_item_link {
+	struct item item;
+	struct {
+		uint8 cards;
+		uint8 options;
+	} flag;
+};
+std::string createItemLink(struct s_item_link *data);
+std::string itemdb_getItemLink(struct item *item);
 
 void do_final_itemdb(void);
 void do_init_itemdb(void);

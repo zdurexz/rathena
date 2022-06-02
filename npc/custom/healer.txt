@@ -15,33 +15,303 @@
 
 -	script	Healer	-1,{
 
-	.@Price = 0;	// Zeny required for heal
-	.@Buffs = 0;	// Also buff players? (1: yes / 0: no)
-	.@Delay = 0;	// Heal delay, in seconds
+	while ( getbrokenid( 1 ) ) {
+		repair(1);
+		set .@i, .@i +1;
 
-	if (@HD > gettimetick(2))
-		end;
-	if (.@Price) {
-		message strcharinfo(0), "Healing costs " + callfunc("F_InsertComma",.@Price) + " Zeny.";
-		if (Zeny < .@Price)
-			end;
-		if (select("^0055FFHeal^000000:^777777Cancel^000000") == 2)
-			end;
-		Zeny -= .@Price;
 	}
-	specialeffect2 EF_HEAL2;
-	percentheal 100,100;
-	if (.@Buffs) {
-		specialeffect2 EF_INCAGILITY;
-		sc_start SC_INCREASEAGI,240000,10;
-		specialeffect2 EF_BLESSING;
-		sc_start SC_BLESSING,240000,10;
-	}
-	if (.@Delay)
-		@HD = gettimetick(2) + .@Delay;
+	if (.@i) dispbottom .@i + " items repaired.";   // repair item if their broken
+	
+	
+	
+	if (@HD > gettimetick(2)) end;
+		
+	.@price = 10000;	// Zeny required for heal
+	.@Delay = 30;	// Heal delay, in seconds
+	
+						
+			switch( select("^0055FFHeal Premium^000000:^009933Free Heal^000000:^777777Cancel^000000") )
+			
+			{
+			
+			case 1: if (Zeny < .@price){ 
+					mes "ค่าบัฟ "+.@price+" Zeny.";
+					mes "คุณมีเงินไม่พอบัฟ.";
+					close;
+					end;
+					}
+					mes "ค่าบัฟ "+.@price+" Zeny.";
+					next;
+					switch( select("^0055FFต้องการ^000000:^009933ไม่ต้องการ^000000") )
+					{
+					case 1:	Zeny -= .@price;
+					
+							repairall;
+							identifyall;
+
+							goto sure_buff;
+							close;
+							break;
+					case 2: close;
+							end;
+							break;
+					}
+				    break;
+			case 2: 
+					goto make_rand;
+					close;
+					break;
+			
+			case 3:  
+					close;
+					end;
+					break;
+			
+			}
+		
+
+buff_mission_01:
+
+				specialeffect2 EF_HEAL2; percentheal 100,100;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,10;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,10;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,9;
+				sc_start SC_FOOD_AGI_CASH, 2000000,9;
+				sc_start SC_FOOD_VIT_CASH, 2000000,9;
+				sc_start SC_FOOD_INT_CASH, 2000000,9;
+				sc_start SC_FOOD_DEX_CASH, 2000000,9;
+				sc_start SC_FOOD_LUK_CASH, 2000000,9;
+				sc_start SC_GLORIA, 1000000,5;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+
+	
+sure_buff:
+				
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,10;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,10;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,9;
+				sc_start SC_FOOD_AGI_CASH, 2000000,9;
+				sc_start SC_FOOD_VIT_CASH, 2000000,9;
+				sc_start SC_FOOD_INT_CASH, 2000000,9;
+				sc_start SC_FOOD_DEX_CASH, 2000000,9;
+				sc_start SC_FOOD_LUK_CASH, 2000000,9;
+				specialeffect2 EF_HEAL2; percentheal 100,100;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+
+
+make_rand:
+
+	set .buff,rand(1,100);
+	
+	if(.buff <= 10 ) goto option_buff_01;
+	if(.buff <= 20 ) goto option_buff_02;
+	if(.buff <= 30 ) goto option_buff_03;
+	if(.buff <= 40 ) goto option_buff_04;
+	if(.buff <= 50 ) goto option_buff_05;
+	if(.buff <= 60 ) goto option_buff_06;
+	if(.buff <= 70 ) goto option_buff_07;
+	if(.buff <= 80 ) goto option_buff_08;
+	if(.buff <= 90 ) goto option_buff_09;
+	if(.buff <= 100) goto option_buff_10;
+
+option_buff_01:	
+				specialeffect2 EF_HEAL2; percentheal 30,30;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,7;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,7;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,3;
+				sc_start SC_FOOD_AGI_CASH, 2000000,9;
+				sc_start SC_FOOD_VIT_CASH, 2000000,3;
+				sc_start SC_FOOD_INT_CASH, 2000000,9;
+				sc_start SC_FOOD_DEX_CASH, 2000000,3;
+				sc_start SC_FOOD_LUK_CASH, 2000000,9;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_02:
+				specialeffect2 EF_HEAL2; percentheal 30,50;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,5;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,5;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,9;
+				sc_start SC_FOOD_AGI_CASH, 2000000,9;
+				sc_start SC_FOOD_VIT_CASH, 2000000,9;
+				sc_start SC_FOOD_INT_CASH, 2000000,9;
+				sc_start SC_FOOD_DEX_CASH, 2000000,9;
+				sc_start SC_FOOD_LUK_CASH, 2000000,9;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_03:
+				specialeffect2 EF_HEAL2; percentheal 30,30;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,8;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,8;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,4;
+				sc_start SC_FOOD_AGI_CASH, 2000000,4;
+				sc_start SC_FOOD_VIT_CASH, 2000000,4;
+				sc_start SC_FOOD_INT_CASH, 2000000,4;
+				sc_start SC_FOOD_DEX_CASH, 2000000,4;
+				sc_start SC_FOOD_LUK_CASH, 2000000,4;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_04:
+				specialeffect2 EF_HEAL2; percentheal 20,50;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,10;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,5;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,2;
+				sc_start SC_FOOD_AGI_CASH, 2000000,2;
+				sc_start SC_FOOD_VIT_CASH, 2000000,2;
+				sc_start SC_FOOD_INT_CASH, 2000000,3;
+				sc_start SC_FOOD_DEX_CASH, 2000000,5;
+				sc_start SC_FOOD_LUK_CASH, 2000000,10;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_05:
+				specialeffect2 EF_HEAL2; percentheal 20,20;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,9;
+				sc_start SC_FOOD_AGI_CASH, 2000000,9;
+				sc_start SC_FOOD_VIT_CASH, 2000000,9;
+				sc_start SC_FOOD_INT_CASH, 2000000,9;
+				sc_start SC_FOOD_DEX_CASH, 2000000,9;
+				sc_start SC_FOOD_LUK_CASH, 2000000,9;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_06:	
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,10;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,10;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,5;
+				sc_start SC_FOOD_AGI_CASH, 2000000,5;
+				sc_start SC_FOOD_VIT_CASH, 2000000,5;
+				sc_start SC_FOOD_INT_CASH, 2000000,5;
+				sc_start SC_FOOD_DEX_CASH, 2000000,5;
+				sc_start SC_FOOD_LUK_CASH, 2000000,5;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_07:
+				specialeffect2 EF_HEAL2; percentheal 20,20;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,5;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,5;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_08:
+				specialeffect2 EF_HEAL2; percentheal 20,20;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,2000000,10;
+				specialeffect2 EF_BLESSING; sc_start SC_BLESSING,2000000,10;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_09:
+				specialeffect2 EF_HEAL2; percentheal 20,20;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				sc_start SC_FOOD_STR_CASH, 2000000,5;
+				sc_start SC_FOOD_AGI_CASH, 2000000,5;
+				sc_start SC_FOOD_VIT_CASH, 2000000,5;
+				sc_start SC_FOOD_INT_CASH, 2000000,5;
+				sc_start SC_FOOD_DEX_CASH, 2000000,5;
+				sc_start SC_FOOD_LUK_CASH, 2000000,5;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+option_buff_10:
+				specialeffect2 EF_HEAL2; percentheal 20,20;
+				sc_end SC_INCREASEAGI;
+				sc_end SC_BLESSING;
+				sc_end SC_FOOD_STR_CASH;
+				sc_end SC_FOOD_AGI_CASH;
+				sc_end SC_FOOD_VIT_CASH;
+				sc_end SC_FOOD_INT_CASH;
+				sc_end SC_FOOD_DEX_CASH;
+				sc_end SC_FOOD_LUK_CASH;
+				if (.@Delay) @HD = gettimetick(2)+.@Delay;
+				end;
+
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,10;	//1-38
 	end;
 }
-
 
 // Duplicates
 //============================================================

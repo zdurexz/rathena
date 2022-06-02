@@ -370,6 +370,7 @@ struct map_session_data {
 		unsigned int autolooting : 1; //performance-saver, autolooting state for @alootid
 		unsigned int gmaster_flag : 1;
 		unsigned int prevend : 1;//used to flag wheather you've spent 40sp to open the vending or not.
+		unsigned int pending_vending_ui : 1; // flag whether this player still needs 
 		unsigned int warping : 1;//states whether you're in the middle of a warp processing
 		unsigned int permanent_speed : 1; // When 1, speed cannot be changed through status_calc_pc().
 		bool hold_recalc;
@@ -387,6 +388,7 @@ struct map_session_data {
 		bool stylist_open;
 		bool barter_open;
 		bool barter_extended_open;
+		bool enchantgrade_open; // Whether the enchantgrade window is open or not
 		unsigned int block_action : 10;
 		bool refineui_open;
 		t_itemid inventory_expansion_confirmation;
@@ -1067,7 +1069,8 @@ static bool pc_cant_act2( struct map_session_data* sd ){
 		|| sd->state.stylist_open || sd->state.inventory_expansion_confirmation || sd->npc_shopid
 		|| sd->state.barter_open || sd->state.barter_extended_open
 		|| sd->state.laphine_synthesis || sd->state.laphine_upgrade
-		|| sd->state.roulette_open;
+		|| sd->state.roulette_open
+		|| sd->state.enchantgrade_open;
 }
 // equals pc_cant_act2 and additionally checks for chat rooms and npcs
 static bool pc_cant_act( struct map_session_data* sd ){

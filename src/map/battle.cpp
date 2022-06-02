@@ -2770,7 +2770,7 @@ static bool is_attack_critical(struct Damage* wd, struct block_list *src, struct
 				return false;
 
 			if(pc_checkskill(sd,TF_DOUBLE) && !skill_get_nk(TF_DOUBLE,NK_CRITICAL)) //Double Attack
-				return false;
+				return true;
 		}
 
 		struct status_data *tstatus = status_get_status_data(target);

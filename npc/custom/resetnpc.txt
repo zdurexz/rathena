@@ -11,9 +11,9 @@
 //=	Changed set -> setarray, Improved text with F_InsertPlural
 //= 1.5 Added sc_end_class to reset related status changes [sader1992]
 //============================================================
-prontera,150,193,4	script	Reset Girl	124,{
+prontera,141,177,4	script	Reset Girl	124,{
 	//	 		Skills,	Stats,	Both,	Limit
-	setarray .@Reset,	5000,	5000,	9000,	0;
+	setarray .@Reset,	1500000,	1500000,	2345678,	0;
 	mes "[Reset Girl]";
 	if(.@Reset[3] && reset_limit > .@Reset[3]) {
 		mes "Sorry you can only reset "+callfunc("F_InsertPlural",.@Reset[3],"time")+" in your life.";
@@ -46,4 +46,8 @@ prontera,150,193,4	script	Reset Girl	124,{
 	mes "There you go!";
 	if(.@Reset[3]) set reset_limit,reset_limit + 1;
 	close;
+
+OnInit:
+	setunitdata getnpcid(0),UNPC_GROUP_ID,11;	//1-38
+	end;
 }
