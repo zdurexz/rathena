@@ -12,3 +12,7 @@
  *	 <datatype> name;
  **/
 
+	// Refine UI Announce
+	// Announce First for Success or Failure [Tactics#8220 & null#6385]
+	int announce_refine_success;
+	int announce_refine_failure;
