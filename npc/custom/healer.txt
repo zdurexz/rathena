@@ -26,11 +26,11 @@
 	
 	if (@HD > gettimetick(2)) end;
 		
-	.@price = 10000;	// Zeny required for heal
-	.@Delay = 30;	// Heal delay, in seconds
+	.@price = 10000;	// ค่าใช้จ่ายในการรักษา
+	.@Delay = 30;		// ระยะเวลารักษาเป็นวินาที
 	
 						
-			switch( select("^0055FFHeal Premium^000000:^009933Free Heal^000000:^777777Cancel^000000") )
+			switch( select("^0055FFรักษาแบบพิเศษ^000000:^009933รักษาฟรี^000000:^777777ยกเลิก^000000") )
 			
 			{
 			
