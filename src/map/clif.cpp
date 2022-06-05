@@ -20196,7 +20196,8 @@ void clif_display_pinfo(struct map_session_data *sd, int cmdtype) {
 		}
 		//1:Premium
 		if (pc_isvip(sd)) {
-			details_bexp[1] = battle_config.vip_base_exp_increase * 10;
+			//details_bexp[1] = battle_config.vip_base_exp_increase * 10;	//สูตรเดิม rA
++           details_bexp[1] = (battle_config.vip_base_exp_increase * battle_config.base_exp_rate) / 100;	//สูตรใหม่  [@Tactics & @DurexzOfficial]
 			if (details_bexp[1] < 0)
 				details_bexp[1] = 0 - details_bexp[1];
 		}
