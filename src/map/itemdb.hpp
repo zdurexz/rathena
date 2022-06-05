@@ -5,6 +5,7 @@
 #define ITEMDB_HPP
 
 #include <map>
+#include <string>
 #include <vector>
 
 #include "../common/database.hpp"
@@ -1440,6 +1441,8 @@ struct s_item_link {
 };
 std::string createItemLink(struct s_item_link *data);
 std::string itemdb_getItemLink(struct item *item);
+
+std::string createItemLink(struct item& data);
 
 void do_final_itemdb(void);
 void do_init_itemdb(void);
