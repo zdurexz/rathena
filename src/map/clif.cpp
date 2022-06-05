@@ -22487,7 +22487,7 @@ void clif_parse_refineui_refine( int fd, struct map_session_data* sd ){
 		}
 		clif_refineui_info( sd, index );
 		// Refine UI Announce
-		// Announce First for Success or Failure [Tactics#8220 & null#6385]
+		// Announce First for Success or Success [Tactics#8220 & null#6385]
 		if (item->refine >= battle_config.announce_refine_success) {
 			std::string itemlstr = createItemLink(*item);
 			memcpy(player_name, sd->status.name, NAME_LENGTH);
