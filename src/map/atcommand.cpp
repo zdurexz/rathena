@@ -7702,16 +7702,11 @@ ACMD_FUNC(mobinfo)
 				continue;
 
 			int droprate = mob_getdroprate( &sd->bl, mob, mob->dropitem[i].rate, drop_modifier );
-			
-			// Item Link
-			struct s_item_link itemldata;
-			memset(&itemldata, 0, sizeof(s_item_link));
-			itemldata.item.nameid = item_data->nameid;
-			std::string itemlstr = createItemLink(&itemldata);
-			char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
-			safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
 
-			sprintf(atcmd_output2, " - %s  %02.02f%%", str, (float)droprate / 100);
+			if (item_data->slots)
+				sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, (float)droprate / 100);
+			else
+				sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->ename.c_str(), (float)droprate / 100);
 			strcat(atcmd_output, atcmd_output2);
 			if (++j % 3 == 0) {
 				clif_displaymessage(fd, atcmd_output);
@@ -7733,15 +7728,6 @@ ACMD_FUNC(mobinfo)
 			for (i = 0; i < MAX_MVP_DROP_TOTAL; i++) {
 				if (mob->mvpitem[i].nameid == 0 || (item_data = itemdb_exists(mob->mvpitem[i].nameid)) == NULL)
 					continue;
-
-				// Item Link
-				struct s_item_link itemldata;
-				memset(&itemldata, 0, sizeof(s_item_link));
-				itemldata.item.nameid = item_data->nameid;
-				std::string itemlstr = createItemLink(&itemldata);
-				char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
-				safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
-
 				//Because if there are 3 MVP drops at 50%, the first has a chance of 50%, the second 25% and the third 12.5%
 				mvppercent = (float)mob->mvpitem[i].rate * mvpremain / 10000.0f;
 				if(battle_config.item_drop_mvp_mode == 0) {
@@ -7750,10 +7736,17 @@ ACMD_FUNC(mobinfo)
 				if (mvppercent > 0) {
 					j++;
 					if (j == 1) {
-						sprintf(atcmd_output2, " %s  %02.02f%%", str, mvppercent);
+						if (item_data->slots)
+							sprintf(atcmd_output2, " %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, mvppercent);
+						else
+							sprintf(atcmd_output2, " %s  %02.02f%%", item_data->ename.c_str(), mvppercent);
 					} else {
-						sprintf(atcmd_output2, " - %s  %02.02f%%", str, mvppercent);
- 					}					strcat(atcmd_output, atcmd_output2);
+						if (item_data->slots)
+							sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->ename.c_str(), item_data->slots, mvppercent);
+						else
+							sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->ename.c_str(), mvppercent);
+					}
+					strcat(atcmd_output, atcmd_output2);
 				}
 			}
 			if (j == 0)
@@ -9221,18 +9214,10 @@ ACMD_FUNC(itemlist)
 			StringBuf_Clear(&buf);
 		}
 
-		// Item Link
-		struct s_item_link itemldata;
-		memset(&itemldata, 0, sizeof(s_item_link));
-		itemldata.item.nameid = it->nameid;
-		std::string itemlstr = createItemLink(&itemldata);
-		char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
-		safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
-
 		if( it->refine )
-			StringBuf_Printf(&buf, "%d %s %+d (%s, id: %u)", it->amount, str, it->refine, itd->name.c_str(), it->nameid);
+			StringBuf_Printf(&buf, "%d %s %+d (%s, id: %u)", it->amount, itd->ename.c_str(), it->refine, itd->name.c_str(), it->nameid);
 		else
-			StringBuf_Printf(&buf, "%d %s (%s, id: %u)", it->amount, str, itd->name.c_str(), it->nameid);
+			StringBuf_Printf(&buf, "%d %s (%s, id: %u)", it->amount, itd->ename.c_str(), itd->name.c_str(), it->nameid);
 
 		if( it->equip ) {
 			char equipstr[CHAT_SIZE_MAX];
@@ -9332,16 +9317,9 @@ ACMD_FUNC(itemlist)
 				if( counter2 != 1 )
 					StringBuf_AppendStr(&buf, ", ");
 
-				// Item Link
-				struct s_item_link itemldata;
-				memset(&itemldata, 0, sizeof(s_item_link));
-				itemldata.item.nameid = card->nameid;
-				std::string itemlstr = createItemLink(&itemldata);
-				char *str = (char *)aMalloc((itemlstr.size() + 1) * sizeof(char));
-				safestrncpy(str, itemlstr.c_str(), itemlstr.size() + 1);
+				StringBuf_Printf(&buf, "#%d %s (id: %u)", counter2, card->ename.c_str(), card->nameid);
+			}
 
-				StringBuf_Printf(&buf, "#%d %s (id: %u)", counter2, str, card->nameid);
- 			}
 			if( counter2 > 0 )
 				StringBuf_AppendStr(&buf, ")");
 		}
@@ -10684,7 +10662,7 @@ ACMD_FUNC( stylist ){
 		return -1;
 	}
 
-	clif_ui_open( sd, OUT_UI_STYLIST, 0 );
+	clif_ui_open( *sd, OUT_UI_STYLIST, 0 );
 	return 0;
 #endif
 }
@@ -10719,45 +10697,6 @@ ACMD_FUNC(addfame)
 	return 0;
 }
 
-/*==========================================
-* @afk
-*------------------------------------------*/
-ACMD_FUNC(afk) {
- 
-        nullpo_retr(-1, sd);
-				
-				if( map_getcell(sd->bl.m,sd->bl.x,sd->bl.y,CELL_CHKNOVENDING) ) {
-					clif_displaymessage(fd, "ไม่สามารถใช้ คำสั่ง @afk ใกล้ NPC ได้");
-				return true;
-				}
-				
-				if( pc_isdead(sd) ) {
-					clif_displaymessage(fd, "ไม่สามารถใช้คำสั่ง @afk ถ้าคุณตาย.");
-				return -1;
-				}
-				
-                if( battle_config.autotrade_mapflag == map_getmapflag(sd->bl.m, MF_AUTOTRADE))
-                {
-
-                if(map_getmapflag(sd->bl.m, MF_PVP)  || map_getmapflag(sd->bl.m, MF_GVG)){
-					clif_displaymessage(fd, "ไม่สามารถใช้คำสั่ง@afk ในแมพ PVP หรือ GVG.");
-                return -1;}
-
-                        sd->state.autotrade = 1;
-			 			pc_setsit(sd);
-                        skill_sit(sd,1);
-                        clif_sitting(&sd->bl);                     
-                        if( battle_config.afk_timeout )
-                        {
-                                int timeout = atoi(message);
-                                status_change_start(NULL, &sd->bl, SC_AUTOTRADE, 10000,0,0,0,0, ((timeout > 0) ? min(timeout,battle_config.afk_timeout) : battle_config.afk_timeout)*60000,0);
-                        }
-                        clif_authfail_fd(fd, 15);
-                } else
-					clif_displaymessage(fd, "ไม่สามารถใช้ คำสั่ง @afk ในแมพนี้ได้.");
-        return 0;
-}
-
 /**
  * Opens the enchantgrade UI
  * Usage: @enchantgradeui
@@ -10766,12 +10705,13 @@ ACMD_FUNC( enchantgradeui ){
 	nullpo_retr( -1, sd );
 
 #if !( PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200724 )
+	sprintf( atcmd_output, msg_txt( sd, 798 ), "2020-07-24" ); // This command requires packet version %s or newer.
+	clif_displaymessage( fd, atcmd_output );
 	return -1;
-#endif
-
-	clif_ui_open( sd, OUT_UI_ENCHANTGRADE, 0 );
-
+#else
+	clif_ui_open( *sd, OUT_UI_ENCHANTGRADE, 0 );
 	return 0;
+#endif
 }
 
 #include "../custom/atcommand.inc"
@@ -11073,7 +11013,6 @@ void atcommand_basecommands(void) {
 		ACMD_DEFR(channel,ATCMD_NOSCRIPT),
 		ACMD_DEF(fontcolor),
 		ACMD_DEF(langtype),
-		ACMD_DEF(afk),
 #ifdef VIP_ENABLE
 		ACMD_DEF(vip),
 		ACMD_DEF(showrate),

@@ -2375,7 +2375,6 @@
 // 2018-03-07bRagexeRE
 #if PACKETVER >= 20180307
 	parseable_packet(0x0A68,3,clif_parse_open_ui,2);
-	packet(0x0AE2,7);
 	parseable_packet(0x0AEF,2,clif_parse_attendance_request,0);
 	packet(0x0AF0,10);
 #endif
@@ -2418,7 +2417,7 @@
 #endif
 
 #if PACKETVER_MAIN_NUM >= 20190522 || PACKETVER_RE_NUM >= 20190522 || PACKETVER_ZERO_NUM >= 20190515
-	parseable_packet( HEADER_CZ_REQ_MOVE_GUILD_AGIT , sizeof(PACKET_CZ_REQ_MOVE_GUILD_AGIT), clif_parse_guild_castle_teleport_request, 0);
+	parseable_packet( HEADER_CZ_REQ_MOVE_GUILD_AGIT, sizeof(PACKET_CZ_REQ_MOVE_GUILD_AGIT), clif_parse_guild_castle_teleport_request, 0);
 	parseable_packet( HEADER_CZ_REQ_AGIT_INVESTMENT, sizeof(PACKET_CZ_REQ_AGIT_INVESTMENT), clif_parse_guild_castle_info_request, 0);
 #endif
 

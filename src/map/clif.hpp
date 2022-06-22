@@ -501,8 +501,32 @@ enum useskill_fail_cause : uint8_t
 	USESKILL_FAIL_THERE_ARE_NPC_AROUND = 83,
 	USESKILL_FAIL_NEED_MORE_BULLET = 84,
 	USESKILL_FAIL_COINS = 85,
-	// 86-99 unknown
-	USESKILL_FAIL_AP_INSUFFICIENT = 100,
+	USESKILL_FAIL_UNKNOWN_1, //#86 Unknown Usage MSG: Do you agree?
+	USESKILL_FAIL_MAP,
+	USESKILL_FAIL_NEED_SUMMON_SP,
+	USESKILL_FAIL_SAME_VEND,
+	USESKILL_FAIL_NEED_BULLETS,
+	USESKILL_FAIL_NEED_ARROWS,
+	USESKILL_FAIL_NEED_PARTY,
+	USESKILL_FAIL_NEED_PARTY_LEADER,
+	USESKILL_FAIL_NEED_PARTNER_SP,
+	USESKILL_FAIL_NEED_WEAPON,
+	USESKILL_FAIL_NEED_ENERGY_SPHERE,
+	USESKILL_FAIL_NEED_WEAPON_BLOCKING,
+	USESKILL_FAIL_MAX_TRAPS,
+	USESKILL_FAIL_NEED_MAGIC_SPELLBOOK,
+	USESKILL_FAIL_AP_INSUFFICIENT,
+	USESKILL_FAIL_NEED_SERVANT_WEAPON,
+	USESKILL_FAIL_NEED_TWINKLING_GALAXY,
+	USESKILL_FAIL_NEED_SOUL_ENGERY,
+	USESKILL_FAIL_NEED_AMULET,
+	USESKILL_FAIL_NEED_GATLING_SHOTGUT,
+	USESKILL_FAIL_NEED_RIFLE_REVOLVER,
+	USESKILL_FAIL_NEED_GLAUNCHER_RIFLE,
+	USESKILL_FAIL_NEED_GATLING_REVOLVER,
+	USESKILL_FAIL_NEED_SHOTGUN_GLAUNCHER,
+	USESKILL_FAIL_NEED_SHIELD,
+	USESKILL_FAIL_TARGET_SHADOW_SPACE,
 	USESKILL_FAIL_MAX
 };
 
@@ -653,6 +677,7 @@ void clif_viewpoint(struct map_session_data *sd, int npc_id, int type, int x, in
 void clif_additem(struct map_session_data *sd, int n, int amount, unsigned char fail); // self
 void clif_dropitem(struct map_session_data *sd,int n,int amount);	//self
 void clif_delitem(struct map_session_data *sd,int n,int amount, short reason); //self
+void clif_update_hp(map_session_data &sd);
 void clif_updatestatus(struct map_session_data *sd,int type);	//self
 void clif_changestatus(struct map_session_data* sd,int type,int val);	//area
 int clif_damage(struct block_list* src, struct block_list* dst, t_tick tick, int sdelay, int ddelay, int64 sdamage, int div, enum e_damage_type type, int64 sdamage2, bool spdamage);	// area
@@ -1177,7 +1202,7 @@ enum out_ui_type : int8 {
 	OUT_UI_ENCHANTGRADE,
 };
 
-void clif_ui_open( struct map_session_data *sd, enum out_ui_type ui_type, int32 data );
+void clif_ui_open( struct map_session_data& sd, enum out_ui_type ui_type, int32 data );
 void clif_attendence_response( struct map_session_data *sd, int32 data );
 
 void clif_weight_limit( struct map_session_data* sd );

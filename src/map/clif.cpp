@@ -1069,35 +1069,6 @@ static int clif_setlevel(struct block_list* bl) {
 	return lv;
 }
 
-/**
- * Used to determine if a player has damaged a monster
- * and if the HP bar needs to be displayed or not.
- * @param bl: Player invoking the check
- * @param tbl: Mob to check
- * @return True if the HP bar should be displayed or false otherwise
- */
-static bool clif_mob_damaged_hpbar(block_list *bl, block_list *tbl) {
-	if (bl == nullptr || tbl == nullptr)
-		return false;
-
-	mob_data *md = BL_CAST(BL_MOB, tbl);
-
-	if (md == nullptr)
-		return false;
-
-	map_session_data *sd = BL_CAST(BL_PC, bl);
-
-	if (sd == nullptr)
-		return false;
-
-	for (uint8 i = 0; i < DAMAGELOG_SIZE; i++) { // Must show hp bar to all char who already hit the mob.
-		if (md->dmglog[i].id == sd->status.char_id)
-			return true;
-	}
-
-	return false;
-}
-
 /*==========================================
  * Prepares 'unit standing/spawning' packet
  *------------------------------------------*/
@@ -1225,14 +1196,9 @@ static void clif_set_unit_idle( struct block_list* bl, bool walking, send_target
 	p.font = (sd) ? sd->status.font : 0;
 #endif
 #if PACKETVER >= 20120221
-	if( battle_config.monster_hp_bars_info && bl->type == BL_MOB && tbl->type == BL_PC && !map_getmapflag( bl->m, MF_HIDEMOBHPBAR ) && ( status_get_hp( bl ) < status_get_max_hp( bl ) ) ){
-		if (clif_mob_damaged_hpbar(tbl, bl)) { // Must show hp bar to all char who already hit the mob.
-			p.maxHP = status_get_max_hp(bl);
-			p.HP = status_get_hp(bl);
-		} else { // Player didn't attack the mob.
-			p.maxHP = -1;
-			p.HP = -1;
-		}
+	if( battle_config.monster_hp_bars_info && !map_getmapflag( bl->m, MF_HIDEMOBHPBAR ) && bl->type == BL_MOB && ( status_get_hp( bl ) < status_get_max_hp( bl ) ) ){
+		p.maxHP = status_get_max_hp(bl);
+		p.HP = status_get_hp(bl);
 	}else{
 		p.maxHP = -1;
 		p.HP = -1;
@@ -1372,13 +1338,8 @@ static void clif_spawn_unit( struct block_list *bl, enum send_target target ){
 #endif
 #if PACKETVER >= 20120221
 	if( battle_config.monster_hp_bars_info && bl->type == BL_MOB && !map_getmapflag( bl->m, MF_HIDEMOBHPBAR ) && ( status_get_hp( bl ) < status_get_max_hp( bl ) ) ){
-		if (clif_mob_damaged_hpbar(bl, bl)) { // Must show hp bar to all char who already hit the mob.
-			p.maxHP = status_get_max_hp(bl);
-			p.HP = status_get_hp(bl);
-		} else { // Player didn't attack the mob.
-			p.maxHP = -1;
-			p.HP = -1;
-		}
+		p.maxHP = status_get_max_hp( bl );
+		p.HP = status_get_hp( bl );
 	}else{
 		p.maxHP = -1;
 		p.HP = -1;
@@ -1484,14 +1445,9 @@ static void clif_set_unit_walking( struct block_list *bl, struct map_session_dat
 	p.font = (sd) ? sd->status.font : 0;
 #endif
 #if PACKETVER >= 20120221
-	if( battle_config.monster_hp_bars_info && bl->type == BL_MOB && tsd != nullptr && !map_getmapflag(bl->m, MF_HIDEMOBHPBAR) && (status_get_hp(bl) < status_get_max_hp( bl ) ) ){
-		if (clif_mob_damaged_hpbar(&tsd->bl, bl)) { // Must show hp bar to all char who already hit the mob.
-			p.maxHP = status_get_max_hp(bl);
-			p.HP = status_get_hp(bl);
-		} else { // Player didn't attack the mob.
-			p.maxHP = -1;
-			p.HP = -1;
-		}
+	if( battle_config.monster_hp_bars_info && !map_getmapflag(bl->m, MF_HIDEMOBHPBAR) && bl->type == BL_MOB && (status_get_hp(bl) < status_get_max_hp( bl ) ) ){
+		p.maxHP = status_get_max_hp(bl);
+		p.HP = status_get_hp(bl);
 	} else {
 		p.maxHP = -1;
 		p.HP = -1;
@@ -3395,8 +3351,8 @@ void clif_guild_castle_teleport_res(struct map_session_data* sd, enum e_siege_te
 
 	nullpo_retv(sd);
 
-	struct PACKET_ZC_REQ_ACK_MOVE_GUILD_AGIT  p = {};
-	p.packetType = HEADER_ZC_REQ_ACK_MOVE_GUILD_AGIT ;
+	struct PACKET_ZC_REQ_ACK_MOVE_GUILD_AGIT p = {};
+	p.packetType = HEADER_ZC_REQ_ACK_MOVE_GUILD_AGIT;
 	p.result = (int16)result;
 	clif_send(&p, sizeof(p), &sd->bl, SELF);
 #endif
@@ -3518,6 +3474,19 @@ static int clif_hpmeter(struct map_session_data *sd)
 	nullpo_ret(sd);
 	map_foreachinallarea(clif_hpmeter_sub, sd->bl.m, sd->bl.x-AREA_SIZE, sd->bl.y-AREA_SIZE, sd->bl.x+AREA_SIZE, sd->bl.y+AREA_SIZE, BL_PC, sd);
 	return 0;
+}
+
+/**
+ * Send HP bar update to others.
+ * @param sd: Player invoking update
+ */
+void clif_update_hp(map_session_data &sd) {
+	if (map_getmapdata(sd.bl.m)->hpmeter_visible)
+		clif_hpmeter(&sd);
+	if (!battle_config.party_hp_mode && sd.status.party_id)
+		clif_party_hp(&sd);
+	if (sd.bg_id)
+		clif_bg_hp(&sd);
 }
 
 /// Notifies client of a character parameter change.
@@ -3892,15 +3861,7 @@ void clif_updatestatus(struct map_session_data *sd,int type)
 			}
 			break;
 		case SP_HP:
-			if( map_getmapdata(sd->bl.m)->hpmeter_visible ){
-				clif_hpmeter(sd);
-			}
-			if( !battle_config.party_hp_mode && sd->status.party_id ){
-				clif_party_hp(sd);
-			}
-			if( sd->bg_id ){
-				clif_bg_hp(sd);
-			}
+			clif_update_hp(*sd);
 			break;
 	}
 }
@@ -5197,7 +5158,8 @@ void clif_getareachar_unit( struct map_session_data* sd,struct block_list *bl ){
 				clif_specialeffect_single(bl,EF_BABYBODY2,sd->fd);
 #if PACKETVER >= 20120404
 			if (battle_config.monster_hp_bars_info && !map_getmapflag(bl->m, MF_HIDEMOBHPBAR)) {
-				for (uint8 i = 0; i < DAMAGELOG_SIZE; i++) // Must show hp bar to all char who already hit the mob.
+				int i;
+				for(i = 0; i < DAMAGELOG_SIZE; i++)// must show hp bar to all char who already hit the mob.
 					if( md->dmglog[i].id == sd->status.char_id )
 						clif_monster_hp_bar(md, sd->fd);
 			}
@@ -12777,7 +12739,9 @@ void clif_parse_StopAttack(int fd,struct map_session_data *sd)
 void clif_parse_PutItemToCart(int fd,struct map_session_data *sd)
 {
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
-	if (pc_istrading(sd) || !pc_iscarton(sd) || pc_cant_act2(sd))
+	if (pc_istrading(sd))
+		return;
+	if (!pc_iscarton(sd))
 		return;
 	if (map_getmapflag(sd->bl.m, MF_NOUSECART))
 		return;
@@ -12790,7 +12754,7 @@ void clif_parse_PutItemToCart(int fd,struct map_session_data *sd)
 void clif_parse_GetItemFromCart(int fd,struct map_session_data *sd)
 {
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
-	if (!pc_iscarton(sd) || pc_cant_act2(sd))
+	if (!pc_iscarton(sd))
 		return;
 	if (map_getmapflag(sd->bl.m, MF_NOUSECART))
 		return;
@@ -20196,8 +20160,7 @@ void clif_display_pinfo(struct map_session_data *sd, int cmdtype) {
 		}
 		//1:Premium
 		if (pc_isvip(sd)) {
-			//details_bexp[1] = battle_config.vip_base_exp_increase * 10;	//สูตรเดิม rA
-+           details_bexp[1] = (battle_config.vip_base_exp_increase * battle_config.base_exp_rate) / 100;	//สูตรใหม่  [@Tactics & @DurexzOfficial]
+			details_bexp[1] = battle_config.vip_base_exp_increase * 10;
 			if (details_bexp[1] < 0)
 				details_bexp[1] = 0 - details_bexp[1];
 		}
@@ -21725,30 +21688,32 @@ void clif_parse_changedress( int fd, struct map_session_data* sd ){
 
 /// Opens an UI window of the given type and initializes it with the given data
 /// 0AE2 <type>.B <data>.L
-void clif_ui_open( struct map_session_data *sd, enum out_ui_type ui_type, int32 data ){
-	nullpo_retv(sd);
-
+void clif_ui_open( struct map_session_data& sd, enum out_ui_type ui_type, int32 data ){
+#if PACKETVER >= 20151202
 	// If the UI requires state tracking
 	switch( ui_type ){
 		case OUT_UI_STYLIST:
-			sd->state.stylist_open = true;
+			sd.state.stylist_open = true;
 			break;
 		case OUT_UI_ENCHANTGRADE:
 #if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200724
-			sd->state.enchantgrade_open = true;
+			sd.state.enchantgrade_open = true;
 			break;
 #else
 			return;
 #endif
 	}
 
-	int fd = sd->fd;
+	struct PACKET_ZC_UI_OPEN p = {};
 
-	WFIFOHEAD(fd,packet_len(0xae2));
-	WFIFOW(fd,0) = 0xae2;
-	WFIFOB(fd,2) = ui_type;
-	WFIFOL(fd,3) = data;
-	WFIFOSET(fd,packet_len(0xae2));
+	p.PacketType = HEADER_ZC_UI_OPEN;
+	p.UIType = ui_type;
+#if PACKETVER >= 20171122
+	p.data = data;
+#endif
+
+	clif_send( &p, sizeof( p ), &sd.bl, SELF );
+#endif
 }
 
 /// Request to open an UI window of the given type
@@ -21759,7 +21724,7 @@ void clif_parse_open_ui( int fd, struct map_session_data* sd ){
 			if( !pc_has_permission( sd, PC_PERM_ATTENDANCE ) ){
 				clif_messagecolor( &sd->bl, color_table[COLOR_RED], msg_txt( sd, 791 ), false, SELF ); // You are not allowed to use the attendance system.
 			}else if( pc_attendance_enabled() ){
-				clif_ui_open( sd, OUT_UI_ATTENDANCE, pc_attendance_counter( sd ) );
+				clif_ui_open( *sd, OUT_UI_ATTENDANCE, pc_attendance_counter( sd ) );
 			}else{
 				clif_msg_color( sd, MSG_ATTENDANCE_DISABLED, color_table[COLOR_RED] );
 			}
@@ -22520,9 +22485,6 @@ void clif_parse_refineui_refine( int fd, struct map_session_data* sd ){
 		return;
 	}
 
-	char message[128];
-	char player_name[NAME_LENGTH];
-
 	// Try to refine the item
 	if( cost->chance >= ( rnd() % 10000 ) ){
 		log_pick_pc( sd, LOG_TYPE_OTHER, -1, item );
@@ -22535,22 +22497,8 @@ void clif_parse_refineui_refine( int fd, struct map_session_data* sd ){
 			achievement_update_objective( sd, AG_ENCHANT_SUCCESS, 2, id->weapon_level, item->refine );
 		}
 		clif_refineui_info( sd, index );
-		// Refine UI Announce
-		// Announce First for Success or Failure [Tactics#8220 & null#6385]
-		if (item->refine >= battle_config.announce_refine_success) {
-			memcpy(player_name, sd->status.name, NAME_LENGTH);
-			sprintf(message, msg_txt(NULL, 1540), player_name, item->refine, id->ename.c_str());
-			intif_broadcast(message, strlen(message) + 1, BC_BLUE);
-		}
 	}else{
 		// Failure
-		// Refine UI Announce
-		// Announce First for Success or Failure [Tactics#8220 & null#6385]
-		if (item->refine >= battle_config.announce_refine_failure) {
-			memcpy(player_name, sd->status.name, NAME_LENGTH);
-			sprintf(message, msg_txt(NULL, 1541), player_name, item->refine, id->ename.c_str());
-			intif_broadcast(message, strlen(message) + 1, BC_DEFAULT);
-		}
 
 		// Blacksmith blessings were used to prevent breaking and downgrading
 		if( blacksmith_amount > 0 ){
@@ -23666,10 +23614,10 @@ void clif_enchantgrade_add( struct map_session_data& sd, uint16 index = UINT16_M
 		}else{
 			p->success_chance = 0;
 		}
-		p->blessing_info.id = client_nameid( gradeLevel->catalysator.item );
-		p->blessing_info.amount = gradeLevel->catalysator.amountPerStep;
-		p->blessing_info.max_blessing = gradeLevel->catalysator.maximumSteps;
-		p->blessing_info.bonus = gradeLevel->catalysator.chanceIncrease / 100;
+		p->blessing_info.id = client_nameid( gradeLevel->catalyst.item );
+		p->blessing_info.amount = gradeLevel->catalyst.amountPerStep;
+		p->blessing_info.max_blessing = gradeLevel->catalyst.maximumSteps;
+		p->blessing_info.bonus = gradeLevel->catalyst.chanceIncrease / 100;
 		// Not displayed by client
 		p->protect_itemid = 0;
 		p->protect_amount = 0;
@@ -23741,7 +23689,7 @@ void clif_parse_enchantgrade_add( int fd, struct map_session_data* sd ){
 		return;
 	}
 
-	std::shared_ptr<s_enchantgradelevel> enchantgradelevel = util::map_find( enchantgradelevels->second, (uint16)sd->inventory.u.items_inventory[index].enchantgrade );
+	std::shared_ptr<s_enchantgradelevel> enchantgradelevel = util::map_find( enchantgradelevels->second, (e_enchantgrade)sd->inventory.u.items_inventory[index].enchantgrade );
 
 	// Cannot increase enchantgrade any further - no answer, because client should have actually prevented this request
 	if( enchantgradelevel == nullptr ){
@@ -23829,7 +23777,7 @@ void clif_parse_enchantgrade_start( int fd, struct map_session_data* sd ){
 		return;
 	}
 
-	std::shared_ptr<s_enchantgradelevel> enchantgradelevel = util::map_find( enchantgradelevels->second, (uint16)sd->inventory.u.items_inventory[index].enchantgrade );
+	std::shared_ptr<s_enchantgradelevel> enchantgradelevel = util::map_find( enchantgradelevels->second, (e_enchantgrade)sd->inventory.u.items_inventory[index].enchantgrade );
 
 	// Cannot increase enchantgrade any further - no answer
 	if( enchantgradelevel == nullptr ){
@@ -23854,15 +23802,15 @@ void clif_parse_enchantgrade_start( int fd, struct map_session_data* sd ){
 	}
 
 	uint16 totalChance = enchantgradelevel->chance;
-	uint16 steps = min( p->blessing_amount, enchantgradelevel->catalysator.maximumSteps );
+	uint16 steps = min( p->blessing_amount, enchantgradelevel->catalyst.maximumSteps );
 	std::unordered_map<uint16, uint16> requiredItems;
 
 	if( p->blessing_flag ){
 		// If the catalysator item is the same as the option item build the sum of amounts
-		if( enchantgradelevel->catalysator.item == option->item ){
-			uint16 amount = enchantgradelevel->catalysator.amountPerStep * steps + option->amount;
+		if( enchantgradelevel->catalyst.item == option->item ){
+			uint16 amount = enchantgradelevel->catalyst.amountPerStep * steps + option->amount;
 
-			int16 index = pc_search_inventory( sd, enchantgradelevel->catalysator.item );
+			int16 index = pc_search_inventory( sd, enchantgradelevel->catalyst.item );
 
 			if( index < 0 ){
 				return;
@@ -23874,10 +23822,10 @@ void clif_parse_enchantgrade_start( int fd, struct map_session_data* sd ){
 
 			requiredItems[index] = amount;
 		}else{
-			uint16 amount = enchantgradelevel->catalysator.amountPerStep * steps;
+			uint16 amount = enchantgradelevel->catalyst.amountPerStep * steps;
 
 			// Check catalysator item
-			int16 index = pc_search_inventory( sd, enchantgradelevel->catalysator.item );
+			int16 index = pc_search_inventory( sd, enchantgradelevel->catalyst.item );
 
 			if( index < 0 ){
 				return;
@@ -23903,7 +23851,7 @@ void clif_parse_enchantgrade_start( int fd, struct map_session_data* sd ){
 			requiredItems[index] = option->amount;
 		}
 
-		totalChance += steps * enchantgradelevel->catalysator.chanceIncrease;
+		totalChance += steps * enchantgradelevel->catalyst.chanceIncrease;
 	}else{
 		// Check option item
 		int16 index = pc_search_inventory( sd, option->item );

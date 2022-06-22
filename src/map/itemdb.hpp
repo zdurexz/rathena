@@ -5,7 +5,6 @@
 #define ITEMDB_HPP
 
 #include <map>
-#include <string>
 #include <vector>
 
 #include "../common/database.hpp"
@@ -233,8 +232,7 @@ enum e_item_job : uint16
 
 	ITEMJ_ALL_UPPER = ITEMJ_UPPER | ITEMJ_THIRD_UPPER | ITEMJ_FOURTH,
 	ITEMJ_ALL_BABY = ITEMJ_BABY | ITEMJ_THIRD_BABY,
-    ITEMJ_ALL_THIRD = ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY | ITEMJ_FOURTH,
-    ITEMJ_ALL_FOURTH = ITEMJ_FOURTH,
+	ITEMJ_ALL_THIRD = ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY,
 
 #ifdef RENEWAL
 	ITEMJ_ALL = ITEMJ_NORMAL | ITEMJ_UPPER | ITEMJ_BABY | ITEMJ_THIRD | ITEMJ_THIRD_UPPER | ITEMJ_THIRD_BABY | ITEMJ_FOURTH,
@@ -308,6 +306,7 @@ enum e_random_item_group {
 	IG_A_GRADE_COIN_BAG,
 	IG_ADVANCED_WEAPONS_BOX,
 	IG_SPLENDID_BOX,
+	IG_SPLENDID_BOX2,
 	IG_CARDALBUM_ARMOR,
 	IG_CARDALBUM_HELM,
 	IG_CARDALBUM_ACC,
@@ -957,27 +956,31 @@ enum e_random_item_group {
 	IG_GOLDEN_LORD_LAUNCHER_CUBE,
 	IG_THE_BLACK_CUBE,
 	IG_DEMON_SLAYER_SHOT_CUBE,
+	IG_RUNE_CRAFT_MATERIALS,
+	IG_ELEMENTAL_CONVERTER,
+	IG_POISONS,
+	IG_BLACKSMITH,
+	IG_POTION_CRAFT_MATERIALS,
+	IG_KUNAI_BOX,
+	IG_BULLET_CASE,
+	IG_SOUL_LINKER,
+	IG_ELEMENTAL_STONES,
+	IG_SHADOW_CUBE_ARMOR,
+	IG_SHADOW_CUBE_SHIELD,
+	IG_SHADOW_CUBE_SHOES,
+	IG_SHADOW_CUBE_WEAPON,
+	IG_ODIN_RELIC,
 	IG_AUTOMATIC_MODULE_MIX,
 	IG_EPIC_MODULE_MIX,
 	IG_AUTO_M_I_BOX_A,
 	IG_AUTO_M_I_BOX_B,
 	IG_ILLUSION_MODULE_MIX,
-	IG_ODIN_RELIC,
-	IG_BS_ITEM_M_S_52,
-	IG_BS_ITEM_M_S_53,
-	IG_BS_ITEM_M_S_54,
-	IG_BS_ITEM_M_S_55,
-	IG_BS_ITEM_M_S_56,
-	IG_BS_ITEM_M_S_57,
-	IG_BS_ITEM_M_S_58,
-	IG_BS_ITEM_M_S_59,
-	IG_MONTHLY_PACKAGE_1,
-	IG_MONTHLY_PACKAGE_2,
-	IG_MONTHLY_PACKAGE_3,
-	IG_MONTHLY_BUFF_PACKAGE,
-	IG_MONTHLY_BATTLE_PACKAGE,
-	IG_MD_AIRBOAT_EXPBOX,
+	IG_ENCHANT_STONE_BOX22,
+	IG_ENCHANT_STONE_BOX23,
+	IG_ENCHANT_STONE_BOX24,
+	IG_ENCHANT_STONE_BOX25,
 	IG_ENCHANT_STONE_BOX27,
+	IG_ANCIENT_HERO_BOX_1,
 
 	IG_MAX,
 };
@@ -1429,20 +1432,6 @@ bool itemdb_isNoEquip(struct item_data *id, uint16 m);
 bool itemdb_parse_roulette_db(void);
 
 void itemdb_reload(void);
-std::string base62_encode(unsigned int val);
-unsigned int base62_decode(std::string str);
-// Additional data for itemlink
-struct s_item_link {
-	struct item item;
-	struct {
-		uint8 cards;
-		uint8 options;
-	} flag;
-};
-std::string createItemLink(struct s_item_link *data);
-std::string itemdb_getItemLink(struct item *item);
-
-std::string createItemLink(struct item& data);
 
 void do_final_itemdb(void);
 void do_init_itemdb(void);

@@ -162,7 +162,7 @@ struct s_enchantgradeoption{
 };
 
 struct s_enchantgradelevel{
-	uint16 grade;
+	e_enchantgrade grade;
 	uint16 refine;
 	uint16 chance;
 	uint16 bonus;
@@ -172,13 +172,13 @@ struct s_enchantgradelevel{
 		uint16 amountPerStep;
 		uint16 maximumSteps;
 		uint16 chanceIncrease;
-	}catalysator;
+	}catalyst;
 	std::map<uint16,std::shared_ptr<s_enchantgradeoption>> options;
 };
 
 struct s_enchantgrade{
 	uint16 itemtype;
-	std::map<uint16,std::map<uint16,std::shared_ptr<s_enchantgradelevel>>> levels;
+	std::map<uint16,std::map<e_enchantgrade,std::shared_ptr<s_enchantgradelevel>>> levels;
 };
 
 class EnchantgradeDatabase : public TypesafeYamlDatabase<uint16, s_enchantgrade>{
@@ -187,8 +187,9 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode( const ryml::NodeRef& node );
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode( const ryml::NodeRef& node ) override;
+	void loadingFinished() override;
 
 	// Additional
 	std::shared_ptr<s_enchantgradelevel> findCurrentLevelInfo( const struct item_data& data, struct item& item );
@@ -1225,10 +1226,48 @@ enum sc_type : int16 {
 	SC_DEEP_POISONING_OPTION,
 	SC_POISON_SHIELD,
 	SC_POISON_SHIELD_OPTION,
+	SC_M_LIFEPOTION,
+	SC_S_MANAPOTION,
 
 	SC_RUSH_QUAKE1,
 	SC_RUSH_QUAKE2,
-	SC_NW_P_F_I,
+	// 2021 Mutated Homunculus Skills
+	SC_TOXIN_OF_MANDARA,
+	SC_GOLDENE_TONE,
+	SC_TEMPERING,
+
+	// Hyper Novice
+	SC_SHIELDCHAINRUSH,
+	SC_MISTYFROST,
+	SC_GROUNDGRAVITY,
+	SC_BREAKINGLIMIT,
+	SC_RULEBREAK,
+	SC_HNNOWEAPON,
+	
+	// Sky Emperor
+	SC_RISING_SUN,
+	SC_NOON_SUN,
+	SC_SUNSET_SUN,
+	SC_RISING_MOON,
+	SC_MIDNIGHT_MOON,
+	SC_DAWN_MOON,
+	SC_STAR_BURST,
+	SC_SKY_ENCHANT,
+	
+	// Soul Ascetic
+	SC_TALISMAN_OF_PROTECTION,
+	SC_TALISMAN_OF_WARRIOR,
+	SC_TALISMAN_OF_MAGICIAN,
+	SC_TALISMAN_OF_FIVE_ELEMENTS,
+	SC_T_FIRST_GOD,
+	SC_T_SECOND_GOD,
+	SC_T_THIRD_GOD,
+	SC_T_FOURTH_GOD,
+	SC_T_FIFTH_GOD,
+	SC_HEAVEN_AND_EARTH,
+	SC_TOTEM_OF_TUTELARY,
+	
+	// Night Watch
 	SC_INTENSIVE_AIM,
 	SC_INTENSIVE_AIM_COUNT,
 	SC_GRENADE_FRAGMENT_1,
@@ -1237,9 +1276,30 @@ enum sc_type : int16 {
 	SC_GRENADE_FRAGMENT_4,
 	SC_GRENADE_FRAGMENT_5,
 	SC_GRENADE_FRAGMENT_6,
-	SC_AUTO_FIRING_LAUNCHEREFST,
+	SC_AUTO_FIRING_LAUNCHER,
 	SC_HIDDEN_CARD,
-	SC_NW_GRENADE_MASTERY,
+
+	// Shinkiro/Shiranui
+	SC_SHADOW_CLOCK,
+	SC_SHINKIROU_CALL,
+	SC_NIGHTMARE,
+	SC_SBUNSHIN,
+
+	// Spirit Handler
+	SC_HOGOGONG,
+	SC_MARINE_FESTIVAL,
+	SC_SANDY_FESTIVAL,
+	SC_KI_SUL_RAMPAGE,
+	SC_COLORS_OF_HYUN_ROK_1,
+	SC_COLORS_OF_HYUN_ROK_2,
+	SC_COLORS_OF_HYUN_ROK_3,
+	SC_COLORS_OF_HYUN_ROK_4,
+	SC_COLORS_OF_HYUN_ROK_5,
+	SC_COLORS_OF_HYUN_ROK_6,
+	SC_COLORS_OF_HYUN_ROK_BUFF,
+	SC_TEMPORARY_COMMUNION,
+	SC_BLESSING_OF_M_CREATURES,
+	SC_BLESSING_OF_M_C_DEBUFF,
 
 #ifdef RENEWAL
 	SC_EXTREMITYFIST2, //! NOTE: This SC should be right before SC_MAX, so it doesn't disturb if RENEWAL is disabled
